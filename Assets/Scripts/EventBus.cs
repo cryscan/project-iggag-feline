@@ -6,17 +6,17 @@ using System;
 using System.Linq;
 using UnityEngine;
 
-public class EventBus
+public static class EventBus
 {
     static Dictionary<Type, IList> topics = new Dictionary<Type, IList>();
 
-    public static void Publish<T>(T publishedEvent)
+    public static void Publish<T>(T @event)
     {
         /* Use type T to identify correct subscriber list (correct "topic") */
         Type t = typeof(T);
 
 #if EVENTBUS_DEBUG
-        Debug.Log("[Publish] event of type " + t + " with contents (" + publishedEvent.ToString() + ")");
+        Debug.Log("[Publish] event of type " + t + " with contents (" + @event.ToString() + ")");
 #endif
 
         if (topics.ContainsKey(t))
@@ -42,7 +42,7 @@ public class EventBus
                 }
                 else
                 {
-                    s.callback(publishedEvent);
+                    s.callback(@event);
                 }
             }
 
