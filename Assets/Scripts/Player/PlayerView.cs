@@ -4,12 +4,27 @@ using UnityEngine;
 
 public class PlayerView : MonoBehaviour
 {
-    [SerializeField] Transform body, bodyPivot;
-    [SerializeField] Transform head, headPivot;
+    [System.Serializable]
+    struct Attachment
+    {
+        public Transform mesh;
+        public Transform pivot;
+    }
+
+    [Header("Body")]
+    [SerializeField] Transform body;
+    [SerializeField] Transform bodyPivot;
+
+    [Header("Attachments")]
+    [SerializeField] List<Attachment> attachments;
 
     void LateUpdate()
     {
         body.SetPositionAndRotation(bodyPivot.position, bodyPivot.rotation);
-        head.SetPositionAndRotation(headPivot.position, headPivot.rotation);
+        foreach (var attachment in attachments)
+        {
+            var pivot = attachment.pivot;
+            attachment.mesh.SetPositionAndRotation(pivot.position, pivot.rotation);
+        }
     }
 }
