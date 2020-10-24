@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     Stack<GameState> states = new Stack<GameState>();
     public GameState currentState { get => states.Peek(); }
 
-    [SerializeField] float initPlanTimer = 30;
+    [SerializeField] float _planTimer = 30;
     public float planTimer { get; private set; }
 
     [SerializeField] float pauseTimeScaleFallout = 10;
@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
         }
 
         states.Push(GameState.Start);
-        planTimer = initPlanTimer;
+        planTimer = _planTimer;
 
         EventBus.Subscribe<PauseEvent>(OnPaused);
         EventBus.Subscribe<ResumeEvent>(OnResumed);
@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
             states.Pop();
             states.Push(GameState.Play);
             EventBus.Publish(new EnterPlayEvent());
-            planTimer = initPlanTimer;
+            planTimer = _planTimer;
         }
 
         planTimer -= Time.deltaTime;
