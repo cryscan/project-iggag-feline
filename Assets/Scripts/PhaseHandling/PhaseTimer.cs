@@ -20,16 +20,17 @@ public class PhaseTimer : MonoBehaviour
 
     void Update()
     {
-    	if (started) {
-    		text.text = "Planning Phase: " + timer.ToString("0.0") + " seconds left";
-    		if (timer > 0.0f) {
-    			timer -= Time.deltaTime;
-    		}
-    		else {
-    			started = false;
-    			text.text = "Planning Phase: 0.0 seconds left";
-    		}
-    	}
+        if (started)
+        {
+            text.text = "Planning Phase: " + timer.ToString("0.0") + " seconds left";
+            if (timer > 0.0f)
+                timer -= Time.deltaTime;
+            else
+            {
+                started = false;
+                text.text = "Planning Phase: 0.0 seconds left";
+            }
+        }
     }
 
     void _OnPlanningPhase(PlanningPhaseEvent e)

@@ -13,8 +13,8 @@ public class PhaseResetPosition : MonoBehaviour
 
     void _OnGamePhase(GamePhaseEvent e)
     {
-    	Debug.Log(transform.position);
+        Debug.Log(transform.position);
         GetComponent<CharacterController>().Move(position - transform.position);
-    	Debug.Log(transform.position);
+        Debug.Log(transform.position);
     }
 }
