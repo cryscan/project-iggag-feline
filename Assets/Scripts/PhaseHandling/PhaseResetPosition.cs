@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class PhaseResetPosition : MonoBehaviour
 {
-	Subscription<GamePhaseEvent> game_phase_event_subscription;
-	[SerializeField] Vector3 position;
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] Vector3 position;
+
+    void Awake()
     {
-        game_phase_event_subscription = EventBus.Subscribe<GamePhaseEvent>(_OnGamePhase);
+        EventBus.Subscribe<GamePhaseEvent>(_OnGamePhase);
     }
 
     void _OnGamePhase(GamePhaseEvent e)
