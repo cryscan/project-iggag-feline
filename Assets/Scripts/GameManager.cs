@@ -119,6 +119,9 @@ public class GameManager : MonoBehaviour
 
     void OnGoal(GoalEvent @event)
     {
+        states = new Stack<GameState>();
+        states.Push(GameState.Start);
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
