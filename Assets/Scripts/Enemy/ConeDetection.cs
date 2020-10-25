@@ -4,48 +4,49 @@ using UnityEngine;
 
 public class ConeDetection : MonoBehaviour
 {
-    private GameObject player;
-    public GameObject center;
-    public GameObject dLight;
-    public float detectDistance = 10.0f;
-    public float detectAngle = 60.0f;
+    [SerializeField] Transform eye;
+    [SerializeField] Light _light;
 
-    private void Start()
+    [SerializeField] float detectDistance = 10;
+    [SerializeField] float detectAngle = 60;
+    [SerializeField] LayerMask detectLayers;
+
+    GameObject player;
+
+    void Awake()
     {
-        player = GameObject.Find("Player");
-        if (player == null)
-        {
-            Debug.LogError("Error: Unable to locate player gameobject.");
-        }
+        player = GameObject.FindGameObjectWithTag("Player");
+        if (!player) Debug.LogError("Error: Unable to locate player gameobject.");
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (player != null)
-        {
-            Vector3 direction = player.transform.position + player.GetComponent<CharacterController>().center - transform.position;
-            if (Vector3.Angle(center.transform.position - transform.position, direction) < detectAngle)
-            {
-                RaycastHit hit;
-                if (Physics.Raycast(transform.position, direction, out hit, detectDistance))
-                {
-                    //Debug.Log(hit.collider.gameObject.name);
-                    if (hit.collider.gameObject == player)
-                    {
-                        //Debug.Log("Player detected");
-                        dLight.GetComponent<Light>().color = Color.red;
-                        EventBus.Publish<DetectEvent>(new DetectEvent(true));
-                    }
+        if (!player) return;
 
+        var direction = player.transform.position - eye.position;
+        direction.y = 0;
+
+        var distance = direction.magnitude;
+        var angle = Vector3.Angle(eye.forward, direction);
+
+        if (angle < detectAngle && distance <= detectDistance)
+        {
+            Ray ray = new Ray(eye.position, direction);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, detectDistance, detectLayers))
+            {
+                if (hit.collider.gameObject == player)
+                {
+                    _light.color = Color.red;
+                    EventBus.Publish<DetectEvent>(new DetectEvent(gameObject));
                 }
             }
         }
     }
 }
 
-public class DetectEvent 
+public class DetectEvent
 {
-    public bool detected;
-    public DetectEvent(bool d) { detected = d; }
+    public GameObject subject;
+    public DetectEvent(GameObject subject) => this.subject = subject;
 }
