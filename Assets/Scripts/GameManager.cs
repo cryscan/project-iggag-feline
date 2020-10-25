@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum GameState
 {
@@ -46,6 +47,7 @@ public class GameManager : MonoBehaviour
 
         EventBus.Subscribe<PauseEvent>(OnPaused);
         EventBus.Subscribe<ResumeEvent>(OnResumed);
+        EventBus.Subscribe<GoalEvent>(OnGoal);
     }
 
     void Update()
@@ -113,5 +115,10 @@ public class GameManager : MonoBehaviour
     void OnResumed(ResumeEvent @event)
     {
         Time.timeScale = Time.timeScale.FalloutUnscaled(previousTimeScale, pauseTimeScaleFallout);
+    }
+
+    void OnGoal(GoalEvent @event)
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
