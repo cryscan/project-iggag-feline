@@ -1712,7 +1712,7 @@ PrefabInstance:
     - target: {fileID: 2832480976404497560, guid: 19b81870f56dc094a98b05da02cf71c5,
         type: 3}
       propertyPath: m_Name
-      value: EnemyGuard
+      value: Enemy Guard
       objectReference: {fileID: 0}
     - target: {fileID: 2832480976404497562, guid: 19b81870f56dc094a98b05da02cf71c5,
         type: 3}
@@ -2275,7 +2275,7 @@ PrefabInstance:
     - target: {fileID: 2524656634795100952, guid: 1ba258605d369104baf610ce84ae7740,
         type: 3}
       propertyPath: m_Name
-      value: EnemyCam
+      value: Enemy Camera
       objectReference: {fileID: 0}
     - target: {fileID: 2524656634795100953, guid: 1ba258605d369104baf610ce84ae7740,
         type: 3}
@@ -2344,7 +2344,7 @@ PrefabInstance:
     - target: {fileID: 2832480976404497560, guid: 19b81870f56dc094a98b05da02cf71c5,
         type: 3}
       propertyPath: m_Name
-      value: EnemyGuard
+      value: Enemy Guard
       objectReference: {fileID: 0}
     - target: {fileID: 2832480976404497563, guid: 19b81870f56dc094a98b05da02cf71c5,
         type: 3}

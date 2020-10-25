@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2524656633733179088}
   - component: {fileID: 2524656633733179102}
   - component: {fileID: 2524656633733179103}
-  m_Layer: 0
-  m_Name: CamLight
+  m_Layer: 11
+  m_Name: Spot Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,8 +122,8 @@ GameObject:
   - component: {fileID: 2524656634187478114}
   - component: {fileID: 2524656634187478117}
   - component: {fileID: 2524656634187478112}
-  m_Layer: 0
-  m_Name: CamBody
+  m_Layer: 11
+  m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -228,9 +228,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2524656634795100953}
-  m_Layer: 0
-  m_Name: EnemyCam
-  m_TagString: Untagged
+  m_Layer: 11
+  m_Name: Enemy Camera
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -259,7 +259,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2524656634896301864}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Center
   m_TagString: Untagged
   m_Icon: {fileID: 0}

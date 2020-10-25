@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2832480975824505386}
   - component: {fileID: 2832480975824505389}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Spot Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,9 +107,9 @@ GameObject:
   - component: {fileID: 2832480976404497565}
   - component: {fileID: 2832480976404497562}
   - component: {fileID: 2832480976404497553}
-  m_Layer: 0
-  m_Name: EnemyGuard
-  m_TagString: Untagged
+  m_Layer: 11
+  m_Name: Enemy Guard
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -249,7 +249,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2832480976878593075}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
