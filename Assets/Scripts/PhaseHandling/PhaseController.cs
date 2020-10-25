@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PhaseController : MonoBehaviour
 {
-	[SerializeField] float planningPhaseDuration = 15.0f;
-	private float timer;
-	private bool started;
-    // Start is called before the first frame update
+    [SerializeField] float planningPhaseDuration = 15.0f;
+    float timer;
+    bool started;
+
     void Start()
     {
         EventBus.Publish<PlanningPhaseEvent>(new PlanningPhaseEvent(planningPhaseDuration));
@@ -16,31 +16,25 @@ public class PhaseController : MonoBehaviour
         started = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
-    	if (timer > 0) {
-        	timer -= Time.deltaTime;
-    	}
-    	else {
-    		if (!started) {
-    			started = true;
-    			EventBus.Publish<GamePhaseEvent>(new GamePhaseEvent());
-    			Debug.Log("Timer ended! GamePhaseEvent published");
-    		}
-    	}
-
-
+        if (timer > 0) timer -= Time.deltaTime;
+        else
+        {
+            if (!started)
+            {
+                started = true;
+                EventBus.Publish<GamePhaseEvent>(new GamePhaseEvent());
+                Debug.Log("Timer ended! GamePhaseEvent published");
+            }
+        }
     }
 }
 
 public class PlanningPhaseEvent
 {
     public float duration;
-    public PlanningPhaseEvent(float _duration) { duration = _duration; }
+    public PlanningPhaseEvent(float duration) { this.duration = duration; }
 }
 
-public class GamePhaseEvent
-{
-	public GamePhaseEvent() {}
-}
+public class GamePhaseEvent { }
