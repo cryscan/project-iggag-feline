@@ -22,7 +22,7 @@ public class AimAt : Action
         angle = 0f.Fallout(angle, fallout);
         transform.Rotate(0, angle, 0, Space.Self);
 
-        if (angle < 0.1) return TaskStatus.Success;
+        if (Mathf.Abs(angle) < 0.1) return TaskStatus.Success;
         else return TaskStatus.Running;
     }
 }
