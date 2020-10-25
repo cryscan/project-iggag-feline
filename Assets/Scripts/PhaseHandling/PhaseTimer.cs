@@ -23,7 +23,7 @@ public class PhaseTimer : MonoBehaviour
     void Update()
     {
     	if (started) {
-    		text.text = "Planning Phase: " + timer + " seconds left";
+    		text.text = "Planning Phase: " + timer.ToString("0.0") + " seconds left";
     		if (timer > 0.0f) {
     			timer -= Time.deltaTime;
     		}
