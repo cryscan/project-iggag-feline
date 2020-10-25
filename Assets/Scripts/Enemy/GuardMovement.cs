@@ -4,18 +4,16 @@ using UnityEngine;
 
 public class GuardMovement : MonoBehaviour
 {
-    //Subscription<PauseEvent> pause_subscription;
-    public float distance = 10.0f;
-    public float speed = 3.0f;
-    public int verticalDir = 1;
-    public int horizontalDir = 0;
-    public float rotateTime = 1.0f;
-    private bool stopped = false;
+    [SerializeField] float distance = 10.0f;
+    [SerializeField] float speed = 3.0f;
+    [SerializeField] float rotateTime = 1.0f;
 
-    private float timeLeft = 0.0f;
+    bool stopped = false;
+    float timeLeft = 0.0f;
 
     Rigidbody rb;
 
+    /*
     // Start is called before the first frame update
     void Start()
     {
