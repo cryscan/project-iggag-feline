@@ -6,11 +6,11 @@ public class PlaceTrap : MonoBehaviour
 {
     [SerializeField] Transform look;
     [SerializeField] GameObject prefab;
-    [SerializeField] int counter;
 
     [SerializeField] LayerMask forbiddenLayer;
 
     Vector3 halfExtents;
+
     private void Awake()
     {
         halfExtents = prefab.GetComponent<Collider>().bounds.extents;
@@ -18,16 +18,13 @@ public class PlaceTrap : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
+        if (GameManager.instance.currentState == GameState.Plan && Input.GetMouseButtonDown(0))
             InstantiateTrap();
-        }
-        
-
     }
 
     void InstantiateTrap()
     {
+        int counter = GameManager.instance.trapCounter;
         if (counter == 0)
         {
             Debug.Log("Run out of traps!");
@@ -35,10 +32,10 @@ public class PlaceTrap : MonoBehaviour
         }
 
         Vector3 targetPosition = new Vector3(Mathf.Round(look.position.x),
-                                             0f, 
+                                             0f,
                                              Mathf.Round(look.position.z));
 
-        Collider[] hitColliders = Physics.OverlapBox(targetPosition, halfExtents, 
+        Collider[] hitColliders = Physics.OverlapBox(targetPosition, halfExtents,
                                                      Quaternion.identity, forbiddenLayer);
         if (hitColliders.Length > 0)
         {
@@ -47,6 +44,6 @@ public class PlaceTrap : MonoBehaviour
         }
 
         GameObject trap = GameObject.Instantiate(prefab, targetPosition, Quaternion.identity);
-        counter--;
+        GameManager.instance.ConsumeTrap();
     }
 }

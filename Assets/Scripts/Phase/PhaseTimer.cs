@@ -30,7 +30,8 @@ public class PhaseTimer : MonoBehaviour
         if (planning)
         {
             var timer = GameManager.instance.planTimer;
-            text.text = $"Planning: {timer.ToString("0.0")} seconds left";
+            var trapCounter = GameManager.instance.trapCounter;
+            text.text = $"Planning: {timer.ToString("0.0")} seconds left\n Left click to put frozen traps ({trapCounter} remains)";
         }
     }
 
