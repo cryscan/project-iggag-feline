@@ -1,10 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BehaviorDesigner.Runtime;
 
 public class GuardTrapReaction : MonoBehaviour
 {
+    BehaviorTree behavior;
+
     Subscription<TrapEvent> trapEventHandler;
+
+    void Awake()
+    {
+        behavior = GetComponent<BehaviorTree>();
+    }
 
     private void OnEnable()
     {
@@ -20,9 +28,10 @@ public class GuardTrapReaction : MonoBehaviour
     {
         if (@event.target == this.gameObject)
         {
-            switch(@event.type)
+            switch (@event.type)
             {
                 case TrapType.Frozen:
+                    Frozen(@event.duration);
                     break;
                 case TrapType.Eliminate:
                     break;
@@ -30,8 +39,8 @@ public class GuardTrapReaction : MonoBehaviour
         }
     }
 
-    void Frozen()
+    void Frozen(float duration)
     {
-
+        behavior.SendEvent<object>("Frozen", duration);
     }
 }

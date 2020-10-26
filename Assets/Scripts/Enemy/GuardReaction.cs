@@ -50,7 +50,7 @@ public class GuardReaction : MonoBehaviour
 
     void Dealert()
     {
-        if (!alerted) Debug.LogError("[Guard] makes no sense dealert when not alerted.");
+        if (!alerted) return;
 
         alerted = false;
         _light.color = dealertedLightColor;
