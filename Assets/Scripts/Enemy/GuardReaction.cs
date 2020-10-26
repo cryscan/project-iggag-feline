@@ -37,7 +37,7 @@ public class GuardReaction : MonoBehaviour
         if (@event.type == DetectionType.Guard && @event.subject != gameObject) return;
 
         Alert();
-        behavior.SendEvent<Vector3>("Alert", @event.spotPoint);
+        behavior.SendEvent<object>("Alert", @event.spotPoint);
     }
 
     void OnDealerted() => Dealert();
@@ -53,6 +53,6 @@ public class GuardReaction : MonoBehaviour
         if (!alerted) Debug.LogError("[Guard] makes no sense dealert when not alerted.");
 
         alerted = false;
-        _light.color = Color.red;
+        _light.color = dealertedLightColor;
     }
 }
