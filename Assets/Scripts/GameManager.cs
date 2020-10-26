@@ -10,10 +10,17 @@ public enum GameState
     Paused,
 }
 
-public class EnterPlayEvent { }
+public class StateChangeEvent
+{
+    public GameState previous;
+    public GameState current;
 
-public class PauseEvent { }
-public class ResumeEvent { }
+    public StateChangeEvent(GameState previous, GameState current)
+    {
+        this.previous = previous;
+        this.current = current;
+    }
+}
 
 public class GameManager : MonoBehaviour
 {
@@ -27,6 +34,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] float pauseTimeScaleFallout = 10;
     float previousTimeScale = 1;
+    float targetTimeScale = 1;
 
     void Awake()
     {
@@ -43,9 +51,6 @@ public class GameManager : MonoBehaviour
 
         states.Push(GameState.Start);
         planTimer = _planTimer;
-
-        EventBus.Subscribe<PauseEvent>(OnPaused);
-        EventBus.Subscribe<ResumeEvent>(OnResumed);
     }
 
     void Update()
@@ -56,28 +61,24 @@ public class GameManager : MonoBehaviour
         {
             if (currentState == GameState.Paused)
             {
-                states.Pop();
-                EventBus.Publish(new ResumeEvent());
+                targetTimeScale = previousTimeScale;
+
+                var previous = states.Pop();
+                EventBus.Publish(new StateChangeEvent(previous, currentState));
             }
             else if (currentState != GameState.Start)
             {
+                previousTimeScale = Time.timeScale;
+                targetTimeScale = 0;
+
+                var previous = currentState;
                 states.Push(GameState.Paused);
-                EventBus.Publish(new PauseEvent());
+                EventBus.Publish(new StateChangeEvent(previous, currentState));
             }
         }
 
         /* Continuous Pause Behavior */
-        if (currentState == GameState.Paused)
-        {
-            if (Time.timeScale != 0)
-            {
-                Time.timeScale = Time.timeScale.FalloutUnscaled(0, pauseTimeScaleFallout);
-            }
-        }
-        else if (Time.timeScale != previousTimeScale)
-        {
-            Time.timeScale = Time.timeScale.FalloutUnscaled(previousTimeScale, pauseTimeScaleFallout);
-        }
+        Time.timeScale = Time.timeScale.FalloutUnscaled(targetTimeScale, pauseTimeScaleFallout);
     }
 
     void UpdatePlanState()
@@ -86,9 +87,11 @@ public class GameManager : MonoBehaviour
 
         if (planTimer < 0)
         {
-            states.Pop();
+            var previous = states.Pop();
             states.Push(GameState.Play);
-            EventBus.Publish(new EnterPlayEvent());
+
+            // Change from plan to play.
+            EventBus.Publish(new StateChangeEvent(previous, currentState));
             planTimer = _planTimer;
         }
 
@@ -103,7 +106,9 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        var previous = currentState;
         states.Push(GameState.Plan);
+        EventBus.Publish(new StateChangeEvent(previous, currentState));
     }
 
     public void GameOverReturn()
@@ -115,16 +120,5 @@ public class GameManager : MonoBehaviour
         }
 
         states.Pop();
-    }
-
-    void OnPaused(PauseEvent @event)
-    {
-        previousTimeScale = Time.timeScale;
-        Time.timeScale = Time.timeScale.FalloutUnscaled(0, pauseTimeScaleFallout);
-    }
-
-    void OnResumed(ResumeEvent @event)
-    {
-        Time.timeScale = Time.timeScale.FalloutUnscaled(previousTimeScale, pauseTimeScaleFallout);
     }
 }
