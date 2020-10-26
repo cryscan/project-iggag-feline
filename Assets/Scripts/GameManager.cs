@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum GameState
 {
@@ -10,10 +11,17 @@ public enum GameState
     Paused,
 }
 
-public class EnterPlayEvent { }
+public class GameStateChangeEvent
+{
+    public GameState previous;
+    public GameState current;
 
-public class PauseEvent { }
-public class ResumeEvent { }
+    public GameStateChangeEvent(GameState previous, GameState current)
+    {
+        this.previous = previous;
+        this.current = current;
+    }
+}
 
 public class GameManager : MonoBehaviour
 {
@@ -25,8 +33,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] float _planTimer = 30;
     public float planTimer { get; private set; }
 
+    [SerializeField] int _trapCounter = 5;
+    public int trapCounter { get; private set; }
+
     [SerializeField] float pauseTimeScaleFallout = 10;
     float previousTimeScale = 1;
+    float targetTimeScale = 1;
 
     void Awake()
     {
@@ -43,41 +55,17 @@ public class GameManager : MonoBehaviour
 
         states.Push(GameState.Start);
         planTimer = _planTimer;
-
-        EventBus.Subscribe<PauseEvent>(OnPaused);
-        EventBus.Subscribe<ResumeEvent>(OnResumed);
+        trapCounter = _trapCounter;
     }
 
     void Update()
     {
         UpdatePlanState();
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (currentState == GameState.Paused)
-            {
-                states.Pop();
-                EventBus.Publish(new ResumeEvent());
-            }
-            else if (currentState != GameState.Start)
-            {
-                states.Push(GameState.Paused);
-                EventBus.Publish(new PauseEvent());
-            }
-        }
+        if (Input.GetKeyDown(KeyCode.Escape)) TogglePause();
 
         /* Continuous Pause Behavior */
-        if (currentState == GameState.Paused)
-        {
-            if (Time.timeScale != 0)
-            {
-                Time.timeScale = Time.timeScale.FalloutUnscaled(0, pauseTimeScaleFallout);
-            }
-        }
-        else if (Time.timeScale != previousTimeScale)
-        {
-            Time.timeScale = Time.timeScale.FalloutUnscaled(previousTimeScale, pauseTimeScaleFallout);
-        }
+        Time.timeScale = Time.timeScale.FalloutUnscaled(targetTimeScale, pauseTimeScaleFallout);
     }
 
     void UpdatePlanState()
@@ -86,10 +74,11 @@ public class GameManager : MonoBehaviour
 
         if (planTimer < 0)
         {
-            states.Pop();
+            var previous = states.Pop();
             states.Push(GameState.Play);
-            EventBus.Publish(new EnterPlayEvent());
-            planTimer = _planTimer;
+
+            // Change from plan to play.
+            EventBus.Publish(new GameStateChangeEvent(previous, currentState));
         }
 
         planTimer -= Time.deltaTime;
@@ -103,7 +92,29 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        var previous = currentState;
         states.Push(GameState.Plan);
+        EventBus.Publish(new GameStateChangeEvent(previous, currentState));
+    }
+
+    public void TogglePause()
+    {
+        if (currentState == GameState.Paused)
+        {
+            targetTimeScale = previousTimeScale;
+
+            var previous = states.Pop();
+            EventBus.Publish(new GameStateChangeEvent(previous, currentState));
+        }
+        else if (currentState != GameState.Start)
+        {
+            previousTimeScale = Time.timeScale;
+            targetTimeScale = 0;
+
+            var previous = currentState;
+            states.Push(GameState.Paused);
+            EventBus.Publish(new GameStateChangeEvent(previous, currentState));
+        }
     }
 
     public void GameOverReturn()
@@ -114,17 +125,16 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        states.Pop();
+        var previous = states.Pop();
+        states = new Stack<GameState>();
+        states.Push(GameState.Start);
+        EventBus.Publish(new GameStateChangeEvent(previous, currentState));
+
+        planTimer = _planTimer;
+        trapCounter = _trapCounter;
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    void OnPaused(PauseEvent @event)
-    {
-        previousTimeScale = Time.timeScale;
-        Time.timeScale = Time.timeScale.FalloutUnscaled(0, pauseTimeScaleFallout);
-    }
-
-    void OnResumed(ResumeEvent @event)
-    {
-        Time.timeScale = Time.timeScale.FalloutUnscaled(previousTimeScale, pauseTimeScaleFallout);
-    }
+    public void ConsumeTrap(int amount = 1) => trapCounter -= amount;
 }
