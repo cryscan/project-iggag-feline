@@ -2,14 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum DetectionType
+{
+    Camera,
+    Guard,
+}
+
 public class ConeDetection : MonoBehaviour
 {
     [SerializeField] Transform eye;
-    [SerializeField] Light _light;
 
     [SerializeField] float detectDistance = 10;
     [SerializeField] float detectAngle = 60;
     [SerializeField] LayerMask detectLayers;
+    [SerializeField] DetectionType detectionType;
 
     GameObject player;
 
@@ -33,14 +39,8 @@ public class ConeDetection : MonoBehaviour
         {
             Ray ray = new Ray(eye.position, direction);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, detectDistance, detectLayers))
-            {
-                if (hit.collider.gameObject == player)
-                {
-                    _light.color = Color.red;
-                    EventBus.Publish<DetectEvent>(new DetectEvent(gameObject));
-                }
-            }
+            if (Physics.Raycast(ray, out hit, detectDistance, detectLayers) && hit.collider.gameObject == player)
+                EventBus.Publish<DetectEvent>(new DetectEvent(gameObject, detectionType, player.transform.position));
         }
     }
 }
@@ -48,5 +48,13 @@ public class ConeDetection : MonoBehaviour
 public class DetectEvent
 {
     public GameObject subject;
-    public DetectEvent(GameObject subject) => this.subject = subject;
+    public DetectionType type;
+    public Vector3 spotPoint;
+
+    public DetectEvent(GameObject subject, DetectionType type, Vector3 spotPoint)
+    {
+        this.subject = subject;
+        this.type = type;
+        this.spotPoint = spotPoint;
+    }
 }
