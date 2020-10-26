@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum GameState
 {
@@ -119,6 +120,9 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        states.Pop();
+        var previous = states.Pop();
+        EventBus.Publish(new StateChangeEvent(previous, currentState));
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
