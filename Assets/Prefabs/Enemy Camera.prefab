@@ -196,6 +196,7 @@ GameObject:
   - component: {fileID: 2524656634795100953}
   - component: {fileID: 7148488543511499718}
   - component: {fileID: 4390261782359827197}
+  - component: {fileID: 2675853360535783262}
   m_Layer: 11
   m_Name: Enemy Camera
   m_TagString: Enemy
@@ -247,12 +248,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eye: {fileID: 6433192673000778706}
-  _light: {fileID: 2524656633733179102}
   detectDistance: 5
   detectAngle: 45
   detectLayers:
     serializedVersion: 2
     m_Bits: 1051648
+  detectionType: 0
+--- !u!114 &2675853360535783262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2524656634795100952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4869141befa570a3798c59f1124c8137, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _light: {fileID: 2524656633733179102}
+  dealertedLightColor: {r: 1, g: 1, b: 1, a: 1}
+  alertedLightColor: {r: 1, g: 0, b: 0, a: 1}
+  alertedTime: 1
 --- !u!1 &7066426695487558067
 GameObject:
   m_ObjectHideFlags: 0
