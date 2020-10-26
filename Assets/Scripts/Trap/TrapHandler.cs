@@ -35,6 +35,7 @@ public class TrapHandler : MonoBehaviour
         if (_object.CompareTag("Enemy"))
         {
             EventBus.Publish(new TrapEvent(_object, trapType, duration));
+            Destroy(gameObject);
         }
     }
 }
