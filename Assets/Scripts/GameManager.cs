@@ -65,6 +65,19 @@ public class GameManager : MonoBehaviour
                 EventBus.Publish(new PauseEvent());
             }
         }
+
+        /* Continuous Pause Behavior */
+        if (currentState == GameState.Paused)
+        {
+            if (Time.timeScale != 0)
+            {
+                Time.timeScale = Time.timeScale.FalloutUnscaled(0, pauseTimeScaleFallout);
+            }
+        }
+        else if (Time.timeScale != previousTimeScale)
+        {
+            Time.timeScale = Time.timeScale.FalloutUnscaled(previousTimeScale, pauseTimeScaleFallout);
+        }
     }
 
     void UpdatePlanState()
