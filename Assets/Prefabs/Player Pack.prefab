@@ -45,7 +45,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   look: {fileID: 2172167346209607732}
   prefab: {fileID: 14675100303875890, guid: 2e8a4c1cc5215d959b516b6ed395589d, type: 3}
-  counter: 1
   forbiddenLayer:
     serializedVersion: 2
     m_Bits: 2101248
@@ -323,6 +322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd0934a2c0bd3f448a3b2a8de0c7e8d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 2
   position: {x: 0, y: 0, z: 0}
 --- !u!1 &2172167346750657871
 GameObject:

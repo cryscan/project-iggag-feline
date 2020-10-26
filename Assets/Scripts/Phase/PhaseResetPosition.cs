@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PhaseResetPosition : MonoBehaviour
 {
+    [SerializeField] GameState state;
     [SerializeField] Vector3 position;
 
     CharacterController controller;
@@ -27,6 +28,8 @@ public class PhaseResetPosition : MonoBehaviour
 
     void OnGameStateChanged(GameStateChangeEvent @event)
     {
+        if (@event.current != state) return;
+
         controller.enabled = false;
         transform.position = position;
         controller.enabled = true;
