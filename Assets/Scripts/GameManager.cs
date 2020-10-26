@@ -11,12 +11,12 @@ public enum GameState
     Paused,
 }
 
-public class StateChangeEvent
+public class GameStateChangeEvent
 {
     public GameState previous;
     public GameState current;
 
-    public StateChangeEvent(GameState previous, GameState current)
+    public GameStateChangeEvent(GameState previous, GameState current)
     {
         this.previous = previous;
         this.current = current;
@@ -58,25 +58,7 @@ public class GameManager : MonoBehaviour
     {
         UpdatePlanState();
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (currentState == GameState.Paused)
-            {
-                targetTimeScale = previousTimeScale;
-
-                var previous = states.Pop();
-                EventBus.Publish(new StateChangeEvent(previous, currentState));
-            }
-            else if (currentState != GameState.Start)
-            {
-                previousTimeScale = Time.timeScale;
-                targetTimeScale = 0;
-
-                var previous = currentState;
-                states.Push(GameState.Paused);
-                EventBus.Publish(new StateChangeEvent(previous, currentState));
-            }
-        }
+        if (Input.GetKeyDown(KeyCode.Escape)) TogglePause();
 
         /* Continuous Pause Behavior */
         Time.timeScale = Time.timeScale.FalloutUnscaled(targetTimeScale, pauseTimeScaleFallout);
@@ -92,7 +74,7 @@ public class GameManager : MonoBehaviour
             states.Push(GameState.Play);
 
             // Change from plan to play.
-            EventBus.Publish(new StateChangeEvent(previous, currentState));
+            EventBus.Publish(new GameStateChangeEvent(previous, currentState));
             planTimer = _planTimer;
         }
 
@@ -109,7 +91,27 @@ public class GameManager : MonoBehaviour
 
         var previous = currentState;
         states.Push(GameState.Plan);
-        EventBus.Publish(new StateChangeEvent(previous, currentState));
+        EventBus.Publish(new GameStateChangeEvent(previous, currentState));
+    }
+
+    public void TogglePause()
+    {
+        if (currentState == GameState.Paused)
+        {
+            targetTimeScale = previousTimeScale;
+
+            var previous = states.Pop();
+            EventBus.Publish(new GameStateChangeEvent(previous, currentState));
+        }
+        else if (currentState != GameState.Start)
+        {
+            previousTimeScale = Time.timeScale;
+            targetTimeScale = 0;
+
+            var previous = currentState;
+            states.Push(GameState.Paused);
+            EventBus.Publish(new GameStateChangeEvent(previous, currentState));
+        }
     }
 
     public void GameOverReturn()
@@ -121,7 +123,9 @@ public class GameManager : MonoBehaviour
         }
 
         var previous = states.Pop();
-        EventBus.Publish(new StateChangeEvent(previous, currentState));
+        states = new Stack<GameState>();
+        states.Push(GameState.Start);
+        EventBus.Publish(new GameStateChangeEvent(previous, currentState));
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
