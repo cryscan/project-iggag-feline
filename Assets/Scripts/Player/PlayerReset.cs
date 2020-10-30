@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PhaseResetPosition : MonoBehaviour
+public class PlayerReset : MonoBehaviour
 {
     [SerializeField] GameState state;
     [SerializeField] Vector3 position;

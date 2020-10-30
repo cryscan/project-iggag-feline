@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7738662847445817678}
   - component: {fileID: 7738662847445817675}
   - component: {fileID: 7738662847445817676}
-  - component: {fileID: 7738662847445817677}
+  - component: {fileID: 8052679068129534768}
   m_Layer: 5
   m_Name: Timer
   m_TagString: Untagged
@@ -81,7 +81,7 @@ MonoBehaviour:
   m_Text: 'Timer
 
 '
---- !u!114 &7738662847445817677
+--- !u!114 &8052679068129534768
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

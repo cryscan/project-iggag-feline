@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PhaseTimer : MonoBehaviour
+public class PlanTimer : MonoBehaviour
 {
     Text text;
     bool planning = false;

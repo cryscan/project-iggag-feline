@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
     {
         if (currentState != GameState.Plan) return;
 
-        if (planTimer < 0)
+        if (planTimer < 0 || Input.GetKeyDown(KeyCode.Return))
         {
             var previous = states.Pop();
             states.Push(GameState.Play);
