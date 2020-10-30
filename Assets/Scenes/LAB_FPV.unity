@@ -1279,7 +1279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c7c28bd910b01a3d9b2a9742e9afbb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _planTimer: 30
+  _planTimer: 0
   _trapCounter: 5
   pauseTimeScaleFallout: 10
 --- !u!4 &611905699

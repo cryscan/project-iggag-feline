@@ -19,11 +19,13 @@ public class PlayerLook : MonoBehaviour
 
     void Update()
     {
-        float horizontal = Input.GetAxis("Mouse X") * sensitivity;
-        float vertical = Input.GetAxis("Mouse Y") * sensitivity;
+        float horizontal = Input.GetAxis("Mouse X") * sensitivity * Time.timeScale;
+        float vertical = Input.GetAxis("Mouse Y") * sensitivity * Time.timeScale;
 
-        _horizontal = Mathf.Lerp(_horizontal, horizontal, 1 - Mathf.Exp(-fallout * Time.deltaTime));
-        _vertical = Mathf.Lerp(_vertical, vertical, 1 - Mathf.Exp(-fallout * Time.deltaTime));
+        _horizontal = _horizontal.FalloutUnscaled(horizontal, fallout);
+        _vertical = _vertical.FalloutUnscaled(vertical, fallout);
+
+        Debug.Log(_horizontal);
 
         pitch -= _vertical;
         pitch = Mathf.Clamp(pitch, -85, 85);
