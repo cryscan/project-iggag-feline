@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.instance.currentState == GameState.Play) Move();
+        Move();
     }
 
     void Move()
