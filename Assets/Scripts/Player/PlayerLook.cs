@@ -25,8 +25,6 @@ public class PlayerLook : MonoBehaviour
         _horizontal = _horizontal.FalloutUnscaled(horizontal, fallout);
         _vertical = _vertical.FalloutUnscaled(vertical, fallout);
 
-        Debug.Log(_horizontal);
-
         pitch -= _vertical;
         pitch = Mathf.Clamp(pitch, -85, 85);
         head.transform.localRotation = Quaternion.Euler(pitch, 0, 0);
