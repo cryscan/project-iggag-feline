@@ -13,6 +13,8 @@ public class PlayerLight : MonoBehaviour
 
     float _intensity;
 
+    public float intensity { get => _intensity; }
+
     PlayerMovement movement;
 
     void Awake()
