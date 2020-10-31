@@ -5,7 +5,8 @@ using UnityEngine;
 public enum TrapType
 {
     Frozen,
-    Eliminate
+    Eliminate,
+    Distraction
 }
 
 public class TrapEvent
@@ -26,16 +27,33 @@ public class TrapHandler : MonoBehaviour
 {
     [SerializeField] TrapType trapType;
     [SerializeField] float duration = 3;
+    [SerializeField] bool active = false;
+
+    private void OnEnable()//public void Activate()
+    {
+        active = true;
+        if (trapType == TrapType.Distraction)
+        {
+            EventBus.Publish(new TrapEvent(this.gameObject, trapType, duration));
+        }
+        
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        GameObject _object = other.gameObject;
-        Debug.Log($"[Trap] {_object}");
-
-        if (_object.CompareTag("Enemy"))
+        if (active)
         {
-            EventBus.Publish(new TrapEvent(_object, trapType, duration));
-            Destroy(gameObject);
+            GameObject _object = other.gameObject;
+            Debug.Log($"[Trap] {_object}");
+
+            if (_object.CompareTag("Enemy"))
+            {
+                if (trapType == TrapType.Frozen)
+                {
+                    EventBus.Publish(new TrapEvent(_object, trapType, duration));
+                }
+                Destroy(gameObject);
+            }
         }
     }
 }

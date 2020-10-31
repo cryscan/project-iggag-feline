@@ -6,12 +6,13 @@ using BehaviorDesigner.Runtime;
 public class GuardTrapReaction : MonoBehaviour
 {
     BehaviorTree behavior;
-
+    GuardReaction reaction;
     Subscription<TrapEvent> trapEventHandler;
 
     void Awake()
     {
         behavior = GetComponent<BehaviorTree>();
+        reaction = GetComponent<GuardReaction>();
     }
 
     private void OnEnable()
@@ -37,10 +38,20 @@ public class GuardTrapReaction : MonoBehaviour
                     break;
             }
         }
+        else if (@event.type == TrapType.Distraction)
+        {
+            Distraction(@event.target);
+        }
     }
 
     void Frozen(float duration)
     {
         behavior.SendEvent<object>("Frozen", duration);
+    }
+
+    void Distraction(GameObject location)
+    {
+        reaction.Alert();
+        behavior.SendEvent<object>("Alert", location.transform.position);
     }
 }
