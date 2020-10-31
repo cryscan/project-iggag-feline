@@ -11,7 +11,7 @@ public enum PlayerState
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] float normalSpeed = 4;
+    [SerializeField] float moveSpeed = 4;
     [SerializeField] float sprintSpeed = 8;
     [SerializeField] float fallout = 10;
 
@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         controller = GetComponent<CharacterController>();
-        speed = normalSpeed;
+        speed = moveSpeed;
     }
 
     void Update()
@@ -34,18 +34,18 @@ public class PlayerMovement : MonoBehaviour
         var vertical = Input.GetAxis("Vertical");
 
         if (Input.GetKey(KeyCode.LeftShift)) speed = sprintSpeed;
-        else speed = normalSpeed;
+        else speed = moveSpeed;
 
         var move = transform.forward * vertical + transform.right * horizontal;
         move = move.normalized;
 
         _move = Vector3.Lerp(_move, move, 1 - Mathf.Exp(-fallout * Time.deltaTime));
-        var velocity = _move * speed;
-        controller.SimpleMove(velocity);
+        controller.SimpleMove(_move * speed);
 
+        var velocity = controller.velocity;
         var realSpeed = velocity.magnitude;
-        if (realSpeed < normalSpeed / 2) _state = PlayerState.Stand;
-        else if (realSpeed < (normalSpeed + sprintSpeed) / 2) _state = PlayerState.Move;
+        if (realSpeed < moveSpeed / 2) _state = PlayerState.Stand;
+        else if (realSpeed < (moveSpeed + sprintSpeed) / 2) _state = PlayerState.Move;
         else _state = PlayerState.Sprint;
     }
 }

@@ -202,6 +202,7 @@ GameObject:
   - component: {fileID: 8912101026526787515}
   - component: {fileID: 8912101026526787492}
   - component: {fileID: 8912101026526787514}
+  - component: {fileID: 875355966850928249}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -254,10 +255,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf69b81fb977cfbfebf2f30d0c6a89ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  global: 0
-  normalSpeed: 4
+  moveSpeed: 4
   sprintSpeed: 8
   fallout: 10
+  _state: 0
 --- !u!114 &8912101026526787514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,6 +274,22 @@ MonoBehaviour:
   head: {fileID: 8912101026030626793}
   sensitivity: 1
   fallout: 10
+--- !u!114 &875355966850928249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8912101026526787494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26cbf6ee9afd15c7085b6e7d4bf46b4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _light: {fileID: 6682502076882991182}
+  standIntensity: 1
+  moveIntensity: 2
+  sprintIntensity: 4
 --- !u!1 &8912101026954118156
 GameObject:
   m_ObjectHideFlags: 0
