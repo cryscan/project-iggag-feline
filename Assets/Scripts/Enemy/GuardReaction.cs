@@ -42,7 +42,7 @@ public class GuardReaction : MonoBehaviour
 
     void OnDealerted() => Dealert();
 
-    void Alert()
+    public void Alert()
     {
         alerted = true;
         _light.color = alertedLightColor;
