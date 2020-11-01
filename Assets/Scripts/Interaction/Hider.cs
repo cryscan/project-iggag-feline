@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Hider : MonoBehaviour, Interactor
@@ -24,6 +25,9 @@ public class Hider : MonoBehaviour, Interactor
     {
         Hideable hideable = interactable.GetComponent<Hideable>();
         if (!hideable) return;
+
+        var interactions = GetInteractions(interactable);
+        if (!interactions.Contains(type)) return;
 
         if (type == InteractionType.Hide) Hide(hideable);
         else if (type == InteractionType.ComeOut) ComeOut();

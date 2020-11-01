@@ -69,6 +69,9 @@ public class Inventory : MonoBehaviour, Interactor
         var collectable = interactable.GetComponent<Collectable>();
         if (!collectable) return;
 
+        var interactions = GetInteractions(interactable);
+        if (!interactions.Contains(type)) return;
+
         if (type == InteractionType.Collect) Collect(collectable);
         else if (type == InteractionType.Drop) Drop();
     }
