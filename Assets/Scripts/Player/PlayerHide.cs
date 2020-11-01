@@ -4,41 +4,36 @@ using UnityEngine;
 
 public class PlayerHide : MonoBehaviour
 {
-	Subscription<PlayerHideEvent> playerHideEventHandler;
-	Subscription<PlayerUnhideEvent> playerUnhideEventHandler;
-	Subscription<PlayerHideExposeEvent> playerHideExposeEventHandler;
-	CharacterController controller;
-	private Vector3 position;
+    CharacterController controller;
+    Vector3 displacement;
 
-	private void Awake()
+    Subscription<HideEvent> hideHandler;
+    Subscription<ComeOutEvent> comeOutHandler;
+
+    private void Awake()
     {
-        playerHideEventHandler = EventBus.Subscribe<PlayerHideEvent>(OnHide);
-        playerUnhideEventHandler = EventBus.Subscribe<PlayerUnhideEvent>(OnUnhide);
-        playerHideExposeEventHandler = EventBus.Subscribe<PlayerHideExposeEvent>(OnHideExpose);
         controller = GetComponent<CharacterController>();
     }
 
-    private void OnDestroy()
+    void OnHidden(HideEvent @event)
     {
-        EventBus.Unsubscribe(playerHideEventHandler);
-        EventBus.Unsubscribe(playerUnhideEventHandler);
-        EventBus.Unsubscribe(playerHideExposeEventHandler);
+        if (@event.subject.gameObject != gameObject) return;
+
+        displacement = @event.displacement;
+
+        controller.enabled = false;
+        transform.position = new Vector3(100, 100, 100);
+
+        @event._object.virtualCamera.Priority = 20;
     }
 
-    void OnHide(PlayerHideEvent @event)
+    void OnComeOut(ComeOutEvent @event)
     {
-    	position = @event.position;
-    	controller.enabled = false;
-    	transform.position = position; 
-    }
+        if (@event.subject.gameObject != gameObject) return;
 
-    void OnUnhide(PlayerUnhideEvent @event)
-    {
+        transform.position = @event._object.transform.position + displacement;
         controller.enabled = true;
-    }
 
-    void OnHideExpose(PlayerHideExposeEvent @event)
-    {
-    	Debug.Log("TODO: OnHideExpose handler for PlayerHideExposeEvents.");
+        @event._object.virtualCamera.Priority = 0;
     }
 }

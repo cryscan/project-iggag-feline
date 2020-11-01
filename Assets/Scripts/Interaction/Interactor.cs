@@ -7,10 +7,12 @@ public enum InteractionType
     Collect,
     Drop,
     Hide,
-    Reveal,
+    ComeOut,
 }
 
 public interface Interactor
 {
     InteractionType[] GetInteractions(Interactable interactable);
+
+    void Interact(Interactable interactable, InteractionType type);
 }

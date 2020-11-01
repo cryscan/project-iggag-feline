@@ -64,7 +64,16 @@ public class Inventory : MonoBehaviour, Interactor
         return interactions.ToArray();
     }
 
-    public void Collect(Collectable collectable)
+    public void Interact(Interactable interactable, InteractionType type)
+    {
+        var collectable = interactable.GetComponent<Collectable>();
+        if (!collectable) return;
+
+        if (type == InteractionType.Collect) Collect(collectable);
+        else if (type == InteractionType.Drop) Drop();
+    }
+
+    void Collect(Collectable collectable)
     {
         if (holding) Drop();
         holding = collectable;
@@ -72,7 +81,7 @@ public class Inventory : MonoBehaviour, Interactor
         EventBus.Publish(new CollectEvent(this, holding));
     }
 
-    public void Drop()
+    void Drop()
     {
         if (holding == null)
         {
