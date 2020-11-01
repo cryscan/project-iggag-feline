@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class Inventory : MonoBehaviour, Interactor
 {
     [System.Serializable]
     struct CollectableTarget
@@ -12,21 +12,28 @@ public class Inventory : MonoBehaviour
         public Transform target;
     }
 
+    [SerializeField] Transform head;
+
+    [Tooltip("Pickup center of all types of collectables")]
     [SerializeField] CollectableTarget[] _targets;
     Dictionary<CollectableType, Transform> targets = new Dictionary<CollectableType, Transform>();
 
-    [SerializeField] float range;
+    [SerializeField] float dropRange = 2;
 
     [Header("Fallout")]
     [SerializeField] float positionFallout = 20;
     [SerializeField] float rotationFallout = 10;
 
+    DropPoint[] dropPoints;
+
     public Collectable holding { get; private set; }
+
     Transform target;
 
     void Awake()
     {
         foreach (var x in _targets) targets.Add(x.type, x.target);
+        dropPoints = FindObjectsOfType<DropPoint>();
     }
 
     void LateUpdate()
@@ -45,16 +52,24 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public InteractionType[] GetInteractions(Interactable interactable)
+    {
+        List<InteractionType> interactions = new List<InteractionType>();
+        var collectabe = interactable.GetComponent<Collectable>();
+        if (collectabe)
+        {
+            if (holding == collectabe) interactions.Add(InteractionType.Drop);
+            else if (collectabe.subject == null) interactions.Add(InteractionType.Collect);
+        }
+        return interactions.ToArray();
+    }
+
     public void Collect(Collectable collectable)
     {
         if (holding) Drop();
-
         holding = collectable;
-        collectable.Collect(this);
-
         target = targets[holding.type];
-
-        EventBus.Publish(new InventoryCollectEvent(this, holding));
+        EventBus.Publish(new CollectEvent(this, holding));
     }
 
     public void Drop()
@@ -68,10 +83,9 @@ public class Inventory : MonoBehaviour
         if (holding.type == CollectableType.Crate) NormalDrop();
         else
         {
-            var dropPoints = GameContext.instance.dropPoints;
             var query = from point in dropPoints
                         let distance = Vector3.Distance(transform.position, point.transform.position)
-                        where distance < range
+                        where distance < dropRange
                         orderby point.priority, distance
                         select point;
             var candidates = query.ToArray();
@@ -87,8 +101,7 @@ public class Inventory : MonoBehaviour
 
     void NormalDrop()
     {
-        holding.Drop();
-        EventBus.Publish(new InventoryDropEvent(this, holding, transform.position));
+        EventBus.Publish(new DropEvent(this, holding, transform.position));
         holding = null;
     }
 
@@ -100,31 +113,30 @@ public class Inventory : MonoBehaviour
         while (timer < timeLimit && Vector3.Distance(holding.transform.position, target.position) < 0.1)
             yield return null;
 
-        holding.Drop();
-        EventBus.Publish(new InventoryDropEvent(this, holding, target.position));
+        EventBus.Publish(new DropEvent(this, holding, target.position));
         holding = null;
     }
 }
 
-class InventoryCollectEvent
+class CollectEvent
 {
     public Inventory subject;
     public Collectable _object;
 
-    public InventoryCollectEvent(Inventory subject, Collectable _object)
+    public CollectEvent(Inventory subject, Collectable _object)
     {
         this.subject = subject;
         this._object = _object;
     }
 }
 
-class InventoryDropEvent
+class DropEvent
 {
     public Inventory subject;
     public Collectable _object;
     public Vector3 location;
 
-    public InventoryDropEvent(Inventory subject, Collectable _object, Vector3 position)
+    public DropEvent(Inventory subject, Collectable _object, Vector3 position)
     {
         this.subject = subject;
         this._object = _object;

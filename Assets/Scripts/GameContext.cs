@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameContext : MonoBehaviour
@@ -8,7 +9,6 @@ public class GameContext : MonoBehaviour
 
     public Inventory[] inventories { get; private set; }
     public Collectable[] collectables { get; private set; }
-    public DropPoint[] dropPoints { get; private set; }
 
     void Awake()
     {
@@ -25,6 +25,5 @@ public class GameContext : MonoBehaviour
 
         inventories = FindObjectsOfType<Inventory>();
         collectables = FindObjectsOfType<Collectable>();
-        dropPoints = FindObjectsOfType<DropPoint>();
     }
 }
