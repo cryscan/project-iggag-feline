@@ -14,7 +14,19 @@ public class MainMenuController : MonoBehaviour
     	Application.Quit();
     }
 
-    public void LevelButton() {
-    	UnityEngine.SceneManagement.SceneManager.LoadScene("LAB_jszion");
+    public void TutorialBasicButton() {
+    	UnityEngine.SceneManagement.SceneManager.LoadScene("Tutorial_Basic");
+    }
+
+    public void TutorialFreezeButton() {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Tutorial_Freeze");
+    }
+
+    public void TutorialCrateButton() {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Tutorial_Crate");
+    }
+
+    public void TutorialDistractionButton() {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Tutorial_Distraction");
     }
 }

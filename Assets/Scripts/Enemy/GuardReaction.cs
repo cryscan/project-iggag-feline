@@ -180,4 +180,13 @@ public class GuardReaction : MonoBehaviour
                 break;
         }
     }
+
+    void OnCollisionEnter(Collision other)
+    {
+    	Debug.Log("COLLIDED");
+    	if (other.gameObject.CompareTag("Player"))
+    	{
+    		UnityEngine.SceneManagement.SceneManager.LoadScene("Tutorial_Basic");
+    	}
+    }
 }
