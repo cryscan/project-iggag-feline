@@ -47,7 +47,7 @@ public class ScheduleManager : MonoBehaviour
     {
         var state = GameManager.instance.currentState;
 
-        if (state == GameState.Plan || state == GameState.Plan) timer += Time.deltaTime;
+        if (state == GameState.Plan || state == GameState.Play) timer += Time.deltaTime;
 
         if (state == GameState.Play)
         {

@@ -28,13 +28,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
 
-    public Text memoText;
-    public Text timerText;
-
     Stack<GameState> states = new Stack<GameState>();
     public GameState currentState { get => states.Peek(); }
 
-    [SerializeField] float _planTimer = 30;
+    public float totalTime = 30;
     public float planTimer { get; private set; }
 
     [SerializeField] int _trapCounter = 5;
@@ -59,7 +56,7 @@ public class GameManager : MonoBehaviour
 
 
         states.Push(GameState.Start);
-        planTimer = _planTimer;
+        planTimer = totalTime;
         trapCounter = _trapCounter;
     }
 
@@ -86,24 +83,7 @@ public class GameManager : MonoBehaviour
             EventBus.Publish(new GameStateChangeEvent(previous, currentState));
         }
 
-        planTimer -= Time.deltaTime;
-        ShowMemo();       
-        ShowTime();
-    }
-
-    void ShowMemo() 
-    {
-        memoText.text = "Memo:";
-        foreach (var schedule in ScheduleManager.instance.schedules)
-        {
-            memoText.text = memoText.text + $"\n{schedule.prefab.GetComponent<TrapHandler>().type}{ schedule.timer}";
-        }
-    }
-
-    void ShowTime()
-    {
-        Debug.Log("[Timer]");
-        timerText.text = $"Timer: {(_planTimer - planTimer).ToString("0.0")}";
+        planTimer -= Time.deltaTime;   
     }
 
     public void StartGame()
@@ -152,7 +132,7 @@ public class GameManager : MonoBehaviour
         states.Push(GameState.Start);
         EventBus.Publish(new GameStateChangeEvent(previous, currentState));
 
-        planTimer = _planTimer;
+        planTimer = totalTime;
         trapCounter = _trapCounter;
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

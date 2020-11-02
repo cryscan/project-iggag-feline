@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7568049423525582564
+--- !u!1 &8175000572776892569
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7568049423525582565}
-  - component: {fileID: 7568049423525582563}
-  - component: {fileID: 7568049423525582562}
+  - component: {fileID: 8175000572776892568}
+  - component: {fileID: 8175000572776892574}
+  - component: {fileID: 8175000572776892575}
+  - component: {fileID: 8175000572776892573}
   m_Layer: 5
   m_Name: PositiveTimer
   m_TagString: Untagged
@@ -18,13 +19,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &7568049423525582565
+--- !u!224 &8175000572776892568
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7568049423525582564}
+  m_GameObject: {fileID: 8175000572776892569}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -37,21 +38,21 @@ RectTransform:
   m_AnchoredPosition: {x: -30, y: 10}
   m_SizeDelta: {x: 300, y: 90}
   m_Pivot: {x: 1, y: 0}
---- !u!222 &7568049423525582563
+--- !u!222 &8175000572776892574
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7568049423525582564}
+  m_GameObject: {fileID: 8175000572776892569}
   m_CullTransparentMesh: 0
---- !u!114 &7568049423525582562
+--- !u!114 &8175000572776892575
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7568049423525582564}
+  m_GameObject: {fileID: 8175000572776892569}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
@@ -78,3 +79,15 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 'Timer:'
+--- !u!114 &8175000572776892573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8175000572776892569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbdcaf681b9c61a4985f9b0b86284781, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
