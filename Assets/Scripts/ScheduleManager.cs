@@ -22,7 +22,7 @@ public class ScheduleManager : MonoBehaviour
 {
     public static ScheduleManager instance { get; private set; }
 
-    [SerializeField] List<ScheduleTimerEvent> schedules;
+    public List<ScheduleTimerEvent> schedules = new List<ScheduleTimerEvent>();
 
     public float timer { get; private set; } = 0;
 

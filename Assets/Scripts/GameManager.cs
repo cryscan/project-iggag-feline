@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public enum GameState
@@ -27,6 +28,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
 
+    public Text memoText;
+    public Text timerText;
+
     Stack<GameState> states = new Stack<GameState>();
     public GameState currentState { get => states.Peek(); }
 
@@ -52,6 +56,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
 
         states.Push(GameState.Start);
         planTimer = _planTimer;
@@ -82,6 +87,23 @@ public class GameManager : MonoBehaviour
         }
 
         planTimer -= Time.deltaTime;
+        ShowMemo();       
+        ShowTime();
+    }
+
+    void ShowMemo() 
+    {
+        memoText.text = "Memo:";
+        foreach (var schedule in ScheduleManager.instance.schedules)
+        {
+            memoText.text = memoText.text + $"\n{schedule.prefab.GetComponent<TrapHandler>().type}{ schedule.timer}";
+        }
+    }
+
+    void ShowTime()
+    {
+        Debug.Log("[Timer]");
+        timerText.text = $"Timer: {(_planTimer - planTimer).ToString("0.0")}";
     }
 
     public void StartGame()

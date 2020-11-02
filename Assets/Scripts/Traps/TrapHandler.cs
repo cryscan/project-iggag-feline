@@ -25,7 +25,7 @@ public class TrapEvent
 
 public class TrapHandler : MonoBehaviour
 {
-    [SerializeField] TrapType type;
+    public TrapType type;
     Subscription<ScheduleTimerEvent> scheduleHandler;
 
     public void Activate()
