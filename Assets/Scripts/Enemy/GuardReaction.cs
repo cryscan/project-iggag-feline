@@ -55,4 +55,13 @@ public class GuardReaction : MonoBehaviour
         alerted = false;
         _light.color = dealertedLightColor;
     }
+
+    void OnCollisionEnter(Collision other)
+    {
+    	Debug.Log("COLLIDED");
+    	if (other.gameObject.CompareTag("Player"))
+    	{
+    		UnityEngine.SceneManagement.SceneManager.LoadScene("Tutorial_Basic");
+    	}
+    }
 }
