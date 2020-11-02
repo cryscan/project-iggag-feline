@@ -174,9 +174,13 @@ public class GuardReaction : MonoBehaviour
 
                 break;
             case TrapType.Distraction:
-                _light.color = colors[1];
-                behavior.SetVariableValue("Alerted", true);
-                behavior.SetVariableValue("Spot Point", position);
+                distance = Vector3.Distance(position, transform.position);
+                if (distance < 3)
+                {
+                    _light.color = colors[1];
+                    behavior.SetVariableValue("Alerted", true);
+                    behavior.SetVariableValue("Spot Point", position);
+                }
                 break;
         }
     }
