@@ -47,5 +47,6 @@ public class PlaceTrap : MonoBehaviour
         GameManager.instance.ConsumeTrap();
 
         ScheduleManager.instance.AddSchedule(prefab, targetPosition);
+        trap.GetComponent<TrapHandler>()?.Activate();
     }
 }

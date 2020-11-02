@@ -26,10 +26,22 @@ public class TrapEvent
 public class TrapHandler : MonoBehaviour
 {
     [SerializeField] TrapType type;
+    Subscription<ScheduleTimerEvent> scheduleHandler;
 
-    void Activate()
+    public void Activate()
     {
         EventBus.Publish(new TrapEvent(gameObject, type, null));
+        Destroy(gameObject);
+    }
+
+    private void OnEnable()
+    {
+        scheduleHandler = EventBus.Subscribe<ScheduleTimerEvent>(OnScheduleTimer);
+    }
+
+    private void OnDisable()
+    {
+        EventBus.Unsubscribe(scheduleHandler);
     }
 
     void OnScheduleTimer(ScheduleTimerEvent @event)

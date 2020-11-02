@@ -38,7 +38,10 @@ public class ScheduleManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
+        EventBus.Subscribe<GameStateChangeEvent>(OnGameStateChanged);
     }
+
 
     void Update()
     {
