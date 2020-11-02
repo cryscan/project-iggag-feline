@@ -171,6 +171,7 @@ public class GuardReaction : MonoBehaviour
                 var distance = Vector3.Distance(position, transform.position);
                 if (distance < data.range)
                     behavior.SendEvent("Frozen", data.duration);
+                    
                 break;
             case TrapType.Distraction:
                 _light.color = colors[1];
