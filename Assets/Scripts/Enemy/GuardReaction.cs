@@ -22,6 +22,7 @@ public class GuardReaction : MonoBehaviour
     public float alertProgress { get; private set; } = 0;
 
     Subscription<DetectEvent> detectEventHandler;
+    Subscription<LossTargetEvent> lossTargetHandler;
 
     void Awake()
     {
@@ -36,15 +37,18 @@ public class GuardReaction : MonoBehaviour
     void OnEnable()
     {
         detectEventHandler = EventBus.Subscribe<DetectEvent>(OnDetected);
-        // behavior.RegisterEvent("Dealert", OnDealerted);
+        lossTargetHandler = EventBus.Subscribe<LossTargetEvent>(OnLostTarget);
+        behavior.RegisterEvent("Dealert", OnDealerted);
     }
 
     void OnDisable()
     {
         EventBus.Unsubscribe(detectEventHandler);
-        // behavior.UnregisterEvent("Dealert", OnDealerted);
+        EventBus.Unsubscribe(lossTargetHandler);
+        behavior.UnregisterEvent("Dealert", OnDealerted);
     }
 
+    /*
     void Update()
     {
         if (coneDetection.detected) alertProgress += alertSpeed * visibility.visibility * Time.deltaTime;
@@ -54,12 +58,12 @@ public class GuardReaction : MonoBehaviour
         if (alertProgress > distance)
         {
             Alert();
-            if (alertLevel < 2) alertProgress = 1;
+            if (alertLevel < 2) alertProgress = 0;
             else alertProgress = distance;
         }
         else if (alertProgress < 0)
         {
-            if (alertLevel > 0) alertProgress = distance - 1;
+            if (alertLevel > 0) alertProgress = distance;
             else alertProgress = 0;
             Dealert();
         }
@@ -79,26 +83,49 @@ public class GuardReaction : MonoBehaviour
             Debug.DrawRay(transform.position, direction * alertProgress, colors[alertLevel], 0);
         }
     }
+    */
 
     void OnDetected(DetectEvent @event)
     {
-        if (@event.type == DetectionType.Guard) return;
+        if (@event.type == DetectionType.Guard && @event.subject != gameObject) return;
 
-        Alert();
-        // behavior.SendEvent<object>("Alert", @event.spotPoint);
+        _light.color = colors[2];
+        behavior.SetVariableValue("Detected", true);
+    }
+
+    void OnLostTarget(LossTargetEvent @event)
+    {
+        if (@event.subject != gameObject) return;
+
+        _light.color = colors[1];
+        behavior.SetVariableValue("Detected", false);
+        behavior.SetVariableValue("Spot Point", @event.spotPoint);
     }
 
     void OnDealerted() => Dealert();
 
+    /*
     public void Alert()
     {
-        if (alertLevel < 2) ++alertLevel;
-        _light.color = colors[alertLevel];
+        if (alertLevel < 2)
+        {
+            ++alertLevel;
+            _light.color = colors[alertLevel];
+            behavior.SetVariableValue("Alert Level", alertLevel);
+        }
     }
+    */
 
     void Dealert()
     {
-        if (alertLevel > 0) --alertLevel;
-        _light.color = colors[alertLevel];
+        /*
+        if (alertLevel > 0)
+        {
+            --alertLevel;
+            _light.color = colors[alertLevel];
+            behavior.SetVariableValue("Alert Level", alertLevel);
+        }
+        */
+        _light.color = colors[0];
     }
 }
