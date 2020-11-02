@@ -49,7 +49,7 @@ public class Hider : MonoBehaviour, Interactor
     {
         if (hiding == null)
         {
-            Debug.LogError("[Hider] cannot come out since not hiding");
+            Debug.LogWarning("[Hider] cannot come out since not hiding");
             return;
         }
         EventBus.Publish(new ComeOutEvent(this, hiding));

@@ -40,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
         move = move.normalized;
 
         _move = Vector3.Lerp(_move, move, 1 - Mathf.Exp(-fallout * Time.deltaTime));
-        controller.SimpleMove(_move * speed);
+        if (controller.enabled) controller.SimpleMove(_move * speed);
 
         var velocity = controller.velocity;
         var realSpeed = velocity.magnitude;

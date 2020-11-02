@@ -46,14 +46,9 @@ public class PlayerInteraction : MonoBehaviour
             if (Physics.Raycast(ray, out hit, collectDistance, collectLayers))
             {
                 var interactable = hit.collider.gameObject.GetComponent<Interactable>();
-                if (interactable)
-                {
-                    var interactions = controller.GetAvailableInteractions(interactable);
-                    if (interactions.Contains(InteractionType.Collect))
-                        EventBus.Publish(new InteractEvent(gameObject, interactable, InteractionType.Collect));
-                    else if (interactions.Contains(InteractionType.Drop))
-                        EventBus.Publish(new InteractEvent(gameObject, interactable, InteractionType.Drop));
-                }
+                // Broadcase both drop and collect events. The interactors will determine which to react.
+                EventBus.Publish(new InteractEvent(gameObject, interactable, InteractionType.Drop));
+                EventBus.Publish(new InteractEvent(gameObject, interactable, InteractionType.Collect));
             }
             else EventBus.Publish(new InteractEvent(gameObject, null, InteractionType.Drop));
         }
@@ -63,14 +58,8 @@ public class PlayerInteraction : MonoBehaviour
             if (Physics.Raycast(ray, out hit, hideDistance, hideLayers))
             {
                 var interactable = hit.collider.gameObject.GetComponent<Interactable>();
-                if (interactable)
-                {
-                    var interactions = controller.GetAvailableInteractions(interactable);
-                    if (interactions.Contains(InteractionType.Hide))
-                        EventBus.Publish(new InteractEvent(gameObject, interactable, InteractionType.Hide));
-                    else if (interactions.Contains(InteractionType.ComeOut))
-                        EventBus.Publish(new InteractEvent(gameObject, interactable, InteractionType.ComeOut));
-                }
+                EventBus.Publish(new InteractEvent(gameObject, interactable, InteractionType.ComeOut));
+                EventBus.Publish(new InteractEvent(gameObject, interactable, InteractionType.Hide));
             }
             else EventBus.Publish(new InteractEvent(gameObject, null, InteractionType.ComeOut));
         }

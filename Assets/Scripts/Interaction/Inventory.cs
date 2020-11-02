@@ -94,7 +94,7 @@ public class Inventory : MonoBehaviour, Interactor
     {
         if (holding == null)
         {
-            Debug.LogError($"[Collectable] has no subject yet");
+            Debug.LogWarning($"[Collectable] has no subject yet");
             return;
         }
 

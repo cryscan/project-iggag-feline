@@ -9,8 +9,6 @@ public class PlanTimer : MonoBehaviour
     bool planning = false;
 
     Subscription<GameStateChangeEvent> handler;
-    Subscription<PlayerHideEvent> playerHideEventHandler;
-    Subscription<PlayerUnhideEvent> playerUnhideEventHandler;
 
     void Awake()
     {
@@ -20,8 +18,6 @@ public class PlanTimer : MonoBehaviour
     void OnEnable()
     {
         handler = EventBus.Subscribe<GameStateChangeEvent>(OnGameStateChanged);
-        playerHideEventHandler = EventBus.Subscribe<PlayerHideEvent>(OnHide);
-        playerUnhideEventHandler = EventBus.Subscribe<PlayerUnhideEvent>(OnUnhide);
     }
 
     void OnDisable()
@@ -55,15 +51,5 @@ public class PlanTimer : MonoBehaviour
                 text.text = "";
                 break;
         }
-    }
-
-    void OnHide(PlayerHideEvent @event)
-    {
-        text.text = "Press space to leave the crate"; 
-    }
-
-    void OnUnhide(PlayerUnhideEvent @event)
-    {
-        text.text = "Avoid being caught and escape";
     }
 }
