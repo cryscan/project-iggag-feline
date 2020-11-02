@@ -29,4 +29,9 @@ public class MainMenuController : MonoBehaviour
     public void TutorialDistractionButton() {
         UnityEngine.SceneManagement.SceneManager.LoadScene("Tutorial_Distraction");
     }
+
+    public void AdvancedLevelButton()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("LAB_richard");
+    }
 }
