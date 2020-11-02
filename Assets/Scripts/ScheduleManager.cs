@@ -67,7 +67,7 @@ public class ScheduleManager : MonoBehaviour
         while (schedules.Count > 0)
         {
             var schedule = schedules[0];
-            yield return new WaitForSeconds(schedule.timer);
+            yield return new WaitForSeconds(schedule.timer - timer);
 
             EventBus.Publish(schedule);
             schedules.RemoveAt(0);
