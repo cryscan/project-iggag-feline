@@ -173,6 +173,7 @@ public class GuardReaction : MonoBehaviour
                     behavior.SendEvent("Frozen", data.duration);
                 break;
             case TrapType.Distraction:
+                _light.color = colors[1];
                 behavior.SetVariableValue("Alerted", true);
                 behavior.SetVariableValue("Spot Point", position);
                 break;
