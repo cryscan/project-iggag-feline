@@ -57,6 +57,7 @@ public class ControlHints : MonoBehaviour
     void OnPlayerPrompted(PlayerPromptEvent @event)
     {
         lister.SetActiveAll(false);
+        if (!@event._object) return;
 
         var interactions = controller.GetAvailableInteractions(@event._object);
         foreach (var interaction in interactions)

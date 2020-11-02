@@ -5742,7 +5742,7 @@ GameObject:
   - component: {fileID: 2089889082}
   - component: {fileID: 2089889081}
   m_Layer: 0
-  m_Name: Game Context
+  m_Name: Schedule Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5760,6 +5760,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a7b99437daf863e6b87507838a4af6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  schedules: []
 --- !u!4 &2089889082
 Transform:
   m_ObjectHideFlags: 0
