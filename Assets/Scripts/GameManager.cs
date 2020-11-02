@@ -80,10 +80,17 @@ public class GameManager : MonoBehaviour
             states.Push(GameState.Play);
 
             // Change from plan to play.
-            EventBus.Publish(new GameStateChangeEvent(previous, currentState));
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            StartCoroutine(PublishEventCoroutine(previous));           
         }
 
         planTimer -= Time.deltaTime;   
+    }
+
+    IEnumerator PublishEventCoroutine(GameState previous)
+    {
+        yield return null;
+        EventBus.Publish(new GameStateChangeEvent(previous, currentState));
     }
 
     public void StartGame()

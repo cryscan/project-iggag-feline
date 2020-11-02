@@ -16,6 +16,5 @@ public class PositiveTimeController : MonoBehaviour
     {
         var time = ScheduleManager.instance.timer;
         text.text = $"Timer: {time.ToString("0.0")}";
-        Debug.Log("[Shit]");
     }
 }
