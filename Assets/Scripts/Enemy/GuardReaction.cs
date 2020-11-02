@@ -8,18 +8,18 @@ public class GuardReaction : MonoBehaviour
 {
     [SerializeField] Light _light;
     [SerializeField] Color[] colors = { Color.white, Color.yellow, Color.red };
-    [SerializeField] float alertSpeed = 4;
-    [SerializeField] float dealertSpeed = 1;
+    [SerializeField] float alertSpeed = 8;
+    [SerializeField] float dealertSpeed = 2;
 
     BehaviorTree behavior;
-    ConeDetection coneDetection;
     LineRenderer lineRenderer;
 
     GameObject player;
     PlayerVisibility visibility;
 
-    public int alertLevel { get; private set; } = 0;
-    public float alertProgress { get; private set; } = 0;
+    float alertLevel = 0;
+    bool detected = false;
+    bool alerted = false;
 
     Subscription<DetectEvent> detectEventHandler;
     Subscription<LossTargetEvent> lossTargetHandler;
@@ -27,7 +27,6 @@ public class GuardReaction : MonoBehaviour
     void Awake()
     {
         behavior = GetComponent<BehaviorTree>();
-        coneDetection = GetComponent<ConeDetection>();
         lineRenderer = GetComponent<LineRenderer>();
 
         player = GameObject.FindGameObjectWithTag("Player");
@@ -73,6 +72,7 @@ public class GuardReaction : MonoBehaviour
         lineRenderer.SetPosition(1, transform.position + direction.normalized * alertProgress);
         lineRenderer.startColor = lineRenderer.endColor = colors[alertLevel];
     }
+    */
 
     void OnDrawGizmos()
     {
@@ -80,26 +80,55 @@ public class GuardReaction : MonoBehaviour
         {
             var direction = player.transform.position - transform.position;
             direction.Normalize();
-            Debug.DrawRay(transform.position, direction * alertProgress, colors[alertLevel], 0);
+            Debug.DrawRay(transform.position, direction * alertLevel, Color.red, 0);
         }
     }
-    */
+
+    void Update()
+    {
+        if (detected) alertLevel += alertSpeed * visibility.visibility * Time.deltaTime;
+        else alertLevel -= dealertSpeed * Time.deltaTime;
+
+        var distance = Vector3.Distance(player.transform.position, transform.position);
+        if (alertLevel > distance)
+        {
+            if (!alerted)
+            {
+                _light.color = colors[2];
+                behavior.SetVariableValue("Detected", true);
+                alerted = true;
+            }
+            alertLevel = distance;
+        }
+        else if (alertLevel < 0) alertLevel = 0;
+
+        lineRenderer.SetPosition(0, transform.position);
+        var direction = player.transform.position - transform.position;
+        lineRenderer.SetPosition(1, transform.position + direction.normalized * alertLevel);
+        lineRenderer.startColor = lineRenderer.endColor = Color.red;
+    }
 
     void OnDetected(DetectEvent @event)
     {
         if (@event.type == DetectionType.Guard && @event.subject != gameObject) return;
 
-        _light.color = colors[2];
-        behavior.SetVariableValue("Detected", true);
+        // _light.color = colors[2];
+        // behavior.SetVariableValue("Detected", true);
+        detected = true;
     }
 
     void OnLostTarget(LossTargetEvent @event)
     {
         if (@event.subject != gameObject) return;
 
-        _light.color = colors[1];
-        behavior.SetVariableValue("Detected", false);
-        behavior.SetVariableValue("Spot Point", @event.spotPoint);
+        if (alerted)
+        {
+            _light.color = colors[1];
+            behavior.SetVariableValue("Detected", false);
+            behavior.SetVariableValue("Spot Point", @event.spotPoint);
+            alerted = false;
+        }
+        detected = false;
     }
 
     void OnDealerted() => Dealert();
