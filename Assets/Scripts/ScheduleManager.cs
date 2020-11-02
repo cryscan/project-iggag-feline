@@ -22,7 +22,7 @@ public class ScheduleManager : MonoBehaviour
 {
     public static ScheduleManager instance { get; private set; }
 
-    [SerializeField] List<ScheduleTimerEvent> schedules;
+    public List<ScheduleTimerEvent> schedules = new List<ScheduleTimerEvent>();
 
     public float timer { get; private set; } = 0;
 
@@ -47,7 +47,7 @@ public class ScheduleManager : MonoBehaviour
     {
         var state = GameManager.instance.currentState;
 
-        if (state == GameState.Plan || state == GameState.Plan) timer += Time.deltaTime;
+        if (state == GameState.Plan || state == GameState.Play) timer += Time.deltaTime;
 
         if (state == GameState.Play)
         {

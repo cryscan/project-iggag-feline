@@ -32,7 +32,9 @@ public class TrapHandler : MonoBehaviour
         public float duration;
     }
 
-    [SerializeField] TrapType type;
+    [SerializeField] TrapType _type;
+    public TrapType type { get => _type; }
+
     [SerializeField] FrozenData frozenData;
 
     Subscription<ScheduleTimerEvent> scheduleHandler;
@@ -40,9 +42,9 @@ public class TrapHandler : MonoBehaviour
     public void Activate()
     {
         object data = null;
-        if (type == TrapType.Frozen) data = frozenData;
+        if (_type == TrapType.Frozen) data = frozenData;
 
-        EventBus.Publish(new TrapEvent(gameObject, type, data));
+        EventBus.Publish(new TrapEvent(gameObject, _type, data));
         Destroy(gameObject);
     }
 
