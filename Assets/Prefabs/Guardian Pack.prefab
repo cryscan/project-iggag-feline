@@ -383,7 +383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eye: {fileID: 6066708880759201649}
-  detectDistance: 10
+  detectDistance: 20
   detectAngle: 60
   detectLayers:
     serializedVersion: 2
@@ -406,8 +406,8 @@ MonoBehaviour:
   - {r: 1, g: 1, b: 1, a: 1}
   - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   - {r: 1, g: 0, b: 0, a: 1}
-  alertSpeed: 4
-  dealertSpeed: 1
+  alertSpeed: 8
+  dealertSpeed: 2
 --- !u!120 &1312151232959584250
 LineRenderer:
   m_ObjectHideFlags: 0

@@ -48,7 +48,7 @@ public class GuardReaction : MonoBehaviour
     void Update()
     {
         if (coneDetection.detected) alertProgress += alertSpeed * visibility.visibility * Time.deltaTime;
-        else alertProgress -= alertSpeed * Time.deltaTime;
+        else alertProgress -= dealertSpeed * Time.deltaTime;
 
         var distance = Vector3.Distance(player.transform.position, transform.position);
         if (alertProgress > distance)
@@ -59,9 +59,9 @@ public class GuardReaction : MonoBehaviour
         }
         else if (alertProgress < 0)
         {
-            Dealert();
             if (alertLevel > 0) alertProgress = distance - 1;
             else alertProgress = 0;
+            Dealert();
         }
 
         lineRenderer.SetPosition(0, transform.position);

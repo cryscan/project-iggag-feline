@@ -45,7 +45,7 @@ public class ConeDetection : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, detectDistance, detectLayers) && hit.collider.gameObject == player)
             {
-                if (!detected) EventBus.Publish(new DetectEvent(gameObject, detectionType, player.transform.position, detectAngle));
+                if (!detected) EventBus.Publish(new DetectEvent(gameObject, detectionType, detectAngle));
                 detected = true;
             }
             else lost = true;
@@ -64,14 +64,12 @@ public class DetectEvent
 {
     public GameObject subject;
     public DetectionType type;
-    public Vector3 spotPoint;
     public float detectAngle;
 
-    public DetectEvent(GameObject subject, DetectionType type, Vector3 spotPoint, float detectAngle)
+    public DetectEvent(GameObject subject, DetectionType type, float detectAngle)
     {
         this.subject = subject;
         this.type = type;
-        this.spotPoint = spotPoint;
         this.detectAngle = detectAngle;
     }
 }

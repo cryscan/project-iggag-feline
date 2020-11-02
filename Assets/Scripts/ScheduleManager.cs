@@ -7,12 +7,14 @@ using UnityEngine;
 public class ScheduleTimerEvent
 {
     public float timer;
-    public GameObject effector;
+    public GameObject prefab;
+    public Vector3 position;
 
-    public ScheduleTimerEvent(float timer, GameObject effector)
+    public ScheduleTimerEvent(float timer, GameObject prefab, Vector3 position)
     {
         this.timer = timer;
-        this.effector = effector;
+        this.prefab = prefab;
+        this.position = position;
     }
 }
 
@@ -22,7 +24,7 @@ public class ScheduleManager : MonoBehaviour
 
     [SerializeField] List<ScheduleTimerEvent> schedules;
 
-    float timer = 0;
+    public float timer { get; private set; } = 0;
 
     void Awake()
     {
@@ -40,9 +42,12 @@ public class ScheduleManager : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.instance.currentState == GameState.Play)
+        var state = GameManager.instance.currentState;
+
+        if (state == GameState.Plan || state == GameState.Plan) timer += Time.deltaTime;
+
+        if (state == GameState.Play)
         {
-            timer += Time.deltaTime;
             if (schedules.Count > 0 && schedules[0].timer < timer)
             {
                 var schedule = schedules[0];
@@ -52,11 +57,29 @@ public class ScheduleManager : MonoBehaviour
         }
     }
 
+    public void AddSchedule(GameObject prefab, Vector3 position) => schedules.Add(new ScheduleTimerEvent(timer, prefab, position));
+
+
     void OnGameStateChanged(GameStateChangeEvent @event)
     {
         if (@event.current == GameState.Play)
+        {
+            if (@event.previous == GameState.Plan) timer = 0;
+
             schedules.Sort((x, y) => { return (int)(x.timer - y.timer); });
-        else if (@event.current == GameState.Plan)
+
+            // Instantiate all traps.
+            foreach (var schedule in schedules)
+            {
+                var _object = Instantiate(schedule.prefab, schedule.position, Quaternion.identity);
+                schedule.prefab = _object;
+            }
+        }
+
+        if (@event.current == GameState.Plan)
+        {
+            schedules = new List<ScheduleTimerEvent>();
             timer = 0;
+        }
     }
 }

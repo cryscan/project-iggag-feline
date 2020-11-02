@@ -34,6 +34,6 @@ public class TrapHandler : MonoBehaviour
 
     void OnScheduleTimer(ScheduleTimerEvent @event)
     {
-        if (@event.effector == gameObject) Activate();
+        if (@event.prefab  == gameObject) Activate();
     }
 }
