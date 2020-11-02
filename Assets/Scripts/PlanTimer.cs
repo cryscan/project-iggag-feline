@@ -8,7 +8,8 @@ public class PlanTimer : MonoBehaviour
     Text text;
     bool planning = false;
 
-    Subscription<GameStateChangeEvent> handler;
+    Subscription<GameStateChangeEvent> gameStateChangeHandler;
+    Subscription<GameWinEvent> gameWinHandler;
 
     void Awake()
     {
@@ -17,12 +18,14 @@ public class PlanTimer : MonoBehaviour
 
     void OnEnable()
     {
-        handler = EventBus.Subscribe<GameStateChangeEvent>(OnGameStateChanged);
+        gameStateChangeHandler = EventBus.Subscribe<GameStateChangeEvent>(OnGameStateChanged);
+        gameWinHandler = EventBus.Subscribe<GameWinEvent>(OnGameWon);
     }
 
     void OnDisable()
     {
-        EventBus.Unsubscribe(handler);
+        EventBus.Unsubscribe(gameStateChangeHandler);
+        EventBus.Unsubscribe(gameWinHandler);
     }
 
     void Update()
@@ -51,5 +54,10 @@ public class PlanTimer : MonoBehaviour
                 text.text = "";
                 break;
         }
+    }
+
+    void OnGameWon(GameWinEvent @event)
+    {
+        text.text = "You Completed the Level!";
     }
 }

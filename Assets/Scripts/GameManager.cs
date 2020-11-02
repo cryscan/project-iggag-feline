@@ -24,6 +24,9 @@ public class GameStateChangeEvent
     }
 }
 
+public class GameWinEvent { }
+public class GameLoseEvent { }
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
@@ -126,7 +129,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void GameOverReturn()
+    public void GameOverReturn(int index = 0)
     {
         if (currentState == GameState.Start || currentState == GameState.Paused)
         {
@@ -142,7 +145,7 @@ public class GameManager : MonoBehaviour
         planTimer = totalTime;
         trapCounter = _trapCounter;
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(index);
     }
 
     public void ConsumeTrap(int amount = 1) => trapCounter -= amount;
