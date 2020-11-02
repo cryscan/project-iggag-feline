@@ -40,7 +40,7 @@ public class ConeDetection : MonoBehaviour
             Ray ray = new Ray(eye.position, direction);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, detectDistance, detectLayers) && hit.collider.gameObject == player)
-                EventBus.Publish<DetectEvent>(new DetectEvent(gameObject, detectionType, player.transform.position));
+                EventBus.Publish(new DetectEvent(gameObject, detectionType, player.transform.position));
         }
     }
 }
