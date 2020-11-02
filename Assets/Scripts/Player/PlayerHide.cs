@@ -34,11 +34,9 @@ public class PlayerHide : MonoBehaviour
         displacement = @event.displacement;
 
         controller.enabled = false;
-        transform.position = new Vector3(100, 100, 100);
+        // transform.position = new Vector3(100, 100, 100);
 
-        /*
         @event._object.virtualCamera.Priority = 20;
-        */
     }
 
     void OnComeOut(ComeOutEvent @event)
@@ -48,8 +46,6 @@ public class PlayerHide : MonoBehaviour
         transform.position = @event._object.transform.position + displacement;
         controller.enabled = true;
 
-        /*
         @event._object.virtualCamera.Priority = 0;
-        */
     }
 }

@@ -7,7 +7,7 @@ using Cinemachine;
 public class Hideable : MonoBehaviour
 {
     [SerializeField] CinemachineVirtualCamera _virtualCamera;
-    public CinemachineVirtualCamera virtualCamera { get => virtualCamera; }
+    public CinemachineVirtualCamera virtualCamera { get => _virtualCamera; }
 
     public Hider inside { get; private set; }
 
