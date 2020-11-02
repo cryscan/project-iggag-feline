@@ -23,6 +23,7 @@ public class GuardReaction : MonoBehaviour
 
     Subscription<DetectEvent> detectEventHandler;
     Subscription<LossTargetEvent> lossTargetHandler;
+    Subscription<TrapEvent> trapHandler;
 
     void Awake()
     {
@@ -37,6 +38,7 @@ public class GuardReaction : MonoBehaviour
     {
         detectEventHandler = EventBus.Subscribe<DetectEvent>(OnDetected);
         lossTargetHandler = EventBus.Subscribe<LossTargetEvent>(OnLostTarget);
+        trapHandler = EventBus.Subscribe<TrapEvent>(OnTrapped);
         behavior.RegisterEvent("Dealert", OnDealerted);
     }
 
@@ -44,6 +46,7 @@ public class GuardReaction : MonoBehaviour
     {
         EventBus.Unsubscribe(detectEventHandler);
         EventBus.Unsubscribe(lossTargetHandler);
+        EventBus.Unsubscribe(trapHandler);
         behavior.UnregisterEvent("Dealert", OnDealerted);
     }
 
@@ -156,5 +159,23 @@ public class GuardReaction : MonoBehaviour
         }
         */
         _light.color = colors[0];
+    }
+
+    void OnTrapped(TrapEvent @event)
+    {
+        var position = @event.trap.transform.position;
+        switch (@event.type)
+        {
+            case TrapType.Frozen:
+                TrapHandler.FrozenData data = (TrapHandler.FrozenData)@event.data;
+                var distance = Vector3.Distance(position, transform.position);
+                if (distance < data.range)
+                    behavior.SendEvent("Frozen", data.duration);
+                break;
+            case TrapType.Distraction:
+                behavior.SetVariableValue("Alerted", true);
+                behavior.SetVariableValue("Spot Point", position);
+                break;
+        }
     }
 }

@@ -4,20 +4,20 @@ using UnityEngine;
 
 public enum TrapType
 {
+    Mark,
     Frozen,
-    Eliminate,
     Distraction
 }
 
 public class TrapEvent
 {
-    public GameObject target;
+    public GameObject trap;
     public TrapType type;
     public object data;
 
     public TrapEvent(GameObject target, TrapType type, object data)
     {
-        this.target = target;
+        this.trap = target;
         this.type = type;
         this.data = data;
     }
@@ -25,12 +25,24 @@ public class TrapEvent
 
 public class TrapHandler : MonoBehaviour
 {
+    [System.Serializable]
+    public struct FrozenData
+    {
+        public float range;
+        public float duration;
+    }
+
     [SerializeField] TrapType type;
+    [SerializeField] FrozenData frozenData;
+
     Subscription<ScheduleTimerEvent> scheduleHandler;
 
     public void Activate()
     {
-        EventBus.Publish(new TrapEvent(gameObject, type, null));
+        object data = null;
+        if (type == TrapType.Frozen) data = frozenData;
+
+        EventBus.Publish(new TrapEvent(gameObject, type, data));
         Destroy(gameObject);
     }
 
@@ -46,6 +58,6 @@ public class TrapHandler : MonoBehaviour
 
     void OnScheduleTimer(ScheduleTimerEvent @event)
     {
-        if (@event.prefab  == gameObject) Activate();
+        if (@event.prefab == gameObject) Activate();
     }
 }
