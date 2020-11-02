@@ -110,3 +110,5 @@ MonoBehaviour:
   frozenData:
     range: 5
     duration: 3
+  activatePrefab: {fileID: 7528560845187571420, guid: d6687c66dc20de0fe8df4389ea7962dd,
+    type: 3}

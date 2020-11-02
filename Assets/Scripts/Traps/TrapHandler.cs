@@ -37,6 +37,8 @@ public class TrapHandler : MonoBehaviour
 
     [SerializeField] FrozenData frozenData;
 
+    [SerializeField] GameObject activatePrefab;
+
     Subscription<ScheduleTimerEvent> scheduleHandler;
 
     public void Activate()
@@ -45,6 +47,8 @@ public class TrapHandler : MonoBehaviour
         if (_type == TrapType.Frozen) data = frozenData;
 
         EventBus.Publish(new TrapEvent(gameObject, _type, data));
+
+        Instantiate(activatePrefab, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 
