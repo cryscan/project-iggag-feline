@@ -450,7 +450,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Tutorial_Freeze
+  m_Text: 'Tutorial Freeze
 
 '
 --- !u!222 &163382679
@@ -530,7 +530,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Tutorial_Crate
+  m_Text: 'Tutorial Crate
 
 
 '
@@ -725,7 +725,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Tutorial_Basic
+  m_Text: 'Tutorial Basic
 
 '
 --- !u!222 &488148632
@@ -1413,7 +1413,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Tutorial_Distraction
+  m_Text: 'Extra
 
 
 '
@@ -1958,7 +1958,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Tutorial_Distraction
+  m_Text: 'Tutorial Distraction
 
 
 '
