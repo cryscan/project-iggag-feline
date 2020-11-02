@@ -81,10 +81,10 @@ public class GameManager : MonoBehaviour
 
             // Change from plan to play.
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            StartCoroutine(PublishEventCoroutine(previous));           
+            StartCoroutine(PublishEventCoroutine(previous));
         }
 
-        planTimer -= Time.deltaTime;   
+        planTimer -= Time.deltaTime;
     }
 
     IEnumerator PublishEventCoroutine(GameState previous)

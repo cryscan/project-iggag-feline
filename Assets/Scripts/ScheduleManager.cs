@@ -51,12 +51,26 @@ public class ScheduleManager : MonoBehaviour
 
         if (state == GameState.Play)
         {
+            /*
             if (schedules.Count > 0 && schedules[0].timer < timer)
             {
                 var schedule = schedules[0];
                 EventBus.Publish(schedule);
                 schedules.RemoveAt(0);
             }
+            */
+        }
+    }
+
+    IEnumerator ScheduleCoroutine()
+    {
+        while (schedules.Count > 0)
+        {
+            var schedule = schedules[0];
+            yield return new WaitForSeconds(schedule.timer);
+
+            EventBus.Publish(schedule);
+            schedules.RemoveAt(0);
         }
     }
 
@@ -67,7 +81,11 @@ public class ScheduleManager : MonoBehaviour
     {
         if (@event.current == GameState.Play)
         {
-            if (@event.previous == GameState.Plan) timer = 0;
+            if (@event.previous == GameState.Plan)
+            {
+                timer = 0;
+                StartCoroutine(ScheduleCoroutine());
+            }
 
             schedules.Sort((x, y) => { return (int)(x.timer - y.timer); });
 
