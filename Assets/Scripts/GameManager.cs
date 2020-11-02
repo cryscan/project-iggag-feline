@@ -37,9 +37,6 @@ public class GameManager : MonoBehaviour
     public float totalTime = 30;
     public float planTimer { get; private set; }
 
-    [SerializeField] int _trapCounter = 5;
-    public int trapCounter { get; private set; }
-
     [SerializeField] float pauseTimeScaleFallout = 10;
     float previousTimeScale = 1;
     float targetTimeScale = 1;
@@ -60,7 +57,6 @@ public class GameManager : MonoBehaviour
 
         states.Push(GameState.Start);
         planTimer = totalTime;
-        trapCounter = _trapCounter;
     }
 
     void Update()
@@ -143,10 +139,7 @@ public class GameManager : MonoBehaviour
         EventBus.Publish(new GameStateChangeEvent(previous, currentState));
 
         planTimer = totalTime;
-        trapCounter = _trapCounter;
 
         SceneManager.LoadScene(index);
     }
-
-    public void ConsumeTrap(int amount = 1) => trapCounter -= amount;
 }

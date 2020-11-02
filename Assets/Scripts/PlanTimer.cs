@@ -8,12 +8,15 @@ public class PlanTimer : MonoBehaviour
     Text text;
     bool planning = false;
 
+    PlaceTrap placeTrap;
+
     Subscription<GameStateChangeEvent> gameStateChangeHandler;
     Subscription<GameWinEvent> gameWinHandler;
 
     void Awake()
     {
         text = GetComponent<Text>();
+        placeTrap = GameObject.FindGameObjectWithTag("Trap Placer").GetComponent<PlaceTrap>();
     }
 
     void OnEnable()
@@ -33,8 +36,9 @@ public class PlanTimer : MonoBehaviour
         if (planning)
         {
             var timer = GameManager.instance.planTimer;
-            var trapCounter = GameManager.instance.trapCounter;
-            text.text = $"Planning: {timer.ToString("0.0")} seconds left\n Left click to put frozen traps ({trapCounter} remains)";
+            var count = placeTrap.count;
+            var description = placeTrap.description;
+            text.text = $"Planning: {timer.ToString("0.0")} seconds left\n Left click to put {description} traps ({count} remains)\n Press 1 and 2 to Switch Trap";
         }
     }
 

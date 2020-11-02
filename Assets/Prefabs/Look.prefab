@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6479569642199766270}
   m_Layer: 0
   m_Name: Look
-  m_TagString: Untagged
+  m_TagString: Trap Placer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -60,7 +60,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   look: {fileID: 6479569642199766240}
-  prefab: {fileID: 8683141609083507420, guid: 1cc87978e43990648a2c4010e35b91e3, type: 3}
+  config:
+  - prefab: {fileID: 8683141609083507420, guid: 1cc87978e43990648a2c4010e35b91e3,
+      type: 3}
+    count: 2
+    description: Distraction
+  - prefab: {fileID: 8683141609083507420, guid: 2f2015caa8910296daf0ccf7009eda2a,
+      type: 3}
+    count: 2
+    description: Frozen
   forbiddenLayer:
     serializedVersion: 2
     m_Bits: 2101248
