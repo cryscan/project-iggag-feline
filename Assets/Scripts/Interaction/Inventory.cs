@@ -55,7 +55,7 @@ public class Inventory : MonoBehaviour, Interactor
     public InteractionType[] GetInteractions(Interactable interactable)
     {
         List<InteractionType> interactions = new List<InteractionType>();
-        var collectabe = interactable.GetComponent<Collectable>();
+        var collectabe = interactable?.GetComponent<Collectable>();
         if (collectabe)
         {
             if (holding == collectabe) interactions.Add(InteractionType.Drop);
@@ -66,11 +66,17 @@ public class Inventory : MonoBehaviour, Interactor
 
     public void Interact(Interactable interactable, InteractionType type)
     {
-        var collectable = interactable.GetComponent<Collectable>();
-        if (!collectable) return;
+        if (interactable == null)
+        {
+            if (type == InteractionType.Drop) Drop();
+            return;
+        }
 
         var interactions = GetInteractions(interactable);
         if (!interactions.Contains(type)) return;
+
+        var collectable = interactable.GetComponent<Collectable>();
+        if (!collectable) return;
 
         if (type == InteractionType.Collect) Collect(collectable);
         else if (type == InteractionType.Drop) Drop();

@@ -15,6 +15,18 @@ public class PlayerHide : MonoBehaviour
         controller = GetComponent<CharacterController>();
     }
 
+    void OnEnable()
+    {
+        hideHandler = EventBus.Subscribe<HideEvent>(OnHidden);
+        comeOutHandler = EventBus.Subscribe<ComeOutEvent>(OnComeOut);
+    }
+
+    void OnDisable()
+    {
+        EventBus.Unsubscribe(hideHandler);
+        EventBus.Unsubscribe(comeOutHandler);
+    }
+
     void OnHidden(HideEvent @event)
     {
         if (@event.subject.gameObject != gameObject) return;
@@ -24,7 +36,9 @@ public class PlayerHide : MonoBehaviour
         controller.enabled = false;
         transform.position = new Vector3(100, 100, 100);
 
+        /*
         @event._object.virtualCamera.Priority = 20;
+        */
     }
 
     void OnComeOut(ComeOutEvent @event)
@@ -34,6 +48,8 @@ public class PlayerHide : MonoBehaviour
         transform.position = @event._object.transform.position + displacement;
         controller.enabled = true;
 
+        /*
         @event._object.virtualCamera.Priority = 0;
+        */
     }
 }

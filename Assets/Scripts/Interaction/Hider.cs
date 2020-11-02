@@ -11,7 +11,7 @@ public class Hider : MonoBehaviour, Interactor
     {
         List<InteractionType> interactions = new List<InteractionType>();
 
-        var hidable = interactable.GetComponent<Hideable>();
+        var hidable = interactable?.GetComponent<Hideable>();
         if (hidable)
         {
             if (hiding == null) interactions.Add(InteractionType.Hide);
@@ -23,6 +23,12 @@ public class Hider : MonoBehaviour, Interactor
 
     public void Interact(Interactable interactable, InteractionType type)
     {
+        if (!interactable)
+        {
+            if (type == InteractionType.ComeOut) ComeOut();
+            return;
+        }
+
         Hideable hideable = interactable.GetComponent<Hideable>();
         if (!hideable) return;
 

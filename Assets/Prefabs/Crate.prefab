@@ -94,7 +94,7 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 10
+  m_Priority: 0
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 810376027909841207}
@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 9110987316323859315}
   - component: {fileID: 589077460473151662}
   - component: {fileID: 5860190663259338391}
-  m_Layer: 12
+  m_Layer: 13
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}

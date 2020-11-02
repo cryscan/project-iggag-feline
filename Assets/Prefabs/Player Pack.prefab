@@ -498,8 +498,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptLayers:
     serializedVersion: 2
-    m_Bits: 3151872
+    m_Bits: 3160064
   promptDistance: 2
+  collectLayers:
+    serializedVersion: 2
+    m_Bits: 3153920
+  collectDistance: 2
+  hideLayers:
+    serializedVersion: 2
+    m_Bits: 3153920
+  hideDistance: 2
 --- !u!114 &5080426064040395653
 MonoBehaviour:
   m_ObjectHideFlags: 0

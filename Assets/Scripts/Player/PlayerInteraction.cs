@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(InteractionController))]
@@ -10,11 +11,22 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] float promptDistance = 2;
     Interactable prompting;
 
+    [Header("Collect")]
+    [SerializeField] LayerMask collectLayers;
+    [SerializeField] float collectDistance = 2;
+
+    [Header("Hide")]
+    [SerializeField] LayerMask hideLayers;
+    [SerializeField] float hideDistance = 2;
+
+
     Camera _camera;
+    InteractionController controller;
 
     void Awake()
     {
         _camera = Camera.main;
+        controller = GetComponent<InteractionController>();
     }
 
     void Update()
@@ -28,6 +40,40 @@ public class PlayerInteraction : MonoBehaviour
             SetInteracting(_object);
         }
         else SetDisinteracting();
+
+        if (Input.GetButtonDown("Collect"))
+        {
+            if (Physics.Raycast(ray, out hit, collectDistance, collectLayers))
+            {
+                var interactable = hit.collider.gameObject.GetComponent<Interactable>();
+                if (interactable)
+                {
+                    var interactions = controller.GetAvailableInteractions(interactable);
+                    if (interactions.Contains(InteractionType.Collect))
+                        EventBus.Publish(new InteractEvent(gameObject, interactable, InteractionType.Collect));
+                    else if (interactions.Contains(InteractionType.Drop))
+                        EventBus.Publish(new InteractEvent(gameObject, interactable, InteractionType.Drop));
+                }
+            }
+            else EventBus.Publish(new InteractEvent(gameObject, null, InteractionType.Drop));
+        }
+
+        if (Input.GetButtonDown("Hide"))
+        {
+            if (Physics.Raycast(ray, out hit, hideDistance, hideLayers))
+            {
+                var interactable = hit.collider.gameObject.GetComponent<Interactable>();
+                if (interactable)
+                {
+                    var interactions = controller.GetAvailableInteractions(interactable);
+                    if (interactions.Contains(InteractionType.Hide))
+                        EventBus.Publish(new InteractEvent(gameObject, interactable, InteractionType.Hide));
+                    else if (interactions.Contains(InteractionType.ComeOut))
+                        EventBus.Publish(new InteractEvent(gameObject, interactable, InteractionType.ComeOut));
+                }
+            }
+            else EventBus.Publish(new InteractEvent(gameObject, null, InteractionType.ComeOut));
+        }
     }
 
     void SetInteracting(GameObject _object)
