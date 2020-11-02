@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class InteractEvent
 {
-    public InteractionController subject;
+    public GameObject subject;
     public Interactable _object;
     public InteractionType type;
 
-    public InteractEvent(InteractionController subject, Interactable _object, InteractionType type)
+    public InteractEvent(GameObject subject, Interactable _object, InteractionType type)
     {
         this.subject = subject;
         this._object = _object;
@@ -48,7 +48,7 @@ public class InteractionController : MonoBehaviour
 
     void OnInteracted(InteractEvent @event)
     {
-        if (@event.subject != this) return;
+        if (@event.subject != gameObject) return;
         foreach (var interactor in interactors)
             interactor.Interact(@event._object, @event.type);
     }

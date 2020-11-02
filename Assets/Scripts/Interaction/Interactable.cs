@@ -6,7 +6,7 @@ using UnityEngine;
 public class Interactable : MonoBehaviour
 {
     public DynamicBounds bounds { get; private set; }
-    public List<InteractionType> interactions { get; private set; }
+    public List<InteractionType> interactions { get; private set; } = new List<InteractionType>();
 
     void Awake()
     {
