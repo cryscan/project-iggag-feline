@@ -10,17 +10,19 @@ public class GameDoor : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
-        {
-            EventBus.Publish(new GameWinEvent());
             StartCoroutine(WinCoroutine());
-        }
     }
 
     IEnumerator WinCoroutine()
     {
-        Time.timeScale = 0.1f;
+        GameManager.instance.TogglePause();
+        EventBus.Publish(new GameWinEvent());
+
         yield return new WaitForSecondsRealtime(waitTime);
-        GameManager.instance.GameOverReturn();
+
+        GameManager.instance.TogglePause();
+
         Time.timeScale = 1;
+        GameManager.instance.GameOverReturn();
     }
 }

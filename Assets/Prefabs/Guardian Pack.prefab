@@ -247,6 +247,7 @@ GameObject:
   - component: {fileID: 4331837398406040857}
   - component: {fileID: 1312151232959584250}
   - component: {fileID: 8317099339785047915}
+  - component: {fileID: 7606173419121576531}
   m_Layer: 11
   m_Name: Guardian
   m_TagString: Untagged
@@ -567,6 +568,18 @@ MonoBehaviour:
       Version: 1.6.5
   gizmoViewMode: 2
   showBehaviorDesignerGizmo: 1
+--- !u!114 &7606173419121576531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839249185068438682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecebf8ace8815042e9a5456612dda858, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6275353643892283995
 GameObject:
   m_ObjectHideFlags: 0
