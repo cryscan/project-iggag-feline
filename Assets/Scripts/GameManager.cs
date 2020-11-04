@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            transform.parent = null;
             DontDestroyOnLoad(gameObject);
         }
         else if (instance != this)
