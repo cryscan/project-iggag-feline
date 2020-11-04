@@ -244,10 +244,10 @@ GameObject:
   - component: {fileID: 3898881005674210676}
   - component: {fileID: 1841530418185625787}
   - component: {fileID: 4182461980036920401}
-  - component: {fileID: 7283541976678012770}
-  - component: {fileID: 4331837398406040857}
   - component: {fileID: 1312151232959584250}
   - component: {fileID: 8317099339785047915}
+  - component: {fileID: 7283541976678012770}
+  - component: {fileID: 4331837398406040857}
   - component: {fileID: 7606173419121576531}
   m_Layer: 11
   m_Name: Guardian
@@ -348,44 +348,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &7283541976678012770
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4839249185068438682}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c864bbd71f12f40418fa50af2201603d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eye: {fileID: 6066708880759201649}
-  detectDistance: 20
-  detectAngle: 60
-  detectLayers:
-    serializedVersion: 2
-    m_Bits: 3161088
-  detectionType: 1
---- !u!114 &4331837398406040857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4839249185068438682}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfee61573b70a4ec8b80bd668807cdaf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _light: {fileID: 5104854461967296586}
-  colors:
-  - {r: 1, g: 1, b: 1, a: 1}
-  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  - {r: 1, g: 0, b: 0, a: 1}
-  alertSpeed: 8
-  dealertSpeed: 2
 --- !u!120 &1312151232959584250
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -585,6 +547,45 @@ MonoBehaviour:
       Version: 1.6.5
   gizmoViewMode: 2
   showBehaviorDesignerGizmo: 1
+--- !u!114 &7283541976678012770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839249185068438682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c864bbd71f12f40418fa50af2201603d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eye: {fileID: 6066708880759201649}
+  targetTag: Player
+  range: 20
+  fov: 60
+  layers:
+    serializedVersion: 2
+    m_Bits: 3156992
+  type: 1
+--- !u!114 &4331837398406040857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839249185068438682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfee61573b70a4ec8b80bd668807cdaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _light: {fileID: 5104854461967296586}
+  colors:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  alertSpeed: 8
+  dealertSpeed: 2
 --- !u!114 &7606173419121576531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -687,7 +688,7 @@ GameObject:
   - component: {fileID: 7318557249631913803}
   - component: {fileID: 5104854461967296586}
   m_Layer: 11
-  m_Name: Point Light
+  m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -700,13 +701,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8914349766725508092}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
+  m_LocalPosition: {x: 0, y: 1.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3560750352621422029}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 20, y: 0, z: 0}
 --- !u!108 &5104854461967296586
 Light:
   m_ObjectHideFlags: 0
@@ -716,16 +717,16 @@ Light:
   m_GameObject: {fileID: 8914349766725508092}
   m_Enabled: 1
   serializedVersion: 10
-  m_Type: 2
+  m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 0.5
+  m_Intensity: 10
   m_Range: 10
-  m_SpotAngle: 30
-  m_InnerSpotAngle: 21.80208
+  m_SpotAngle: 60
+  m_InnerSpotAngle: 45
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1

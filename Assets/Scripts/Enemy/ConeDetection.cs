@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum DetectionType
@@ -11,50 +12,71 @@ public enum DetectionType
 public class ConeDetection : MonoBehaviour
 {
     [SerializeField] Transform eye;
+    [SerializeField] string targetTag;
 
-    [SerializeField] float detectDistance = 10;
-    [SerializeField] float detectAngle = 60;
-    [SerializeField] LayerMask detectLayers;
-    [SerializeField] DetectionType detectionType;
+    [Header("Detection")]
+    [SerializeField] float range = 10;
+    [SerializeField] float fov = 60;
+    [SerializeField] LayerMask layers;
+    [SerializeField] DetectionType type;
 
     public bool detected { get; private set; } = false;
 
-    GameObject player;
+    // GameObject player;
+    GameObject[] targets;
 
     void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        if (!player) Debug.LogError("Error: Unable to locate player gameobject.");
+        targets = GameObject.FindGameObjectsWithTag(targetTag);
     }
 
     void Update()
     {
-        if (!player) return;
+        foreach (var target in targets) Detect(target);
+    }
 
-        var direction = player.transform.position - eye.position;
+    void OnDrawGizmos()
+    {
+        Gizmos.matrix = eye.localToWorldMatrix;
+        Gizmos.DrawFrustum(Vector3.zero, fov, range, 0.1f, 1);
+    }
+
+    void Detect(GameObject target)
+    {
+        var position = target.transform.position;
+        var direction = position - eye.position;
         direction.y = 0;
 
         var distance = direction.magnitude;
         var angle = Vector3.Angle(eye.forward, direction);
 
-        bool lost = false;
+        Debug.DrawRay(eye.position, direction, Color.red);
 
-        if (angle < detectAngle && distance <= detectDistance)
+        bool lost = true;
+        if (angle < fov / 2 && distance <= range)
         {
+            // Debug.Log($"[Detect] {distance}, {angle}");
+
             Ray ray = new Ray(eye.position, direction);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, detectDistance, detectLayers) && hit.collider.gameObject == player)
+
+            if (Physics.SphereCast(ray, 0.1f, out hit, distance, layers) && hit.collider.gameObject == target)
             {
-                if (!detected) EventBus.Publish(new DetectEvent(gameObject, detectionType, detectAngle));
-                detected = true;
+                if (!detected)
+                {
+                    Debug.Log($"[Detect] {hit.collider.gameObject}");
+                    // Debug.Break();
+
+                    EventBus.Publish(new DetectEvent(gameObject, target, type, fov));
+                    detected = true;
+                }
+                lost = false;
             }
-            else lost = true;
         }
-        else lost = true;
 
         if (lost && detected)
         {
-            EventBus.Publish(new LossTargetEvent(gameObject, detectionType, player.transform.position, detectAngle));
+            EventBus.Publish(new LossTargetEvent(gameObject, target, type, fov, position));
             detected = false;
         }
     }
@@ -62,30 +84,32 @@ public class ConeDetection : MonoBehaviour
 
 public class DetectEvent
 {
-    public GameObject subject;
+    public GameObject subject, target;
     public DetectionType type;
-    public float detectAngle;
+    public float fov;
 
-    public DetectEvent(GameObject subject, DetectionType type, float detectAngle)
+    public DetectEvent(GameObject subject, GameObject target, DetectionType type, float fov)
     {
         this.subject = subject;
+        this.target = target;
         this.type = type;
-        this.detectAngle = detectAngle;
+        this.fov = fov;
     }
 }
 
 public class LossTargetEvent
 {
-    public GameObject subject;
+    public GameObject subject, target;
     public DetectionType type;
+    public float fov;
     public Vector3 spotPoint;
-    public float detectAngle;
 
-    public LossTargetEvent(GameObject subject, DetectionType type, Vector3 spotPoint, float detectAngle)
+    public LossTargetEvent(GameObject subject, GameObject target, DetectionType type, float fov, Vector3 spotPoint)
     {
         this.subject = subject;
+        this.target = target;
         this.type = type;
         this.spotPoint = spotPoint;
-        this.detectAngle = detectAngle;
+        this.fov = fov;
     }
 }

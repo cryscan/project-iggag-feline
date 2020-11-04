@@ -77,16 +77,6 @@ public class GuardReaction : MonoBehaviour
     }
     */
 
-    void OnDrawGizmos()
-    {
-        if (player)
-        {
-            var direction = player.transform.position - transform.position;
-            direction.Normalize();
-            Debug.DrawRay(transform.position, direction * alertLevel, Color.red, 0);
-        }
-    }
-
     void Update()
     {
         if (detected) alertLevel += alertSpeed * visibility.visibility * Time.deltaTime;
@@ -113,6 +103,7 @@ public class GuardReaction : MonoBehaviour
 
     void OnDetected(DetectEvent @event)
     {
+        if (@event.target != player) return;
         if (@event.type == DetectionType.Guard && @event.subject != gameObject) return;
 
         // _light.color = colors[2];
@@ -122,7 +113,7 @@ public class GuardReaction : MonoBehaviour
 
     void OnLostTarget(LossTargetEvent @event)
     {
-        if (@event.subject != gameObject) return;
+        if (@event.target != player || @event.subject != gameObject) return;
 
         if (alerted)
         {
@@ -183,14 +174,5 @@ public class GuardReaction : MonoBehaviour
                 }
                 break;
         }
-    }
-
-    void OnCollisionEnter(Collision other)
-    {
-    	Debug.Log("COLLIDED");
-    	if (other.gameObject.CompareTag("Player"))
-    	{
-    		UnityEngine.SceneManagement.SceneManager.LoadScene("Tutorial_Basic");
-    	}
     }
 }
