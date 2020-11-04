@@ -38,7 +38,7 @@ public class PlanTimer : MonoBehaviour
             var timer = GameManager.instance.planTimer;
             var count = placeTrap.count;
             var description = placeTrap.description;
-            text.text = $"Planning: {timer.ToString("0.0")} seconds left\n Left click to put {description} traps ({count} remains)\n Press 1 and 2 to Switch Trap";
+            text.text = $"Planning: {timer.ToString("0.0")} seconds left\nLeft click to put {description} traps ({count} remains)\nPress 1 and 2 to Switch Trap";
         }
     }
 

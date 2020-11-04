@@ -166,7 +166,7 @@ public class GuardReaction : MonoBehaviour
                 break;
             case TrapType.Distraction:
                 distance = Vector3.Distance(position, transform.position);
-                if (distance < 3)
+                // if (distance < 3)
                 {
                     _light.color = colors[1];
                     behavior.SetVariableValue("Alerted", true);
