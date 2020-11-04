@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public enum GameState
@@ -23,6 +24,9 @@ public class GameStateChangeEvent
     }
 }
 
+public class GameWinEvent { }
+public class GameLoseEvent { }
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
@@ -30,11 +34,8 @@ public class GameManager : MonoBehaviour
     Stack<GameState> states = new Stack<GameState>();
     public GameState currentState { get => states.Peek(); }
 
-    [SerializeField] float _planTimer = 30;
+    public float totalTime = 30;
     public float planTimer { get; private set; }
-
-    [SerializeField] int _trapCounter = 5;
-    public int trapCounter { get; private set; }
 
     [SerializeField] float pauseTimeScaleFallout = 10;
     float previousTimeScale = 1;
@@ -53,9 +54,9 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+
         states.Push(GameState.Start);
-        planTimer = _planTimer;
-        trapCounter = _trapCounter;
+        planTimer = totalTime;
     }
 
     void Update()
@@ -78,10 +79,17 @@ public class GameManager : MonoBehaviour
             states.Push(GameState.Play);
 
             // Change from plan to play.
-            EventBus.Publish(new GameStateChangeEvent(previous, currentState));
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            StartCoroutine(PublishEventCoroutine(previous));
         }
 
         planTimer -= Time.deltaTime;
+    }
+
+    IEnumerator PublishEventCoroutine(GameState previous)
+    {
+        yield return null;
+        EventBus.Publish(new GameStateChangeEvent(previous, currentState));
     }
 
     public void StartGame()
@@ -117,24 +125,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void GameOverReturn()
+    public void GameOverReturn(int index = 0)
     {
+        /*
         if (currentState == GameState.Start || currentState == GameState.Paused)
         {
             Debug.LogError($"[Game State] makes no sense game over at state {currentState.ToString()}");
             return;
         }
+        */
 
         var previous = states.Pop();
         states = new Stack<GameState>();
         states.Push(GameState.Start);
         EventBus.Publish(new GameStateChangeEvent(previous, currentState));
 
-        planTimer = _planTimer;
-        trapCounter = _trapCounter;
+        planTimer = totalTime;
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(index);
     }
-
-    public void ConsumeTrap(int amount = 1) => trapCounter -= amount;
 }

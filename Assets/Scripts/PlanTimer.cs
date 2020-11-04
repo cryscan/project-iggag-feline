@@ -8,21 +8,27 @@ public class PlanTimer : MonoBehaviour
     Text text;
     bool planning = false;
 
-    Subscription<GameStateChangeEvent> handler;
+    PlaceTrap placeTrap;
+
+    Subscription<GameStateChangeEvent> gameStateChangeHandler;
+    Subscription<GameWinEvent> gameWinHandler;
 
     void Awake()
     {
         text = GetComponent<Text>();
+        placeTrap = GameObject.FindGameObjectWithTag("Trap Placer").GetComponent<PlaceTrap>();
     }
 
     void OnEnable()
     {
-        handler = EventBus.Subscribe<GameStateChangeEvent>(OnGameStateChanged);
+        gameStateChangeHandler = EventBus.Subscribe<GameStateChangeEvent>(OnGameStateChanged);
+        gameWinHandler = EventBus.Subscribe<GameWinEvent>(OnGameWon);
     }
 
     void OnDisable()
     {
-        EventBus.Unsubscribe(handler);
+        EventBus.Unsubscribe(gameStateChangeHandler);
+        EventBus.Unsubscribe(gameWinHandler);
     }
 
     void Update()
@@ -30,8 +36,9 @@ public class PlanTimer : MonoBehaviour
         if (planning)
         {
             var timer = GameManager.instance.planTimer;
-            var trapCounter = GameManager.instance.trapCounter;
-            text.text = $"Planning: {timer.ToString("0.0")} seconds left\n Left click to put frozen traps ({trapCounter} remains)";
+            var count = placeTrap.count;
+            var description = placeTrap.description;
+            text.text = $"Planning: {timer.ToString("0.0")} seconds left\nLeft click to put {description} traps ({count} remains)\nPress 1 and 2 to Switch Trap";
         }
     }
 
@@ -51,5 +58,10 @@ public class PlanTimer : MonoBehaviour
                 text.text = "";
                 break;
         }
+    }
+
+    void OnGameWon(GameWinEvent @event)
+    {
+        text.text = "You Completed the Level!";
     }
 }

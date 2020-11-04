@@ -10,6 +10,8 @@ public class GetNextPathPoint : Action
 
     public override TaskStatus OnUpdate()
     {
+        if (pathPoints.Value.Count == 0) return TaskStatus.Failure;
+
         storeGameObject.Value = pathPoints.Value[index];
         index = (++index) % pathPoints.Value.Count;
 

@@ -1,0 +1,3 @@
+[submodule "Assets/Thirdparty/ReGoap"]
+	path = Assets/Thirdparty/ReGoap
+	url = https://github.com/luxkun/ReGoap.git
