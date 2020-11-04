@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
-    [SerializeField] float range = 0.6f;
-    [SerializeField] float waitTime = 2;
-
     GameObject player;
     bool triggered = false;
 
@@ -15,16 +12,13 @@ public class EnemyAttack : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
-    void Update()
+    void OnCollisionEnter(Collision collision)
     {
-        var distance = Vector3.Distance(player.transform.position, transform.position);
-        if (distance < range && !triggered)
-        {
-            StartCoroutine(LoseCoroutine());
-            triggered = true;
-        }
+        if (collision.gameObject.CompareTag("Player"))
+            GameManager.instance.GameOverReturn();
     }
 
+    /*
     IEnumerator LoseCoroutine()
     {
         GameManager.instance.TogglePause();
@@ -37,4 +31,5 @@ public class EnemyAttack : MonoBehaviour
         Time.timeScale = 1;
         GameManager.instance.GameOverReturn();
     }
+    */
 }

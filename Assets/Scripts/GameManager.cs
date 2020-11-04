@@ -127,11 +127,13 @@ public class GameManager : MonoBehaviour
 
     public void GameOverReturn(int index = 0)
     {
+        /*
         if (currentState == GameState.Start || currentState == GameState.Paused)
         {
             Debug.LogError($"[Game State] makes no sense game over at state {currentState.ToString()}");
             return;
         }
+        */
 
         var previous = states.Pop();
         states = new Stack<GameState>();
