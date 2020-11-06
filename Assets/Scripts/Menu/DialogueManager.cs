@@ -3,6 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public class DialogueEvent
+{
+    public bool dialogueOccuring;
+
+    public DialogueEvent(bool dialogueOccuring)
+    {
+        this.dialogueOccuring = dialogueOccuring;
+    }
+}
+
 public class DialogueManager : MonoBehaviour
 {
 	public Text dialogueText;
@@ -21,6 +31,7 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(Dialogue dialogue)
     {
+    	EventBus.Publish(new DialogueEvent(true));
     	//Pause Game here
     	GameManager.instance.TogglePause();
     	canvas.GetComponent<GraphicRaycaster>().enabled = true;
@@ -64,6 +75,7 @@ public class DialogueManager : MonoBehaviour
 
     public void EndDialogue()
     {
+    	EventBus.Publish(new DialogueEvent(false));
     	Debug.Log("End of conversation");
     	//Unpause Game here
     	GameManager.instance.TogglePause();
