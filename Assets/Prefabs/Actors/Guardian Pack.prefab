@@ -687,7 +687,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7318557249631913803}
   - component: {fileID: 5104854461967296586}
-  - component: {fileID: 3765782780601162641}
+  - component: {fileID: 3339926264929961442}
   m_Layer: 11
   m_Name: Light
   m_TagString: Untagged
@@ -703,7 +703,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8914349766725508092}
   m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
-  m_LocalPosition: {x: 0, y: 1.2, z: 0}
+  m_LocalPosition: {x: 0, y: 1.2, z: 0.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3560750352621422029}
@@ -770,22 +770,23 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!123 &3765782780601162641
-LensFlare:
+--- !u!114 &3339926264929961442
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8914349766725508092}
   m_Enabled: 1
-  m_Flare: {fileID: 12100000, guid: fb7adc33b2e6dd953b511c0b457c4b3c, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_Brightness: 1
-  m_FadeSpeed: 3
-  m_IgnoreLayers:
-    serializedVersion: 2
-    m_Bits: 6
-  m_Directional: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efd88862294d8b742bf633af0f0e9c62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  directionalLight: 0
+  useLightIntensity: 1
+  asset: {fileID: 11400000, guid: e867807be3728fb0fafd3657f0d7ef1e, type: 2}
+  lightSource: {fileID: 0}
+  tex: {fileID: 0}
 --- !u!1001 &2032599744773148690
 PrefabInstance:
   m_ObjectHideFlags: 0
