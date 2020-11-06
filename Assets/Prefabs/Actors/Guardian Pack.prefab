@@ -687,6 +687,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7318557249631913803}
   - component: {fileID: 5104854461967296586}
+  - component: {fileID: 3765782780601162641}
   m_Layer: 11
   m_Name: Light
   m_TagString: Untagged
@@ -769,6 +770,22 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!123 &3765782780601162641
+LensFlare:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8914349766725508092}
+  m_Enabled: 1
+  m_Flare: {fileID: 12100000, guid: fb7adc33b2e6dd953b511c0b457c4b3c, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Brightness: 1
+  m_FadeSpeed: 3
+  m_IgnoreLayers:
+    serializedVersion: 2
+    m_Bits: 6
+  m_Directional: 1
 --- !u!1001 &2032599744773148690
 PrefabInstance:
   m_ObjectHideFlags: 0
