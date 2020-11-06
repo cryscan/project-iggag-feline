@@ -10,17 +10,19 @@ public class URPFlareLauncher : MonoBehaviour
 {
     public bool directionalLight;
     public bool useLightIntensity;
-    [SerializeField]public URPFlareAsset asset;
-    [HideInInspector]public Light lightSource;
-    [HideInInspector]public Texture2D tex;
+    public float angle = 180;
+
+    [SerializeField] public URPFlareAsset asset;
+    [HideInInspector] public Light lightSource;
+    [HideInInspector] public Texture2D tex;
     private void OnEnable()
     {
         lightSource = GetComponent<Light>();
         // Add self to awake function: AddLight in URPLensFlare.cs on camera in render;
         Camera.main.GetComponent<URPLensFlare>().AddLight(this);
-        tex = Resources.Load("Lensflare/"+asset.flareSprite.name) as Texture2D;
+        tex = Resources.Load("Lensflare/" + asset.flareSprite.name) as Texture2D;
     }
-    
+
     private void Reset()
     {
         lightSource = GetComponent<Light>();
@@ -32,13 +34,13 @@ public class URPFlareLauncher : MonoBehaviour
 
     private void Awake()
     {
-        
+
     }
-    
+
     private void OnDestroy()
     {
         // Add self to awake function: RemoveLight in URPLensFlare.cs on camera in render;
         //Camera.main.GetComponent<URPLensFlare>().RemoveLight(this);
     }
-    
+
 }

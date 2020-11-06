@@ -17,10 +17,11 @@ public class URPLensFlare : MonoBehaviour
 {
     public bool DebugMode;
     [Space(10)]
-    [HideInInspector]public List<URPFlareLauncher> lightSource;
+    [HideInInspector] public List<URPFlareLauncher> lightSource;
+    public LayerMask blockLayers;
     public Material material;
     public float fadeoutTime;
-    [HideInInspector]public List<FlareState> flareDatas;
+    [HideInInspector] public List<FlareState> flareDatas;
     private Camera _camera;
     private Vector2 _halfScreen;
     private MaterialPropertyBlock _propertyBlock;
@@ -40,7 +41,7 @@ public class URPLensFlare : MonoBehaviour
         _totalColor = new List<Color>();
         _totalTriangle = new List<int>();
         _totalMesh = new List<Mesh>();
-        
+
         _camera = GetComponent<Camera>();
         if (flareDatas == null)
         {
@@ -93,7 +94,7 @@ public class URPLensFlare : MonoBehaviour
         foreach (Mesh mesh in _totalMesh)
         {
             mesh.Clear();
-        } 
+        }
         _totalMesh.Clear();
         for (int i = 0; i < lightSource.Count; i++)
         {
@@ -105,21 +106,21 @@ public class URPLensFlare : MonoBehaviour
             {
                 // if (flareData.fadeState == 3)
                 // {
-                    // _totalMesh.Add(new Mesh());
+                // _totalMesh.Add(new Mesh());
                 // }
                 if (!isIn)
                 {
                     flareState.fadeState = 2;
                 }
             }
-            if(flareState.fadeoutScale < 1)
+            if (flareState.fadeoutScale < 1)
             {
                 if (isIn)
                 {
                     flareState.fadeState = 1;
                 }
             }
-            if (!isIn && flareState.fadeoutScale <=0 )
+            if (!isIn && flareState.fadeoutScale <= 0)
             {
                 if (flareState.fadeState != 3)
                 {
@@ -146,7 +147,8 @@ public class URPLensFlare : MonoBehaviour
                 case 3:
                     // RemoveLight(lightSource[i]);
                     break;
-                default: flareDatas[i] = flareState;
+                default:
+                    flareDatas[i] = flareState;
                     break;
             }
         }
@@ -160,13 +162,13 @@ public class URPLensFlare : MonoBehaviour
             {
                 DebugDrawMeshPos(i);
             }
-            
+
         }
     }
 
     bool CheckIn(ref FlareState state, int lightIndex)
     {
-        if (state.sourceCoordinate.x <  _camera.pixelRect.xMin || state.sourceCoordinate.y < _camera.pixelRect.yMin 
+        if (state.sourceCoordinate.x < _camera.pixelRect.xMin || state.sourceCoordinate.y < _camera.pixelRect.yMin
             || state.sourceCoordinate.x > _camera.pixelRect.xMax || state.sourceCoordinate.y > _camera.pixelRect.yMax
             || Vector3.Dot(lightSource[lightIndex].transform.position - _camera.transform.position, _camera.transform.forward) < 0.25f)
         {
@@ -174,10 +176,18 @@ public class URPLensFlare : MonoBehaviour
         }
         else
         {
-            if (Physics.Raycast(_camera.transform.position,
-                (lightSource[lightIndex].directionalLight 
-                    ?  -lightSource[lightIndex].transform.forward
-                    :lightSource[lightIndex].transform.position - _camera.transform.position )))
+            var direction = lightSource[lightIndex].directionalLight
+                    ? -lightSource[lightIndex].transform.forward
+                    : lightSource[lightIndex].transform.position - _camera.transform.position;
+            float distance = lightSource[lightIndex].directionalLight ? float.PositiveInfinity : direction.magnitude;
+
+            float angle = Vector3.Angle(lightSource[lightIndex].transform.forward, -direction);
+            if (!lightSource[lightIndex].directionalLight && angle > lightSource[lightIndex].angle)
+            {
+                return false;
+            }
+
+            if (Physics.Raycast(_camera.transform.position, direction, distance, blockLayers))
             {
                 return false;
             }
@@ -188,11 +198,11 @@ public class URPLensFlare : MonoBehaviour
     void GetSourceCoordinate(ref FlareState state, int lightIndex)
     {
         Vector3 sourceScreenPos = _camera.WorldToScreenPoint(
-            lightSource[lightIndex].directionalLight 
-            ?lightSource[lightIndex].transform.position - lightSource[lightIndex].transform.forward * 10000
-            :lightSource[lightIndex].transform.position
+            lightSource[lightIndex].directionalLight
+            ? lightSource[lightIndex].transform.position - lightSource[lightIndex].transform.forward * 10000
+            : lightSource[lightIndex].transform.position
             );
-        state.sourceCoordinate = new Vector3(sourceScreenPos.x , sourceScreenPos.y , DISTANCE);
+        state.sourceCoordinate = new Vector3(sourceScreenPos.x, sourceScreenPos.y, DISTANCE);
     }
 
     void CalculateMeshData(ref FlareState state, int lightIndex)
@@ -211,8 +221,8 @@ public class URPLensFlare : MonoBehaviour
 
     void CreateMesh()
     {
-        if (_totalMesh.Count <= 0){ Debug.Log("Not enough source");return;}
-        
+        if (_totalMesh.Count <= 0) { Debug.Log("Not enough source"); return; }
+
         List<Vector3> vertList = new List<Vector3>();
         List<Vector2> uvList = new List<Vector2>();
         List<int> tri = new List<int>();
@@ -236,13 +246,13 @@ public class URPLensFlare : MonoBehaviour
             {
                 URPFlareLauncher observer = lightSource[lightIndex];
                 Texture2D tex = observer.tex;//observer.asset.flareSprite;
-                float angle = (45 +Vector2.SignedAngle(Vector2.up, new Vector2(flareDatas[lightIndex].sourceCoordinate.x - _halfScreen.x, flareDatas[lightIndex].sourceCoordinate.y - _halfScreen.y))) / 180 * Mathf.PI;
+                float angle = (45 + Vector2.SignedAngle(Vector2.up, new Vector2(flareDatas[lightIndex].sourceCoordinate.x - _halfScreen.x, flareDatas[lightIndex].sourceCoordinate.y - _halfScreen.y))) / 180 * Mathf.PI;
                 for (int i = 0; i < lightSource[lightIndex].asset.spriteBlocks.Count; i++)
                 {
                     Rect rect = observer.asset.spriteBlocks[i].block;
                     Vector2 halfSize = new Vector2(
-                        tex.width * rect.width / 2 * observer.asset.spriteBlocks[i].scale * (observer.asset.fadeWithScale ? ( flareDatas[lightIndex].fadeoutScale * 0.5f + 0.5f) : 1), 
-                        tex.height * rect.height / 2 * observer.asset.spriteBlocks[i].scale * (observer.asset.fadeWithScale ? ( flareDatas[lightIndex].fadeoutScale * 0.5f + 0.5f) : 1));
+                        tex.width * rect.width / 2 * observer.asset.spriteBlocks[i].scale * (observer.asset.fadeWithScale ? (flareDatas[lightIndex].fadeoutScale * 0.5f + 0.5f) : 1),
+                        tex.height * rect.height / 2 * observer.asset.spriteBlocks[i].scale * (observer.asset.fadeWithScale ? (flareDatas[lightIndex].fadeoutScale * 0.5f + 0.5f) : 1));
                     Vector3 flarePos = flareDatas[lightIndex].flareWorldPosCenter[i];
                     if (observer.asset.spriteBlocks[i].useRotation)
                     {
@@ -266,24 +276,24 @@ public class URPLensFlare : MonoBehaviour
                     uvList.Add(rect.position + new Vector2(rect.width, 0));
                     uvList.Add(rect.position + new Vector2(0, rect.height));
                     uvList.Add(rect.position + rect.size);
-                    
+
                     tri.Add(i * 4);
                     tri.Add(i * 4 + 3);
                     tri.Add(i * 4 + 1);
                     tri.Add(i * 4);
                     tri.Add(i * 4 + 2);
                     tri.Add(i * 4 + 3);
-                    
+
                     Color vertexAddColor = observer.asset.spriteBlocks[i].color;
                     Color lightColor = observer.asset.spriteBlocks[i].useLightColor
                         ? observer.GetComponent<Light>().color
                         : new Color(1, 1, 1, 1);
                     lightColor *= observer.useLightIntensity ? observer.GetComponent<Light>().intensity : 1;
-                    
-                    vertexAddColor *= new Vector4(lightColor.r, lightColor.g, lightColor.b, 
+
+                    vertexAddColor *= new Vector4(lightColor.r, lightColor.g, lightColor.b,
                         (1.5f - Mathf.Abs(observer.asset.spriteBlocks[i].offset)) / 1.5f
                         * (1 - Mathf.Min(1, new Vector2(flarePos.x - _halfScreen.x, flarePos.y - _halfScreen.y).magnitude / new Vector2(_halfScreen.x, _halfScreen.y).magnitude))
-                    ) * ((observer.asset.fadeWithAlpha ? flareDatas[lightIndex].fadeoutScale: 1));
+                    ) * ((observer.asset.fadeWithAlpha ? flareDatas[lightIndex].fadeoutScale : 1));
                     vertexAddColor = vertexAddColor.linear;
                     vertColors.Add(vertexAddColor);
                     vertColors.Add(vertexAddColor);

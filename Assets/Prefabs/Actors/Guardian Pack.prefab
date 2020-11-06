@@ -565,7 +565,7 @@ MonoBehaviour:
   fov: 60
   layers:
     serializedVersion: 2
-    m_Bits: 3156992
+    m_Bits: 3156993
   type: 1
 --- !u!114 &4331837398406040857
 MonoBehaviour:
@@ -784,7 +784,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   directionalLight: 0
   useLightIntensity: 1
-  asset: {fileID: 11400000, guid: e867807be3728fb0fafd3657f0d7ef1e, type: 2}
+  angle: 60
+  asset: {fileID: 11400000, guid: 3d56ac1adf224426998870005b7db2f4, type: 2}
   lightSource: {fileID: 0}
   tex: {fileID: 0}
 --- !u!1001 &2032599744773148690

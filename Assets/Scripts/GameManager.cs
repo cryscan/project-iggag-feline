@@ -127,7 +127,7 @@ public class GameManager : MonoBehaviour
     public void EnterPlayScene(int index) => StartCoroutine(LoadSceneCoroutine(index, () => StartPlay()));
     public void EnterPlayScene(string name) => StartCoroutine(LoadSceneCoroutine(name, () => StartPlay()));
 
-    void StartPlan()
+    public void StartPlan()
     {
         if (currentState != GameState.Start)
         {
@@ -140,7 +140,7 @@ public class GameManager : MonoBehaviour
         EventBus.Publish(new GameStateChangeEvent(previous, currentState));
     }
 
-    void StartPlay()
+    public void StartPlay()
     {
         if (currentState != GameState.Start && currentState != GameState.Plan)
         {
