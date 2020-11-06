@@ -12,6 +12,7 @@ public class MemoController : MonoBehaviour
         text = GetComponent<Text>();
     }
 
+    /*
     private void Update()
     {
         text.text = "Memo:";
@@ -20,4 +21,5 @@ public class MemoController : MonoBehaviour
             text.text = text.text + $"\n{schedule.prefab.GetComponent<TrapHandler>().type}  { schedule.timer.ToString("0.0")}";
         }
     }
+    */
 }

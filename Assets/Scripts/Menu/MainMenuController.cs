@@ -4,34 +4,35 @@ using UnityEngine;
 
 public class MainMenuController : MonoBehaviour
 {
-	public GameObject MainMenu;
-    // Start is called before the first frame update
-    void Start() {
-        MainMenu.SetActive(true);
+    GameManager game;
+
+    void Start()
+    {
+        game = GameManager.instance;
     }
 
-    public void QuitButton() {
-    	Application.Quit();
+    public void QuitButton() => Application.Quit();
+
+    public void TutorialBasicButton() => game.EnterPlanScene("Scenes/Tutorial_Basic");
+
+
+    public void TutorialFreezeButton()
+    {
+        game.EnterPlanScene("Tutorial_Freeze");
     }
 
-    public void TutorialBasicButton() {
-    	UnityEngine.SceneManagement.SceneManager.LoadScene("Tutorial_Basic");
+    public void TutorialCrateButton()
+    {
+        game.EnterPlanScene("Tutorial_Crate");
     }
 
-    public void TutorialFreezeButton() {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Tutorial_Freeze");
-    }
-
-    public void TutorialCrateButton() {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Tutorial_Crate");
-    }
-
-    public void TutorialDistractionButton() {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Tutorial_Distraction");
+    public void TutorialDistractionButton()
+    {
+        game.EnterPlanScene("Tutorial_Distraction");
     }
 
     public void AdvancedLevelButton()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("LAB_richard");
+        game.EnterPlanScene("Lab_richard");
     }
 }

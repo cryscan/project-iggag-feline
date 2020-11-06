@@ -63,7 +63,7 @@ public class ScheduleManager : MonoBehaviour
         }
     }
 
-    IEnumerator ScheduleCoroutine()
+    IEnumerator ScheduleExecuteCoroutine()
     {
         while (schedules.Count > 0)
         {
@@ -80,15 +80,12 @@ public class ScheduleManager : MonoBehaviour
 
     void OnGameStateChanged(GameStateChangeEvent @event)
     {
-        if (@event.current == GameState.Play)
+        if (@event.previous == GameState.Plan && @event.current == GameState.Play)
         {
-            if (@event.previous == GameState.Plan)
-            {
-                timer = 0;
-                StartCoroutine(ScheduleCoroutine());
-            }
+            timer = 0;
+            StartCoroutine(ScheduleExecuteCoroutine());
 
-            schedules.Sort((x, y) => { return (int)(x.timer - y.timer); });
+            schedules.Sort((x, y) => (int)(x.timer - y.timer));
 
             // Instantiate all traps.
             foreach (var schedule in schedules)
@@ -98,7 +95,7 @@ public class ScheduleManager : MonoBehaviour
             }
         }
 
-        if (@event.current == GameState.Plan)
+        if (@event.previous == GameState.Start && @event.current == GameState.Plan)
         {
             schedules = new List<ScheduleTimerEvent>();
             timer = 0;
