@@ -34,7 +34,7 @@ public class PlayerHide : MonoBehaviour
         displacement = @event.displacement;
 
         controller.enabled = false;
-        // transform.position = new Vector3(100, 100, 100);
+        StartCoroutine(HideCoroutine());
 
         @event._object.virtualCamera.Priority = 20;
     }
@@ -43,9 +43,16 @@ public class PlayerHide : MonoBehaviour
     {
         if (@event.subject.gameObject != gameObject) return;
 
-        transform.position = @event._object.transform.position + displacement;
+        StopAllCoroutines();
+        transform.position = @event._object.transform.position + transform.forward * displacement.magnitude;
         controller.enabled = true;
 
         @event._object.virtualCamera.Priority = 0;
+    }
+
+    IEnumerator HideCoroutine()
+    {
+        yield return new WaitForSeconds(0.5f);
+        transform.position = new Vector3(100, 100, 100);
     }
 }

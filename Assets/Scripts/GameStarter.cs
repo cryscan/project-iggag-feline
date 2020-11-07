@@ -6,6 +6,7 @@ public class GameStarter : MonoBehaviour
 {
     void Start()
     {
-        GameManager.instance.StartGame();
+        if (GameManager.instance.currentState == GameState.Start)
+            GameManager.instance.StartPlan();
     }
 }

@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class FollowTarget : MonoBehaviour
 {
-    [SerializeField] Transform target;
-    [SerializeField] bool rotate = false;
+    [SerializeField] Transform positionTarget;
+    [SerializeField] Transform rotationTarget;
+    [SerializeField] bool look = false;
+
+    void Awake()
+    {
+        transform.parent = null;
+        if (look) rotationTarget = GameObject.FindGameObjectWithTag("Player Head").transform;
+    }
 
     void Update()
     {
-        transform.position = target.position;
-        if (rotate) transform.rotation = target.rotation;
+        transform.position = positionTarget.position;
+        if (rotationTarget) transform.rotation = rotationTarget.rotation;
     }
 }
