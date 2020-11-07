@@ -124,6 +124,9 @@ public class GameManager : MonoBehaviour
     public void EnterPlanScene(int index) => StartCoroutine(LoadSceneCoroutine(index, () => StartPlan()));
     public void EnterPlanScene(string name) => StartCoroutine(LoadSceneCoroutine(name, () => StartPlan()));
 
+    public void RestartPlanScene(int index) => StartCoroutine(LoadSceneCoroutine(index, () => RestartPlan()));
+    public void RestartPlanScene(string name) => StartCoroutine(LoadSceneCoroutine(name, () => RestartPlan()));
+
     public void EnterPlayScene(int index) => StartCoroutine(LoadSceneCoroutine(index, () => StartPlay()));
     public void EnterPlayScene(string name) => StartCoroutine(LoadSceneCoroutine(name, () => StartPlay()));
 
@@ -136,6 +139,22 @@ public class GameManager : MonoBehaviour
         }
 
         var previous = currentState;
+        states.Push(GameState.Plan);
+        EventBus.Publish(new GameStateChangeEvent(previous, currentState));
+    }
+
+    public void RestartPlan()
+    {
+        if (currentState != GameState.Plan && currentState != GameState.Play)
+        {
+            Debug.LogError($"[Game State] makes no sense starting plan at state {currentState.ToString()}");
+            return;
+        }
+
+        var previous = states.Pop();
+        EventBus.Publish(new GameStateChangeEvent(previous, currentState));
+
+        previous = currentState;
         states.Push(GameState.Plan);
         EventBus.Publish(new GameStateChangeEvent(previous, currentState));
     }
