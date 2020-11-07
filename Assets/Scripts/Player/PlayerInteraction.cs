@@ -68,7 +68,7 @@ public class PlayerInteraction : MonoBehaviour
     void SetInteracting(GameObject _object)
     {
         if (prompting && prompting.gameObject == _object) return;
-        Debug.Log($"Player interacting {_object.name}");
+        //Debug.Log($"Player interacting {_object.name}");
 
         var next = _object.GetComponent<Interactable>();
         prompting = next;

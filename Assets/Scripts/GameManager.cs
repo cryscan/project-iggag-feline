@@ -135,6 +135,7 @@ public class GameManager : MonoBehaviour
             return;
         }
         */
+        Debug.Log("GAME HAS ENDED");
 
         var previous = states.Pop();
         states = new Stack<GameState>();

@@ -1274,7 +1274,7 @@ Transform:
   - {fileID: 845399000}
   - {fileID: 1958288852}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &377237806
 GameObject:
@@ -3272,7 +3272,7 @@ Camera:
   m_GameObject: {fileID: 774428776}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -82169,7 +82169,7 @@ PrefabInstance:
     - target: {fileID: 3589704658324581205, guid: 19400f7c7021481f78badcc4b9588e4d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3589704658324581205, guid: 19400f7c7021481f78badcc4b9588e4d,
         type: 3}
@@ -84496,7 +84496,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1958288851
 GameObject:
@@ -84886,7 +84886,7 @@ Transform:
   - {fileID: 154010618}
   - {fileID: 1617543755}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2088308170
 PrefabInstance:
