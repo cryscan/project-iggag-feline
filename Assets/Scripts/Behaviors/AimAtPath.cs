@@ -1,21 +1,28 @@
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.AI;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 
-public class AimAt : Action
+public class AimAtPath : Action
 {
     public SharedGameObject subject;
-    public SharedVector3 target;
     public SharedFloat fallout = 20;
+
+    NavMeshAgent agent;
 
     public override void OnStart()
     {
         if (!subject.Value) subject = gameObject;
+        agent = subject.Value.GetComponent<NavMeshAgent>();
     }
 
     public override TaskStatus OnUpdate()
     {
-        var direction = target.Value - subject.Value.transform.position;
+        Vector3 target;
+        try { target = agent.path.corners[1]; }
+        catch { return TaskStatus.Running; }
+
+        var direction = target - subject.Value.transform.position;
         direction.y = 0;
 
         var angle = Vector3.SignedAngle(transform.forward, direction, Vector3.up);

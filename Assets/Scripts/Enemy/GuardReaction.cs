@@ -83,7 +83,7 @@ public class GuardReaction : MonoBehaviour
         else alertLevel -= dealertSpeed * Time.deltaTime;
 
         var distance = Vector3.Distance(player.transform.position, transform.position);
-        if (alertLevel > distance)
+        if (alertLevel > distance && detected)
         {
             if (!alerted)
             {
@@ -95,10 +95,14 @@ public class GuardReaction : MonoBehaviour
         }
         else if (alertLevel < 0) alertLevel = 0;
 
+        if (detected && !alerted) _light.color = colors[1];
+
+        /*
         lineRenderer.SetPosition(0, transform.position);
         var direction = player.transform.position - transform.position;
         lineRenderer.SetPosition(1, transform.position + direction.normalized * alertLevel);
         lineRenderer.startColor = lineRenderer.endColor = Color.red;
+        */
     }
 
     void OnDetected(DetectEvent @event)
