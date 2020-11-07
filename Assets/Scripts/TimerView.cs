@@ -28,7 +28,7 @@ public class TimerView : MonoBehaviour
 
         string minutes, seconds, milliseconds;
         FloatToTime(ScheduleManager.instance.timer, out minutes, out seconds, out milliseconds);
-        millisecondsText.text = minutes;
+        minutesText.text = minutes;
         secondsText.text = seconds;
         millisecondsText.text = milliseconds;
 
