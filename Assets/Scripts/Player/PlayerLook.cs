@@ -12,11 +12,6 @@ public class PlayerLook : MonoBehaviour
     float pitch = 0;
     float _horizontal, _vertical;
 
-    void Start()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-    }
-
     void Update()
     {
         float horizontal = Input.GetAxis("Mouse X") * sensitivity * Time.timeScale;

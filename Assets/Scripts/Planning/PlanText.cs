@@ -33,13 +33,14 @@ public class PlanText : MonoBehaviour
 
     void Update()
     {
+        /*
         if (planning)
         {
             var timer = GameManager.instance.planTimer;
             var count = placeTrap.count;
             var description = placeTrap.description;
             text.text = $"Planning: {timer.ToString("0.0")} seconds left\nLeft click to put {description} traps ({count} remains)\nPress 1 and 2 to Switch Trap";
-        }
+        }*/
     }
 
     void OnGameStateChanged(GameStateChangeEvent @event)

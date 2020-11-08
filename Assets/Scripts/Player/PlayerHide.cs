@@ -4,48 +4,77 @@ using UnityEngine;
 
 public class PlayerHide : MonoBehaviour
 {
+    [SerializeField] float comeOutDistance = 2;
+
+    Hideable interacting;
+    Hideable hiding;
+
+    Subscription<PlayerInteractEvent> playerInteractHandler;
+    Subscription<PlayerDisinteractEvent> playerDisInteractHandler;
+
     CharacterController controller;
-    Vector3 displacement;
 
-    Subscription<HideEvent> hideHandler;
-    Subscription<ComeOutEvent> comeOutHandler;
-
-    private void Awake()
+    void Awake()
     {
         controller = GetComponent<CharacterController>();
     }
 
     void OnEnable()
     {
-        hideHandler = EventBus.Subscribe<HideEvent>(OnHidden);
-        comeOutHandler = EventBus.Subscribe<ComeOutEvent>(OnComeOut);
+        playerInteractHandler = EventBus.Subscribe<PlayerInteractEvent>(OnPlayerInteracted);
+        playerDisInteractHandler = EventBus.Subscribe<PlayerDisinteractEvent>(OnPlayerDisinteracted);
     }
 
     void OnDisable()
     {
-        EventBus.Unsubscribe(hideHandler);
-        EventBus.Unsubscribe(comeOutHandler);
+        EventBus.Unsubscribe(playerInteractHandler);
+        EventBus.Unsubscribe(playerDisInteractHandler);
     }
 
-    void OnHidden(HideEvent @event)
+    void Update()
     {
-        if (@event.subject.gameObject != gameObject) return;
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (hiding)
+            {
+                StopAllCoroutines();
+                controller.enabled = false;
+                transform.position = hiding.transform.position + transform.forward * comeOutDistance;
+                controller.enabled = true;
 
-        displacement = @event.displacement;
+                hiding.ComeOut();
+                hiding = null;
+            }
+            if (interacting)
+            {
+                hiding = interacting;
+                hiding.Hide(gameObject);
+                StartCoroutine(HideCoroutine());
+            }
+        }
+    }
+
+    void OnPlayerInteracted(PlayerInteractEvent @event)
+    {
+        var hidable = @event.target.GetComponent<Hideable>();
+        if (hidable)
+        {
+            interacting = hidable;
+            EventBus.Publish(new PlayerPromptEvent(@event.target, InteractionType.Hide));
+        }
+    }
+
+    void OnPlayerDisinteracted(PlayerDisinteractEvent @event)
+    {
+        interacting = null;
+        EventBus.Publish(new PlayerDispromptEvent() { type = InteractionType.Hide });
+    }
+
+    IEnumerator HideCoroutine()
+    {
+        yield return new WaitForSeconds(0.5f);
 
         controller.enabled = false;
-        // transform.position = new Vector3(100, 100, 100);
-
-        @event._object.virtualCamera.Priority = 20;
-    }
-
-    void OnComeOut(ComeOutEvent @event)
-    {
-        if (@event.subject.gameObject != gameObject) return;
-
-        transform.position = @event._object.transform.position + displacement;
-        controller.enabled = true;
-
-        @event._object.virtualCamera.Priority = 0;
+        transform.position = new Vector3(1000, 0, 1000);
     }
 }

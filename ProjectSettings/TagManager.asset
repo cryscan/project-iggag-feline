@@ -4,6 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Player Head
   - Enemy
   - Trap Placer
   layers:
@@ -21,14 +22,14 @@ TagManager:
   - Enemy
   - Trap
   - Collectable
-  - 
+  - Infrastructure
   - 
   - 
   - 
   - 
   - 
   - Ground
-  - Wall
+  - 
   - Light
   - 
   - 

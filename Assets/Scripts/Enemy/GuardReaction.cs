@@ -1,25 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using BehaviorDesigner.Runtime;
 
-[RequireComponent(typeof(ConeDetection))]
 public class GuardReaction : MonoBehaviour
 {
     [SerializeField] Light _light;
     [SerializeField] Color[] colors = { Color.white, Color.yellow, Color.red };
-    [SerializeField] float alertSpeed = 8;
+    [SerializeField] float alertSpeed = 16;
+    [SerializeField] float searchingAlertSpeed = 32;
     [SerializeField] float dealertSpeed = 2;
 
     BehaviorTree behavior;
-    LineRenderer lineRenderer;
+    NavMeshAgent agent;
+    ConeDetection detection;
+    EnemyAttack attack;
 
     GameObject player;
     PlayerVisibility visibility;
 
     float alertLevel = 0;
     bool detected = false;
-    bool alerted = false;
+    bool chasing = false;
+    bool searching = false;
 
     Subscription<DetectEvent> detectEventHandler;
     Subscription<LossTargetEvent> lossTargetHandler;
@@ -28,7 +32,9 @@ public class GuardReaction : MonoBehaviour
     void Awake()
     {
         behavior = GetComponent<BehaviorTree>();
-        lineRenderer = GetComponent<LineRenderer>();
+        agent = GetComponent<NavMeshAgent>();
+        detection = GetComponent<ConeDetection>();
+        attack = GetComponent<EnemyAttack>();
 
         player = GameObject.FindGameObjectWithTag("Player");
         visibility = player.GetComponent<PlayerVisibility>();
@@ -50,55 +56,38 @@ public class GuardReaction : MonoBehaviour
         behavior.UnregisterEvent("Dealert", OnDealerted);
     }
 
-    /*
     void Update()
     {
-        if (coneDetection.detected) alertProgress += alertSpeed * visibility.visibility * Time.deltaTime;
-        else alertProgress -= dealertSpeed * Time.deltaTime;
-
-        var distance = Vector3.Distance(player.transform.position, transform.position);
-        if (alertProgress > distance)
+        if (detected)
         {
-            Alert();
-            if (alertLevel < 2) alertProgress = 0;
-            else alertProgress = distance;
+            if (!searching) alertLevel += alertSpeed * visibility.visibility * Time.deltaTime;
+            else alertLevel += searchingAlertSpeed * visibility.visibility * Time.deltaTime;
         }
-        else if (alertProgress < 0)
-        {
-            if (alertLevel > 0) alertProgress = distance;
-            else alertProgress = 0;
-            Dealert();
-        }
-
-        lineRenderer.SetPosition(0, transform.position);
-        var direction = player.transform.position - transform.position;
-        lineRenderer.SetPosition(1, transform.position + direction.normalized * alertProgress);
-        lineRenderer.startColor = lineRenderer.endColor = colors[alertLevel];
-    }
-    */
-
-    void Update()
-    {
-        if (detected) alertLevel += alertSpeed * visibility.visibility * Time.deltaTime;
         else alertLevel -= dealertSpeed * Time.deltaTime;
 
         var distance = Vector3.Distance(player.transform.position, transform.position);
-        if (alertLevel > distance)
+        if (alertLevel > distance + 1) alertLevel = distance + 1;
+        if (alertLevel > distance && detected)
         {
-            if (!alerted)
+            if (!chasing)
             {
-                _light.color = colors[2];
+                // _light.color = colors[2];
                 behavior.SetVariableValue("Detected", true);
-                alerted = true;
+                chasing = true;
             }
-            alertLevel = distance;
         }
-        else if (alertLevel < 0) alertLevel = 0;
+        if (alertLevel < 0) alertLevel = 0;
 
-        lineRenderer.SetPosition(0, transform.position);
-        var direction = player.transform.position - transform.position;
-        lineRenderer.SetPosition(1, transform.position + direction.normalized * alertLevel);
-        lineRenderer.startColor = lineRenderer.endColor = Color.red;
+        if (!chasing)
+        {
+            if (detected) _light.color = colors[1];
+            else if (searching) _light.color = colors[1];
+            else _light.color = colors[0];
+        }
+        else
+        {
+            _light.color = colors[2];
+        }
     }
 
     void OnDetected(DetectEvent @event)
@@ -115,12 +104,13 @@ public class GuardReaction : MonoBehaviour
     {
         if (@event.target != player || @event.subject != gameObject) return;
 
-        if (alerted)
+        if (chasing)
         {
-            _light.color = colors[1];
+            // _light.color = colors[1];
             behavior.SetVariableValue("Detected", false);
             behavior.SetVariableValue("Spot Point", @event.spotPoint);
-            alerted = false;
+            chasing = false;
+            searching = true;
         }
         detected = false;
     }
@@ -149,7 +139,8 @@ public class GuardReaction : MonoBehaviour
             behavior.SetVariableValue("Alert Level", alertLevel);
         }
         */
-        _light.color = colors[0];
+        // _light.color = colors[0];
+        searching = false;
     }
 
     void OnTrapped(TrapEvent @event)
@@ -161,18 +152,40 @@ public class GuardReaction : MonoBehaviour
                 TrapHandler.FrozenData data = (TrapHandler.FrozenData)@event.data;
                 var distance = Vector3.Distance(position, transform.position);
                 if (distance < data.range)
-                    behavior.SendEvent<object>("Frozen", data.duration);
+                {
+                    // behavior.SendEvent<object>("Frozen", data.duration);
+                    StopAllCoroutines();
+                    StartCoroutine(FrozenCoroutine(data.duration));
+                }
 
                 break;
             case TrapType.Distraction:
                 distance = Vector3.Distance(position, transform.position);
                 // if (distance < 3)
                 {
-                    _light.color = colors[1];
+                    // _light.color = colors[1];
                     behavior.SetVariableValue("Alerted", true);
                     behavior.SetVariableValue("Spot Point", position);
+                    searching = true;
                 }
                 break;
         }
+    }
+
+    IEnumerator FrozenCoroutine(float duration)
+    {
+        // behavior.enabled = false;
+        agent.isStopped = true;
+        detection.enabled = false;
+        attack.enabled = false;
+        _light.enabled = false;
+
+        yield return new WaitForSeconds(duration);
+
+        // behavior.enabled = true;
+        agent.isStopped = false;
+        detection.enabled = true;
+        attack.enabled = true;
+        _light.enabled = true;
     }
 }

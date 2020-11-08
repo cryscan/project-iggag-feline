@@ -10,7 +10,7 @@ public class AimAt : Action
 
     public override void OnStart()
     {
-        if (!subject.Value) subject.Value = gameObject;
+        if (!subject.Value) subject = gameObject;
     }
 
     public override TaskStatus OnUpdate()

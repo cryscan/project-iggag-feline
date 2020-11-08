@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemyAttack : MonoBehaviour
 {
     GameObject player;
-    bool triggered = false;
 
     void Awake()
     {

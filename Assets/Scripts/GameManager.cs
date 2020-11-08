@@ -34,9 +34,6 @@ public class GameManager : MonoBehaviour
     Stack<GameState> states = new Stack<GameState>();
     public GameState currentState { get => states.Peek(); }
 
-    public float totalTime = 30;
-    public float planTimer { get; private set; }
-
     [SerializeField] float pauseTimeScaleFallout = 10;
     float previousTimeScale = 1;
     float targetTimeScale = 1;
@@ -55,56 +52,43 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-
         states.Push(GameState.Start);
-        planTimer = totalTime;
     }
 
     void Update()
     {
-        UpdatePlanState();
+        // UpdatePlanState();
 
-        if (Input.GetKeyDown(KeyCode.Escape)) TogglePause();
+        // if (Input.GetKeyDown(KeyCode.Escape)) TogglePause();
 
         /* Continuous Pause Behavior */
         Time.timeScale = Time.timeScale.FalloutUnscaled(targetTimeScale, pauseTimeScaleFallout);
     }
 
-    void UpdatePlanState()
-    {
-        if (currentState != GameState.Plan) return;
-
-        if (planTimer < 0 || Input.GetKeyDown(KeyCode.Return))
+    /*
+        void UpdatePlanState()
         {
-            var previous = states.Pop();
-            states.Push(GameState.Play);
+            if (currentState != GameState.Plan) return;
 
-            // Change from plan to play.
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            StartCoroutine(PublishEventCoroutine(previous));
+            if (planTimer < 0 || Input.GetKeyDown(KeyCode.Return))
+            {
+                var previous = states.Pop();
+                states.Push(GameState.Play);
+
+                // Change from plan to play.
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                StartCoroutine(PublishEventCoroutine(previous));
+            }
+
+            planTimer -= Time.deltaTime;
         }
 
-        planTimer -= Time.deltaTime;
-    }
-
-    IEnumerator PublishEventCoroutine(GameState previous)
-    {
-        yield return null;
-        EventBus.Publish(new GameStateChangeEvent(previous, currentState));
-    }
-
-    public void StartGame()
-    {
-        if (currentState != GameState.Start)
+        IEnumerator PublishEventCoroutine(GameState previous)
         {
-            Debug.LogError($"[Game State] makes no sense starting game at state {currentState.ToString()}");
-            return;
+            yield return null;
+            EventBus.Publish(new GameStateChangeEvent(previous, currentState));
         }
-
-        var previous = currentState;
-        states.Push(GameState.Plan);
-        EventBus.Publish(new GameStateChangeEvent(previous, currentState));
-    }
+    */
 
     public void TogglePause()
     {
@@ -128,21 +112,77 @@ public class GameManager : MonoBehaviour
 
     public void GameOverReturn(int index = 0)
     {
-        /*
-        if (currentState == GameState.Start || currentState == GameState.Paused)
+        StartCoroutine(LoadSceneCoroutine(index, () =>
         {
-            Debug.LogError($"[Game State] makes no sense game over at state {currentState.ToString()}");
+            var previous = states.Pop();
+            states = new Stack<GameState>();
+            states.Push(GameState.Start);
+            EventBus.Publish(new GameStateChangeEvent(previous, currentState));
+        }));
+    }
+
+    public void EnterPlanScene(int index) => StartCoroutine(LoadSceneCoroutine(index, () => StartPlan()));
+    public void EnterPlanScene(string name) => StartCoroutine(LoadSceneCoroutine(name, () => StartPlan()));
+
+    public void RestartPlanScene(int index) => StartCoroutine(LoadSceneCoroutine(index, () => RestartPlan()));
+    public void RestartPlanScene(string name) => StartCoroutine(LoadSceneCoroutine(name, () => RestartPlan()));
+
+    public void EnterPlayScene(int index) => StartCoroutine(LoadSceneCoroutine(index, () => StartPlay()));
+    public void EnterPlayScene(string name) => StartCoroutine(LoadSceneCoroutine(name, () => StartPlay()));
+
+    public void StartPlan()
+    {
+        if (currentState != GameState.Start)
+        {
+            Debug.LogError($"[Game State] makes no sense starting plan at state {currentState.ToString()}");
             return;
         }
-        */
+
+        var previous = currentState;
+        states.Push(GameState.Plan);
+        EventBus.Publish(new GameStateChangeEvent(previous, currentState));
+    }
+
+    public void RestartPlan()
+    {
+        if (currentState != GameState.Plan && currentState != GameState.Play)
+        {
+            Debug.LogError($"[Game State] makes no sense starting plan at state {currentState.ToString()}");
+            return;
+        }
 
         var previous = states.Pop();
-        states = new Stack<GameState>();
-        states.Push(GameState.Start);
         EventBus.Publish(new GameStateChangeEvent(previous, currentState));
 
-        planTimer = totalTime;
+        previous = currentState;
+        states.Push(GameState.Plan);
+        EventBus.Publish(new GameStateChangeEvent(previous, currentState));
+    }
 
+    public void StartPlay()
+    {
+        if (currentState != GameState.Start && currentState != GameState.Plan)
+        {
+            Debug.LogError($"[Game State] makes no sense starting play at state {currentState.ToString()}");
+            return;
+        }
+
+        var previous = currentState;
+        states.Push(GameState.Play);
+        EventBus.Publish(new GameStateChangeEvent(previous, currentState));
+    }
+
+    IEnumerator LoadSceneCoroutine(int index, System.Action callback = null)
+    {
         SceneManager.LoadScene(index);
+        yield return null;
+        callback?.Invoke();
+    }
+
+    IEnumerator LoadSceneCoroutine(string name, System.Action callback = null)
+    {
+        SceneManager.LoadScene(name);
+        yield return null;
+        callback?.Invoke();
     }
 }
