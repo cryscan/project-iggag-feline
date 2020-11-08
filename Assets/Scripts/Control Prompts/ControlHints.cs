@@ -9,33 +9,27 @@ public class ControlHints : MonoBehaviour
     ControlPromptLister lister;
     Camera _camera;
 
-    GameObject player;
-    InteractionController controller;
-
     DynamicBounds bounds;
 
     Subscription<PlayerPromptEvent> playerPromptHandler;
-    Subscription<PlayerUnfocusEvent> playerUnfocusHandler;
+    Subscription<PlayerDispromptEvent> playerDispromptHandler;
 
     void Awake()
     {
         _camera = Camera.main;
         lister = GetComponent<ControlPromptLister>();
-
-        player = GameObject.FindGameObjectWithTag("Player");
-        controller = player.GetComponent<InteractionController>();
     }
 
     void OnEnable()
     {
         playerPromptHandler = EventBus.Subscribe<PlayerPromptEvent>(OnPlayerPrompted);
-        playerUnfocusHandler = EventBus.Subscribe<PlayerUnfocusEvent>(OnPlayerUnfocused);
+        playerDispromptHandler = EventBus.Subscribe<PlayerDispromptEvent>(OnPlayerDisprompted);
     }
 
     void OnDisable()
     {
         EventBus.Unsubscribe(playerPromptHandler);
-        EventBus.Unsubscribe(playerUnfocusHandler);
+        EventBus.Unsubscribe(playerDispromptHandler);
     }
 
     void Start()
@@ -56,6 +50,7 @@ public class ControlHints : MonoBehaviour
 
     void OnPlayerPrompted(PlayerPromptEvent @event)
     {
+        /*
         lister.SetActiveAll(false);
         if (!@event._object) return;
 
@@ -65,11 +60,20 @@ public class ControlHints : MonoBehaviour
 
         bounds = @event._object.GetComponent<DynamicBounds>();
         Relocate();
+        */
+        if (!@event.target) return;
+
+        lister.Find(@event.type)?.SetActive(true);
+        bounds = @event.target.GetComponent<DynamicBounds>();
+        Relocate();
     }
 
-    void OnPlayerUnfocused(PlayerUnfocusEvent @event)
+    void OnPlayerDisprompted(PlayerDispromptEvent @event)
     {
+        /*
         lister.SetActiveAll(false);
         bounds = null;
+        */
+        lister.Find(@event.type)?.SetActive(false);
     }
 }

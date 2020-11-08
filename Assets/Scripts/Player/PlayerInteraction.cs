@@ -1,103 +1,73 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(InteractionController))]
 public class PlayerInteraction : MonoBehaviour
 {
-    [Header("Prompt")]
-    [SerializeField] LayerMask promptLayers;
-    [SerializeField] float promptDistance = 2;
-    Interactable prompting;
+    [SerializeField] LayerMask rayCastLayers;
+    [SerializeField] LayerMask interactLayers;
+    [SerializeField] float distance = 2;
 
-    [Header("Collect")]
-    [SerializeField] LayerMask collectLayers;
-    [SerializeField] float collectDistance = 2;
-
-    [Header("Hide")]
-    [SerializeField] LayerMask hideLayers;
-    [SerializeField] float hideDistance = 2;
-
+    public GameObject interacting { get; private set; } = null;
 
     Camera _camera;
-    InteractionController controller;
 
     void Awake()
     {
         _camera = Camera.main;
-        controller = GetComponent<InteractionController>();
     }
 
     void Update()
     {
+        DetectInteraction();
+    }
+
+    void DetectInteraction()
+    {
         Ray ray = _camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, promptDistance, promptLayers))
+        if (Physics.Raycast(ray, out hit, distance, rayCastLayers))
         {
             var _object = hit.collider.gameObject;
-            SetInteracting(_object);
-        }
-        else SetDisinteracting();
+            if (!_object.CompareLayers(interactLayers)) return;
 
-        if (Input.GetButtonDown("Collect"))
-        {
-            if (Physics.Raycast(ray, out hit, collectDistance, collectLayers))
+            if (interacting != _object)
             {
-                var interactable = hit.collider.gameObject.GetComponent<Interactable>();
-                // Broadcase both drop and collect events. The interactors will determine which to react.
-                EventBus.Publish(new InteractEvent(gameObject, interactable, InteractionType.Drop));
-                EventBus.Publish(new InteractEvent(gameObject, interactable, InteractionType.Collect));
+                if (interacting) EventBus.Publish(new PlayerDisinteractEvent() { target = interacting });
+                interacting = _object;
+                EventBus.Publish(new PlayerInteractEvent() { target = interacting });
             }
-            else EventBus.Publish(new InteractEvent(gameObject, null, InteractionType.Drop));
         }
-
-        if (Input.GetButtonDown("Hide"))
+        else if (interacting)
         {
-            if (Physics.Raycast(ray, out hit, hideDistance, hideLayers))
-            {
-                var interactable = hit.collider.gameObject.GetComponent<Interactable>();
-                EventBus.Publish(new InteractEvent(gameObject, interactable, InteractionType.ComeOut));
-                EventBus.Publish(new InteractEvent(gameObject, interactable, InteractionType.Hide));
-            }
-            else EventBus.Publish(new InteractEvent(gameObject, null, InteractionType.ComeOut));
+            EventBus.Publish(new PlayerDisinteractEvent() { target = interacting });
+            interacting = null;
         }
-    }
-
-    void SetInteracting(GameObject _object)
-    {
-        if (prompting && prompting.gameObject == _object) return;
-        //Debug.Log($"Player interacting {_object.name}");
-
-        var next = _object.GetComponent<Interactable>();
-        prompting = next;
-        EventBus.Publish(new PlayerPromptEvent(prompting));
-    }
-
-    void SetDisinteracting()
-    {
-        if (prompting != null) EventBus.Publish(new PlayerUnfocusEvent(prompting));
-        prompting = null;
     }
 }
+
+public enum InteractionType
+{
+    PickUp,
+    Drop,
+    Hide,
+    ComeOut,
+}
+
+public class PlayerInteractEvent { public GameObject target; }
+public class PlayerDisinteractEvent { public GameObject target; }
 
 public class PlayerPromptEvent
 {
-    public Interactable _object;
+    public GameObject target;
+    public InteractionType type;
 
-    public PlayerPromptEvent(Interactable _object)
+    public PlayerPromptEvent(GameObject target, InteractionType type)
     {
-        this._object = _object;
+        this.target = target;
+        this.type = type;
     }
 }
 
-public class PlayerUnfocusEvent
-{
-    public Interactable _object;
-
-    public PlayerUnfocusEvent(Interactable _object)
-    {
-        this._object = _object;
-    }
-}
+public class PlayerDispromptEvent { public InteractionType type; }

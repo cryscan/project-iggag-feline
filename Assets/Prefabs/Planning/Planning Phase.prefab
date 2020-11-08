@@ -247,7 +247,7 @@ PrefabInstance:
     - target: {fileID: 6479569642199766269, guid: 2f7a129e79acd3995aeb268105a54041,
         type: 3}
       propertyPath: m_Name
-      value: Look
+      value: Trap Placer
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f7a129e79acd3995aeb268105a54041, type: 3}

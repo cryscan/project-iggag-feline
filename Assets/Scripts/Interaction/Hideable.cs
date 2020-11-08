@@ -3,46 +3,68 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-[RequireComponent(typeof(Interactable))]
 public class Hideable : MonoBehaviour
 {
-    [SerializeField] CinemachineVirtualCamera _virtualCamera;
-    public CinemachineVirtualCamera virtualCamera { get => _virtualCamera; }
+    [SerializeField] CinemachineVirtualCamera virtualCamera;
 
-    public Hider inside { get; private set; }
-
-    Subscription<HideEvent> hideHandler;
-    Subscription<ComeOutEvent> comeOutHandler;
+    public GameObject inside { get; private set; }
 
     void Awake()
     {
-        var interactable = GetComponent<Interactable>();
-        interactable.Rigister(InteractionType.Hide);
-        interactable.Rigister(InteractionType.ComeOut);
+        virtualCamera.Priority = 0;
     }
 
-    void OnEnable()
+    public void Hide(GameObject subject)
     {
-        hideHandler = EventBus.Subscribe<HideEvent>(OnHidden);
-        comeOutHandler = EventBus.Subscribe<ComeOutEvent>(OnComeOut);
+        if (!subject)
+        {
+            Debug.LogError($"[Hide] no subject");
+            return;
+        }
+
+        if (subject != inside)
+        {
+            inside = subject;
+            virtualCamera.Priority = 100;
+            EventBus.Publish(new HideEvent(subject, this));
+        }
+        else Debug.LogWarning($"[Hide] {subject} hides again");
     }
 
-    void OnDisable()
+    public void ComeOut()
     {
-        EventBus.Unsubscribe(hideHandler);
-        EventBus.Unsubscribe(comeOutHandler);
-    }
+        if (!inside)
+        {
+            Debug.LogError($"[Hide] nothing is inside");
+            return;
+        }
 
-    void OnHidden(HideEvent @event)
-    {
-        if (@event._object != this) return;
-        inside = @event.subject;
-    }
-
-    void OnComeOut(ComeOutEvent @event)
-    {
-        if (@event._object != this) return;
-        Debug.Assert(inside == @event.subject);
+        EventBus.Publish(new ComeOutEvent(inside, this));
         inside = null;
+        virtualCamera.Priority = 0;
+    }
+}
+
+public class HideEvent
+{
+    public GameObject subject;
+    public Hideable hideable;
+
+    public HideEvent(GameObject subject, Hideable hideable)
+    {
+        this.subject = subject;
+        this.hideable = hideable;
+    }
+}
+
+public class ComeOutEvent
+{
+    public GameObject subject;
+    public Hideable hideable;
+
+    public ComeOutEvent(GameObject subject, Hideable hideable)
+    {
+        this.subject = subject;
+        this.hideable = hideable;
     }
 }
