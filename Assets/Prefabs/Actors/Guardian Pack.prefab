@@ -376,6 +376,7 @@ GameObject:
   - component: {fileID: 7283541976678012770}
   - component: {fileID: 4331837398406040857}
   - component: {fileID: 7606173419121576531}
+  - component: {fileID: 8926445771917627250}
   m_Layer: 11
   m_Name: Guardian
   m_TagString: Untagged
@@ -725,6 +726,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ecebf8ace8815042e9a5456612dda858, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8926445771917627250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839249185068438682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8e6113cd2b32e06e9ea22482ce480f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6275353643892283995

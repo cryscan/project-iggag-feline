@@ -8,11 +8,13 @@ public class PlayerStateChange : MonoBehaviour
 
     PlayerLook playerLook;
     PlayerMovement playerMovement;
+    CharacterController controller;
 
     private void Awake()
     {
         playerLook = GetComponent<PlayerLook>();
         playerMovement = GetComponent<PlayerMovement>();
+        controller = GetComponent<CharacterController>();
     }
     private void OnEnable()
     {
@@ -30,12 +32,14 @@ public class PlayerStateChange : MonoBehaviour
         {
             playerLook.enabled = false;
             playerMovement.enabled = false;
+            controller.enabled = false;
         }
 
         if (@event.current == GameState.Play && @event.previous == GameState.Plan)
         {
             playerLook.enabled = true;
             playerMovement.enabled = true;
+            controller.enabled = true;
         }
     }
 }

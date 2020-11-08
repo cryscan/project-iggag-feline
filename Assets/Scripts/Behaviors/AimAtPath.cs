@@ -20,10 +20,10 @@ public class AimAtPath : Action
 
     public override TaskStatus OnUpdate()
     {
-        if (timer > 5 / fallout.Value) return TaskStatus.Failure;
+        if (timer > 5 / fallout.Value) return TaskStatus.Success;
         timer += Time.deltaTime;
 
-        if (agent.path.corners.Length < 2) return TaskStatus.Success;
+        if (agent.path.corners.Length < 2) return TaskStatus.Running;
 
         Vector3 target = agent.path.corners[1];
         var direction = target - subject.Value.transform.position;
