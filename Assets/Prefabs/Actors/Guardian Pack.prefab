@@ -198,7 +198,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0.5
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -715,6 +715,7 @@ MonoBehaviour:
   - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   - {r: 1, g: 0, b: 0, a: 1}
   alertSpeed: 16
+  searchingAlertSpeed: 32
   dealertSpeed: 2
 --- !u!114 &7606173419121576531
 MonoBehaviour:
