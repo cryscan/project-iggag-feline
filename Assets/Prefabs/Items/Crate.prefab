@@ -197,9 +197,7 @@ GameObject:
   - component: {fileID: 3386363358897021527}
   - component: {fileID: 2564122472234082414}
   - component: {fileID: 7347759138290177761}
-  - component: {fileID: 9110987316323859315}
   - component: {fileID: 589077460473151662}
-  - component: {fileID: 5860190663259338391}
   m_Layer: 13
   m_Name: Crate
   m_TagString: Untagged
@@ -327,18 +325,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c54a4f1ddbdf88de9b77ce90b28a167d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &9110987316323859315
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8175160893377208916}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa2d837b6b03f68eab5e6fb7a4f25e33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &589077460473151662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,17 +337,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13c90dfb0fb49838390daf1c9e5c1831, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _virtualCamera: {fileID: 2225089019975596401}
---- !u!114 &5860190663259338391
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8175160893377208916}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3027cb2a76316b4be879896cf568a96f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _type: 2
+  virtualCamera: {fileID: 2225089019975596401}

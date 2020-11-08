@@ -20,19 +20,18 @@ public class AimAtPath : Action
 
     public override TaskStatus OnUpdate()
     {
-        Vector3 target;
-        try { target = agent.path.corners[1]; }
-        catch { return TaskStatus.Running; }
+        if (timer > 5 / fallout.Value) return TaskStatus.Failure;
+        timer += Time.deltaTime;
 
+        if (agent.path.corners.Length < 2) return TaskStatus.Success;
+
+        Vector3 target = agent.path.corners[1];
         var direction = target - subject.Value.transform.position;
         direction.y = 0;
 
         var angle = Vector3.SignedAngle(transform.forward, direction, Vector3.up);
         angle = 0f.Fallout(angle, fallout.Value);
         transform.Rotate(0, angle, 0, Space.Self);
-
-        if (timer > 5 / fallout.Value) return TaskStatus.Failure;
-        timer += Time.deltaTime;
 
         if (Mathf.Abs(angle) < 0.1) return TaskStatus.Success;
         else return TaskStatus.Running;
