@@ -468,7 +468,7 @@ MonoBehaviour:
   lights: []
   blockLayers:
     serializedVersion: 2
-    m_Bits: 3145728
+    m_Bits: 1048577
   head: {fileID: 8912101026030626793}
 --- !u!114 &6891387446900774453
 MonoBehaviour:
@@ -484,7 +484,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rayCastLayers:
     serializedVersion: 2
-    m_Bits: 1080320
+    m_Bits: 1080321
   interactLayers:
     serializedVersion: 2
     m_Bits: 24576

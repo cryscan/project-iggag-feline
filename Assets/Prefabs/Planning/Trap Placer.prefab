@@ -63,8 +63,12 @@ MonoBehaviour:
   config:
   - prefab: {fileID: 8683141609083507420, guid: 2f2015caa8910296daf0ccf7009eda2a,
       type: 3}
-    count: 2
+    count: 10
     description: Frozen
+  - prefab: {fileID: 8683141609083507420, guid: 1cc87978e43990648a2c4010e35b91e3,
+      type: 3}
+    count: 10
+    description: Distraction
   forbiddenLayer:
     serializedVersion: 2
     m_Bits: 2101248
