@@ -8,7 +8,8 @@ public class GuardReaction : MonoBehaviour
 {
     [SerializeField] Light _light;
     [SerializeField] Color[] colors = { Color.white, Color.yellow, Color.red };
-    [SerializeField] float alertSpeed = 8;
+    [SerializeField] float alertSpeed = 16;
+    [SerializeField] float searchingAlertSpeed = 32;
     [SerializeField] float dealertSpeed = 2;
 
     BehaviorTree behavior;
@@ -57,10 +58,15 @@ public class GuardReaction : MonoBehaviour
 
     void Update()
     {
-        if (detected) alertLevel += alertSpeed * visibility.visibility * Time.deltaTime;
+        if (detected)
+        {
+            if (!searching) alertLevel += alertSpeed * visibility.visibility * Time.deltaTime;
+            else alertLevel += searchingAlertSpeed * visibility.visibility * Time.deltaTime;
+        }
         else alertLevel -= dealertSpeed * Time.deltaTime;
 
         var distance = Vector3.Distance(player.transform.position, transform.position);
+        if (alertLevel > distance + 1) alertLevel = distance + 1;
         if (alertLevel > distance && detected)
         {
             if (!chasing)
@@ -69,9 +75,8 @@ public class GuardReaction : MonoBehaviour
                 behavior.SetVariableValue("Detected", true);
                 chasing = true;
             }
-            alertLevel = distance;
         }
-        else if (alertLevel < 0) alertLevel = 0;
+        if (alertLevel < 0) alertLevel = 0;
 
         if (!chasing)
         {
