@@ -9,11 +9,13 @@ public class AimAtPath : Action
     public SharedFloat fallout = 20;
 
     NavMeshAgent agent;
+    float timer = 0;
 
     public override void OnStart()
     {
         if (!subject.Value) subject = gameObject;
         agent = subject.Value.GetComponent<NavMeshAgent>();
+        timer = 0;
     }
 
     public override TaskStatus OnUpdate()
@@ -28,6 +30,9 @@ public class AimAtPath : Action
         var angle = Vector3.SignedAngle(transform.forward, direction, Vector3.up);
         angle = 0f.Fallout(angle, fallout.Value);
         transform.Rotate(0, angle, 0, Space.Self);
+
+        if (timer > 5 / fallout.Value) return TaskStatus.Failure;
+        timer += Time.deltaTime;
 
         if (Mathf.Abs(angle) < 0.1) return TaskStatus.Success;
         else return TaskStatus.Running;
