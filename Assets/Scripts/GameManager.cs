@@ -108,6 +108,7 @@ public class GameManager : MonoBehaviour
             states.Push(GameState.Paused);
             EventBus.Publish(new GameStateChangeEvent(previous, currentState));
         }
+  		Debug.Log($"paused called current {GameManager.instance.currentState}, timeScale {targetTimeScale}");
     }
 
     public void GameOverReturn(int index = 0)
@@ -135,7 +136,7 @@ public class GameManager : MonoBehaviour
         if (currentState != GameState.Start)
         {
             Debug.LogError($"[Game State] makes no sense starting plan at state {currentState.ToString()}");
-            return;
+            // return;
         }
 
         var previous = currentState;
@@ -148,7 +149,7 @@ public class GameManager : MonoBehaviour
         if (currentState != GameState.Plan && currentState != GameState.Play)
         {
             Debug.LogError($"[Game State] makes no sense starting plan at state {currentState.ToString()}");
-            return;
+            // return;
         }
 
         var previous = states.Pop();

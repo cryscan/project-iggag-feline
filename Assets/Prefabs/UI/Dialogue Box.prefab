@@ -164,10 +164,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4593998772425358145}
   - component: {fileID: 8078659941901666393}
-  - component: {fileID: 234031168657902198}
+  - component: {fileID: 74344451}
   m_Layer: 5
   m_Name: Dialogue Controller
-  m_TagString: Untagged
+  m_TagString: Dialogue Controller
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   container: {fileID: 3165698626277788787}
   text: {fileID: 8078659942537913716}
---- !u!114 &234031168657902198
+--- !u!114 &74344451
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

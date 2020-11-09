@@ -97,7 +97,7 @@ public class ScheduleManager : MonoBehaviour
             }
         }
 
-        if (@event.previous == GameState.Start && @event.current == GameState.Plan)
+        if (@event.previous != GameState.Paused && @event.current == GameState.Plan)
         {
             schedules = new List<ScheduleTimerEvent>();
             timer = 0;
