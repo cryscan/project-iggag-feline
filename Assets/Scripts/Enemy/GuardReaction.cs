@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using BehaviorDesigner.Runtime;
@@ -24,10 +25,11 @@ public class GuardReaction : MonoBehaviour
     bool detected = false;
     bool chasing = false;
     bool searching = false;
+    bool frozen = false;
 
     Subscription<DetectEvent> detectEventHandler;
     Subscription<LossTargetEvent> lossTargetHandler;
-    Subscription<TrapEvent> trapHandler;
+    Subscription<TrapActivateEvent> trapActivateHandler;
 
     void Awake()
     {
@@ -44,7 +46,7 @@ public class GuardReaction : MonoBehaviour
     {
         detectEventHandler = EventBus.Subscribe<DetectEvent>(OnDetected);
         lossTargetHandler = EventBus.Subscribe<LossTargetEvent>(OnLostTarget);
-        trapHandler = EventBus.Subscribe<TrapEvent>(OnTrapped);
+        trapActivateHandler = EventBus.Subscribe<TrapActivateEvent>(OnTrapActivated);
         behavior.RegisterEvent("Dealert", OnDealerted);
     }
 
@@ -52,7 +54,7 @@ public class GuardReaction : MonoBehaviour
     {
         EventBus.Unsubscribe(detectEventHandler);
         EventBus.Unsubscribe(lossTargetHandler);
-        EventBus.Unsubscribe(trapHandler);
+        EventBus.Unsubscribe(trapActivateHandler);
         behavior.UnregisterEvent("Dealert", OnDealerted);
     }
 
@@ -143,38 +145,45 @@ public class GuardReaction : MonoBehaviour
         searching = false;
     }
 
-    void OnTrapped(TrapEvent @event)
+    void OnTrapActivated(TrapActivateEvent @event)
     {
         var position = @event.trap.transform.position;
-        switch (@event.type)
-        {
-            case TrapType.Frozen:
-                TrapHandler.FrozenData data = (TrapHandler.FrozenData)@event.data;
-                var distance = Vector3.Distance(position, transform.position);
-                if (distance < data.range)
-                {
-                    // behavior.SendEvent<object>("Frozen", data.duration);
-                    StopAllCoroutines();
-                    StartCoroutine(FrozenCoroutine(data.duration));
-                }
+        // var distance = Vector3.Distance(position, transform.position);
 
-                break;
-            case TrapType.Distraction:
-                distance = Vector3.Distance(position, transform.position);
-                // if (distance < 3)
-                {
-                    // _light.color = colors[1];
-                    behavior.SetVariableValue("Alerted", true);
-                    behavior.SetVariableValue("Spot Point", position);
-                    searching = true;
-                }
-                break;
+        NavMeshPath path = new NavMeshPath();
+        var hasPath = NavMesh.CalculatePath(transform.position, position, NavMesh.AllAreas, path);
+        if (!hasPath) return;
+
+        float distance = 0;
+        for (int i = 0; i < path.corners.Length - 1; ++i)
+            distance += Vector3.Distance(path.corners[i], path.corners[i + 1]);
+
+        if (@event.trap is FrozenTrap)
+        {
+            FrozenTrap frozen = (FrozenTrap)@event.trap;
+            if (distance < frozen.range)
+            {
+                StopAllCoroutines();
+                StartCoroutine(FrozenCoroutine(frozen.duration));
+            }
+        }
+        else if (@event.trap is DistractionTrap)
+        {
+            DistractionTrap distraction = (DistractionTrap)@event.trap;
+            if (distance < distraction.range && !distraction.ReachedMaxCount() && !frozen)
+            {
+                behavior.SetVariableValue("Alerted", true);
+                behavior.SetVariableValue("Spot Point", position);
+                searching = true;
+                distraction.IncreaseCount();
+            }
         }
     }
 
     IEnumerator FrozenCoroutine(float duration)
     {
         // behavior.enabled = false;
+        frozen = true;
         agent.isStopped = true;
         detection.enabled = false;
         attack.enabled = false;
@@ -183,6 +192,7 @@ public class GuardReaction : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         // behavior.enabled = true;
+        frozen = false;
         agent.isStopped = false;
         detection.enabled = true;
         attack.enabled = true;

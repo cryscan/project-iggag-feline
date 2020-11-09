@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
     {
         if (currentState == GameState.Paused)
         {
-            targetTimeScale = previousTimeScale;
+            targetTimeScale = 1;
 
             var previous = states.Pop();
             EventBus.Publish(new GameStateChangeEvent(previous, currentState));
@@ -135,7 +135,7 @@ public class GameManager : MonoBehaviour
         if (currentState != GameState.Start)
         {
             Debug.LogError($"[Game State] makes no sense starting plan at state {currentState.ToString()}");
-            return;
+            // return;
         }
 
         var previous = currentState;
@@ -148,7 +148,7 @@ public class GameManager : MonoBehaviour
         if (currentState != GameState.Plan && currentState != GameState.Play)
         {
             Debug.LogError($"[Game State] makes no sense starting plan at state {currentState.ToString()}");
-            return;
+            // return;
         }
 
         var previous = states.Pop();

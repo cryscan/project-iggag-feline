@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public class ScheduleAddEvent { public ScheduleTimerEvent @event; }
+
 [System.Serializable]
 public class ScheduleTimerEvent
 {
@@ -22,7 +24,7 @@ public class ScheduleManager : MonoBehaviour
 {
     public static ScheduleManager instance { get; private set; }
 
-    public List<ScheduleTimerEvent> schedules = new List<ScheduleTimerEvent>();
+    public List<ScheduleTimerEvent> schedules { get; private set; } = new List<ScheduleTimerEvent>();
 
     public float maxTime { get; private set; } = 60;
     public float timer { get; private set; } = 0;
@@ -78,7 +80,12 @@ public class ScheduleManager : MonoBehaviour
 
     public void SetMaxTime(float time) => maxTime = time;
 
-    public void AddSchedule(GameObject prefab, Vector3 position) => schedules.Add(new ScheduleTimerEvent(timer, prefab, position));
+    public void AddSchedule(GameObject prefab, Vector3 position)
+    {
+        var @event = new ScheduleTimerEvent(timer, prefab, position);
+        schedules.Add(@event);
+        EventBus.Publish(new ScheduleAddEvent() { @event = @event });
+    }
 
     void OnGameStateChanged(GameStateChangeEvent @event)
     {
@@ -97,7 +104,7 @@ public class ScheduleManager : MonoBehaviour
             }
         }
 
-        if (@event.previous == GameState.Start && @event.current == GameState.Plan)
+        if (@event.previous != GameState.Paused && @event.current == GameState.Plan)
         {
             schedules = new List<ScheduleTimerEvent>();
             timer = 0;

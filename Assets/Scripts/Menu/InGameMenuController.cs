@@ -45,13 +45,15 @@ public class InGameMenuController : MonoBehaviour
     public void MainMenuButton()
     {
         // UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
+        GameManager.instance.TogglePause();
         GameManager.instance.GameOverReturn();
     }
 
     public void RestartStage()
     {
+        GameManager.instance.TogglePause();
         Scene scene = SceneManager.GetActiveScene();
         // SceneManager.LoadScene(scene.name);
-        GameManager.instance.RestartPlanScene(scene.name);
+        GameManager.instance.EnterPlanScene(scene.name);
     }
 }

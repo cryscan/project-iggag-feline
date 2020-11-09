@@ -58,6 +58,6 @@ public class PlaceTrap : MonoBehaviour
         config[index].count--;
 
         ScheduleManager.instance.AddSchedule(prefab, position);
-        trap.GetComponent<TrapHandler>()?.Activate();
+        trap.GetComponent<TrapBase>()?.Activate();
     }
 }

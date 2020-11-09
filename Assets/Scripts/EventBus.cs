@@ -1,4 +1,4 @@
-﻿#define EVENTBUS_DEBUG
+﻿// #define EVENTBUS_DEBUG
 
 using System.Collections;
 using System.Collections.Generic;
