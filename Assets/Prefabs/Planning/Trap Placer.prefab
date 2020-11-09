@@ -151,6 +151,7 @@ MonoBehaviour:
     m_Bits: 1572864
   count: 0
   sprite: {fileID: 21300000, guid: 94b95df341ca6d84283532ba72a680a1, type: 3}
+  trapType: distraction
   ball: {fileID: 4604029080870223210}
 --- !u!114 &9146665005466742106
 MonoBehaviour:
@@ -174,6 +175,7 @@ MonoBehaviour:
     m_Bits: 1572864
   count: 0
   sprite: {fileID: 21300000, guid: e89a7df0db4a29b48b07a97b0d561296, type: 3}
+  trapType: frozen
   ball: {fileID: 7757119836532502126}
 --- !u!1 &7757119836532502126
 GameObject:
