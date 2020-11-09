@@ -108,7 +108,6 @@ public class GameManager : MonoBehaviour
             states.Push(GameState.Paused);
             EventBus.Publish(new GameStateChangeEvent(previous, currentState));
         }
-  		Debug.Log($"paused called current {GameManager.instance.currentState}, timeScale {targetTimeScale}");
     }
 
     public void GameOverReturn(int index = 0)

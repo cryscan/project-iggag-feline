@@ -18,7 +18,7 @@ public class MemoController : MonoBehaviour
     Dictionary<ScheduleTimerEvent, Icon> icons;
 
     Subscription<ScheduleAddEvent> scheduleAddhandler;
-    Subscription<TrapActivateEvent> trapActivateHandler;
+    Subscription<ScheduleTimerEvent> scheduleTimerHandler;
 
     void Awake()
     {
@@ -28,11 +28,13 @@ public class MemoController : MonoBehaviour
     void OnEnable()
     {
         scheduleAddhandler = EventBus.Subscribe<ScheduleAddEvent>(OnScheduleAdded);
+        scheduleTimerHandler = EventBus.Subscribe<ScheduleTimerEvent>(OnScheduleTimer);
     }
 
     void OnDisable()
     {
         EventBus.Unsubscribe(scheduleAddhandler);
+        EventBus.Unsubscribe(scheduleTimerHandler);
     }
 
     void Update()
@@ -58,13 +60,11 @@ public class MemoController : MonoBehaviour
         }
     }
 
-    void OnTrapActivated(TrapActivateEvent @event)
+    void OnScheduleTimer(ScheduleTimerEvent @event)
     {
-        var query = from key in icons.Keys
-                    where key.prefab == @event.trap.gameObject
-                    select key;
-        var k = query.First();
+        Destroy(icons[@event].level);
+        Destroy(icons[@event].progress);
 
-        icons.Remove(k);
+        icons.Remove(@event);
     }
 }
