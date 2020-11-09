@@ -29,7 +29,7 @@ public class GameDoor : MonoBehaviour
         Scene scene = SceneManager.GetActiveScene();
         Debug.Log(scene.name);
 
-        string end = scene.path.Split('/')[2];
+        string end = scene.path.Split('/')[3];
         Debug.Log(end);
 
         int nextIndex = scene.buildIndex + 1;

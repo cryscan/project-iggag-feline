@@ -374,6 +374,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 347220220}
     m_Modifications:
+    - target: {fileID: 1192336591441428316, guid: bdd04dcd863b7c75a889b7954a56c881,
+        type: 3}
+      propertyPath: m_Text
+      value: 'Heist 1: The Warehouse'
+      objectReference: {fileID: 0}
     - target: {fileID: 1192336591757069835, guid: bdd04dcd863b7c75a889b7954a56c881,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -499,6 +504,35 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1192336592431008381, guid: bdd04dcd863b7c75a889b7954a56c881,
+        type: 3}
+      propertyPath: m_Text
+      value: Looks like you've got your first job. This should be a pretty simple
+        in and out. The client wants you to find a dossier inside the office of a
+        warehouse. The dossier contains information vital them. We don't ask, we
+        just steal. Show us how it's done, "master thief."
+      objectReference: {fileID: 0}
+    - target: {fileID: 1192336593020051589, guid: bdd04dcd863b7c75a889b7954a56c881,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c0111fb8efafc37408a3343a06f50ba2,
+        type: 3}
+    - target: {fileID: 1192336593020051589, guid: bdd04dcd863b7c75a889b7954a56c881,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1192336593020051589, guid: bdd04dcd863b7c75a889b7954a56c881,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1192336593020051589, guid: bdd04dcd863b7c75a889b7954a56c881,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1192336593136083160, guid: bdd04dcd863b7c75a889b7954a56c881,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -557,7 +591,7 @@ PrefabInstance:
     - target: {fileID: 1192336593249744439, guid: bdd04dcd863b7c75a889b7954a56c881,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: AdvancedLevelButton
+      value: Heist1StartButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bdd04dcd863b7c75a889b7954a56c881, type: 3}
@@ -783,7 +817,7 @@ GameObject:
   - component: {fileID: 510690859}
   - component: {fileID: 510690858}
   m_Layer: 5
-  m_Name: Heist Tutorial
+  m_Name: Heist0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1128,7 +1162,7 @@ PrefabInstance:
     - target: {fileID: 1052980418610681442, guid: 19400f7c7021481f78badcc4b9588e4d,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3589704658324581205, guid: 19400f7c7021481f78badcc4b9588e4d,
         type: 3}
@@ -1590,7 +1624,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Heist Tutorial
+  m_Text: 'Heist 0
+
 
 '
 --- !u!222 &1268043480
@@ -1724,12 +1759,12 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1324609366}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e4c664bfaa440204aaf8a441636e478b, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.25
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -2444,6 +2479,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 347220220}
     m_Modifications:
+    - target: {fileID: 1192336591441428316, guid: bdd04dcd863b7c75a889b7954a56c881,
+        type: 3}
+      propertyPath: m_Text
+      value: 'Heist 0: Training'
+      objectReference: {fileID: 0}
     - target: {fileID: 1192336591757069835, guid: bdd04dcd863b7c75a889b7954a56c881,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -2499,10 +2539,37 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1192336592431008381, guid: bdd04dcd863b7c75a889b7954a56c881,
+        type: 3}
+      propertyPath: m_Text
+      value: So you wanna be a master thief, huh? Well, make it through this training
+        and we'll see if you have what it takes.
+      objectReference: {fileID: 0}
     - target: {fileID: 1192336592738254378, guid: bdd04dcd863b7c75a889b7954a56c881,
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1192336593020051589, guid: bdd04dcd863b7c75a889b7954a56c881,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c34b4558a2e2e68499f8fbb672757ab3,
+        type: 3}
+    - target: {fileID: 1192336593020051589, guid: bdd04dcd863b7c75a889b7954a56c881,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.24011898
+      objectReference: {fileID: 0}
+    - target: {fileID: 1192336593020051589, guid: bdd04dcd863b7c75a889b7954a56c881,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.23215558
+      objectReference: {fileID: 0}
+    - target: {fileID: 1192336593020051589, guid: bdd04dcd863b7c75a889b7954a56c881,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.3490566
       objectReference: {fileID: 0}
     - target: {fileID: 1192336593136083160, guid: bdd04dcd863b7c75a889b7954a56c881,
         type: 3}
@@ -2554,5 +2621,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 347220221}
+    - target: {fileID: 1192336593249744439, guid: bdd04dcd863b7c75a889b7954a56c881,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Heist0StartButton
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bdd04dcd863b7c75a889b7954a56c881, type: 3}

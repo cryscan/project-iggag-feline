@@ -51,14 +51,7 @@ public class MainMenuController : MonoBehaviour
 
     public void QuitButton() => Application.Quit();
 
-    public void TutorialBasicButton() => game.EnterPlanScene("Tutorial_Basic");
+    public void Heist0StartButton() => game.EnterPlanScene("0.1 (Basic)");
 
-    public void TutorialFreezeButton() => game.EnterPlanScene("Tutorial_Freeze");
-
-    public void TutorialCrateButton() => game.EnterPlanScene("Tutorial_Crate");
-
-    public void TutorialDistractionButton() => game.EnterPlanScene("Tutorial_Distraction");
-
-    public void AdvancedLevelButton() => game.EnterPlanScene("Lab_richard");
-
+    public void Heist1StartButton() => game.EnterPlanScene("1.1 (Outside)");
 }
