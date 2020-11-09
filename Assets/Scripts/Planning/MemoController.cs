@@ -8,14 +8,20 @@ public class MemoController : MonoBehaviour
 {
     struct Icon
     {
-        public GameObject progress; // Icon shows up on progress bar
-        public GameObject level;    // Icon shows up in the level
+        public GameObject onBar;
+        public GameObject inGame;
+
+        public Icon(GameObject onBar, GameObject inGame)
+        {
+            this.onBar = onBar;
+            this.inGame = inGame;
+        }
     }
 
-    [SerializeField] LinearProgressBar progressBar;
+    [SerializeField] LinearProgressBar progress;
 
     Camera _camera;
-    Dictionary<ScheduleTimerEvent, Icon> icons;
+    Dictionary<ScheduleTimerEvent, Icon> icons = new Dictionary<ScheduleTimerEvent, Icon>();
 
     Subscription<ScheduleAddEvent> scheduleAddhandler;
     Subscription<ScheduleTimerEvent> scheduleTimerHandler;
@@ -39,32 +45,39 @@ public class MemoController : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.instance.currentState != GameState.Play) return;
+        // if (GameManager.instance.currentState != GameState.Play) return;
 
         foreach (var pair in icons)
         {
-            var position = _camera.WorldToScreenPoint(pair.Key.prefab.transform.position);
-            pair.Value.level.transform.position = position;
+            var position = _camera.WorldToScreenPoint(pair.Key.position);
+            pair.Value.inGame.transform.position = position;
+            // Debug.Log($"[Icon] {position}");
         }
     }
 
-    void OnScheduleAdded(ScheduleAddEvent @event)
-    {
-        var icon = @event.@event.prefab.GetComponent<TrapIcon>();
-        if (icon)
-        {
-            var position = Vector3.Lerp(progressBar.startPoint, progressBar.endPoint, progressBar.amount);
-            var progress = Instantiate(icon.prefab, position, Quaternion.identity, transform);
-            var level = Instantiate(icon.prefab, transform);
-            icons.Add(@event.@event, new Icon() { progress = progress, level = level });
-        }
-    }
+    void OnScheduleAdded(ScheduleAddEvent @event) => AddIcon(@event.@event);
 
     void OnScheduleTimer(ScheduleTimerEvent @event)
     {
-        Destroy(icons[@event].level);
-        Destroy(icons[@event].progress);
+        if (icons.ContainsKey(@event))
+        {
+            var icon = icons[@event];
+            Destroy(icon.inGame);
+            Destroy(icon.onBar);
 
-        icons.Remove(@event);
+            icons.Remove(@event);
+        }
+    }
+
+    void AddIcon(ScheduleTimerEvent @event)
+    {
+        var icon = @event.prefab.GetComponent<TrapIcon>();
+        if (icon)
+        {
+            var position = Vector3.Lerp(progress.start, progress.end, progress.amount);
+            var onBar = Instantiate(icon.prefab, position, Quaternion.identity, transform);
+            var inGame = Instantiate(icon.prefab, transform);
+            icons.Add(@event, new Icon(onBar, inGame));
+        }
     }
 }

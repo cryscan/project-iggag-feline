@@ -25,6 +25,7 @@ public class GuardReaction : MonoBehaviour
     bool detected = false;
     bool chasing = false;
     bool searching = false;
+    bool frozen = false;
 
     Subscription<DetectEvent> detectEventHandler;
     Subscription<LossTargetEvent> lossTargetHandler;
@@ -157,20 +158,19 @@ public class GuardReaction : MonoBehaviour
         for (int i = 0; i < path.corners.Length - 1; ++i)
             distance += Vector3.Distance(path.corners[i], path.corners[i + 1]);
 
-        FrozenTrap frozen = (FrozenTrap)@event.trap;
-        DistractionTrap distraction = (DistractionTrap)@event.trap;
-
-        if (frozen)
+        if (@event.trap is FrozenTrap)
         {
+            FrozenTrap frozen = (FrozenTrap)@event.trap;
             if (distance < frozen.range)
             {
                 StopAllCoroutines();
                 StartCoroutine(FrozenCoroutine(frozen.duration));
             }
         }
-        else if (distraction)
+        else if (@event.trap is DistractionTrap)
         {
-            if (distance < distraction.range && !distraction.ReachedMaxCount())
+            DistractionTrap distraction = (DistractionTrap)@event.trap;
+            if (distance < distraction.range && !distraction.ReachedMaxCount() && !frozen)
             {
                 behavior.SetVariableValue("Alerted", true);
                 behavior.SetVariableValue("Spot Point", position);
@@ -183,6 +183,7 @@ public class GuardReaction : MonoBehaviour
     IEnumerator FrozenCoroutine(float duration)
     {
         // behavior.enabled = false;
+        frozen = true;
         agent.isStopped = true;
         detection.enabled = false;
         attack.enabled = false;
@@ -191,6 +192,7 @@ public class GuardReaction : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         // behavior.enabled = true;
+        frozen = false;
         agent.isStopped = false;
         detection.enabled = true;
         attack.enabled = true;
