@@ -1,36 +1,77 @@
-﻿using System.Collections;
+﻿using BehaviorDesigner.Runtime.Tasks.Unity.UnityPhysics;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlaceTrap : MonoBehaviour
 {
-    [System.Serializable]
-    public class Config
+    [SerializeField] GameObject prefab;
+    [SerializeField] float radius;
+    [SerializeField] LayerMask layers;
+    [SerializeField] LayerMask blockLayers;
+    [SerializeField] float count;
+    [SerializeField] Sprite sprite;
+    [SerializeField] string trapType;
+
+    [SerializeField] GameObject ball;
+    Camera _camera;
+    CounterController Counter;
+
+    private void Awake()
     {
-        public GameObject prefab;
-        public int count;
-        public string description;
+        _camera = Camera.main;
+        ball.transform.localScale = new Vector3(radius, radius, radius);
+        Cursor.visible = false;
+        Counter = GameObject.FindGameObjectWithTag("Counter").GetComponent<CounterController>();
     }
-
-    [SerializeField] Transform look;
-    // [SerializeField] GameObject prefab;
-    [SerializeField] List<Config> config;
-
-    [SerializeField] LayerMask forbiddenLayer;
-
-    int index = 0;
-    public GameObject prefab { get => config[index].prefab; }
-    public int count { get => config[index].count; }
-    public string description { get => config[index].description; }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) index = 0;
-        if (Input.GetKeyDown(KeyCode.Alpha2) && config.Count > 1) index = 1;
-        if (Input.GetKeyDown(KeyCode.Alpha3) && config.Count > 2) index = 2;
+        if (GameManager.instance.currentState == GameState.Plan)
+        {
+            var valid = CheckPosition();           
+            if (valid && count > 0)
+            {
+                Debug.Log(prefab);
+                ball.SetActive(true);
+                Cursor.SetCursor(sprite.texture, new Vector2(16, 16), CursorMode.ForceSoftware);
+            }
+            else
+            {
+               ball.SetActive(false);
+            //    Cursor.SetCursor(null, Vector2.zero, CursorMode.ForceSoftware);
+            //    Cursor.visible = true;
+            }
 
-        if (GameManager.instance.currentState == GameState.Plan && Input.GetMouseButtonDown(0))
-            InstantiateTrap();
+            if (trapType == "frozen")
+                Counter.SetFrozenCount(count);
+            else
+                Counter.SetDistractionCount(count);
+
+            if (valid && Input.GetMouseButtonDown(0))
+                InstantiateTrap();
+        }
+        else
+        {
+            Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+            ball.SetActive(false);
+        }
+        
+
+    }
+
+    bool CheckPosition()
+    {
+        Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, float.PositiveInfinity, blockLayers))
+        {
+            return hit.collider.gameObject.CompareLayers(layers);
+        }
+        else
+            return false;
     }
 
     void InstantiateTrap()
@@ -43,19 +84,16 @@ public class PlaceTrap : MonoBehaviour
 
         var extents = prefab.GetComponent<Collider>().bounds.extents;
 
-        Vector3 position = new Vector3(Mathf.Round(look.position.x),
-                                             0f,
-                                             Mathf.Round(look.position.z));
+        
 
-        Collider[] hitColliders = Physics.OverlapBox(position, extents, Quaternion.identity, forbiddenLayer);
-        if (hitColliders.Length > 0)
-        {
-            Debug.Log("Cannot place trap here!");
-            return;
-        }
+        Vector3 position = new Vector3(Mathf.Round(transform.position.x),
+                                             Mathf.Round(transform.position.y),
+                                             Mathf.Round(transform.position.z));
+
 
         GameObject trap = GameObject.Instantiate(prefab, position, Quaternion.identity);
-        config[index].count--;
+
+        count--;
 
         ScheduleManager.instance.AddSchedule(prefab, position);
         trap.GetComponent<TrapBase>()?.Activate();
