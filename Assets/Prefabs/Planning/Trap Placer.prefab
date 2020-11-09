@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundLayers:
     serializedVersion: 2
-    m_Bits: 3145728
+    m_Bits: 1048577
 --- !u!114 &6479569642199766270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,4 +71,4 @@ MonoBehaviour:
     description: Distraction
   forbiddenLayer:
     serializedVersion: 2
-    m_Bits: 2101248
+    m_Bits: 4097

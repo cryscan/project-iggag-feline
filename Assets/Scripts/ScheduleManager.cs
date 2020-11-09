@@ -24,7 +24,7 @@ public class ScheduleManager : MonoBehaviour
 {
     public static ScheduleManager instance { get; private set; }
 
-    public List<ScheduleTimerEvent> schedules = new List<ScheduleTimerEvent>();
+    public List<ScheduleTimerEvent> schedules { get; private set; } = new List<ScheduleTimerEvent>();
 
     public float maxTime { get; private set; } = 60;
     public float timer { get; private set; } = 0;

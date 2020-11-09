@@ -10,17 +10,33 @@ public class MemoController : MonoBehaviour
     {
         public GameObject onBar;
         public GameObject inGame;
+        public LineRenderer lineRenderer;
 
-        public Icon(GameObject onBar, GameObject inGame)
+        public Icon(GameObject onBar, GameObject inGame, Material material)
         {
             this.onBar = onBar;
             this.inGame = inGame;
+
+            lineRenderer = onBar.GetComponent<LineRenderer>();
+            if (!lineRenderer)
+                lineRenderer = onBar.AddComponent<LineRenderer>();
+
+            lineRenderer.positionCount = 2;
+            lineRenderer.startWidth = 0.1f;
+            lineRenderer.endWidth = 0.1f;
+
+            lineRenderer.material = material;
+            lineRenderer.startColor = Color.black;
+            lineRenderer.endColor = Color.black;
         }
     }
 
+    [SerializeField] Camera _camera;
+    [SerializeField] Material material;
     [SerializeField] LinearProgressBar progress;
 
-    Camera _camera;
+    Camera mainCamera;
+
     Dictionary<ScheduleTimerEvent, Icon> icons = new Dictionary<ScheduleTimerEvent, Icon>();
 
     Subscription<ScheduleAddEvent> scheduleAddhandler;
@@ -28,7 +44,13 @@ public class MemoController : MonoBehaviour
 
     void Awake()
     {
-        _camera = Camera.main;
+        mainCamera = Camera.main;
+    }
+
+    void Start()
+    {
+        foreach (var schedule in ScheduleManager.instance.schedules)
+            AddIcon(schedule);
     }
 
     void OnEnable()
@@ -49,9 +71,17 @@ public class MemoController : MonoBehaviour
 
         foreach (var pair in icons)
         {
-            var position = _camera.WorldToScreenPoint(pair.Key.position);
+            var position = mainCamera.WorldToScreenPoint(pair.Key.position);
             pair.Value.inGame.transform.position = position;
-            // Debug.Log($"[Icon] {position}");
+
+            // pair.Value.lineRenderer.SetPosition(0, _camera.ScreenToWorldPoint(pair.Value.onBar.transform.position));
+            position = pair.Value.onBar.transform.position;
+            position.z = 10;
+            pair.Value.lineRenderer.SetPosition(0, _camera.ScreenToWorldPoint(position));
+
+            position = pair.Value.inGame.transform.position;
+            position.z = 10;
+            pair.Value.lineRenderer.SetPosition(1, _camera.ScreenToWorldPoint(position));
         }
     }
 
@@ -74,10 +104,13 @@ public class MemoController : MonoBehaviour
         var icon = @event.prefab.GetComponent<TrapIcon>();
         if (icon)
         {
-            var position = Vector3.Lerp(progress.start, progress.end, progress.amount);
+            var amount = @event.timer / progress.max;
+            var position = progress.GetMiddlePoint(amount);
+            Debug.Log($"{Screen.width}, {Screen.height}, {progress.start}, {progress.end}, {position.x}");
+
             var onBar = Instantiate(icon.prefab, position, Quaternion.identity, transform);
             var inGame = Instantiate(icon.prefab, transform);
-            icons.Add(@event, new Icon(onBar, inGame));
+            icons.Add(@event, new Icon(onBar, inGame, material));
         }
     }
 }

@@ -87,6 +87,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playSceneName: 
+  sameScene: 1
   _maxPlanTime: 60
 --- !u!1 &4564816865735989406
 GameObject:
@@ -131,7 +132,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a7b99437daf863e6b87507838a4af6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  schedules: []
 --- !u!1 &6060142165680965783
 GameObject:
   m_ObjectHideFlags: 0
