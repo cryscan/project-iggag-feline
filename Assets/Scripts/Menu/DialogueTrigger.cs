@@ -33,7 +33,10 @@ public class DialogueTrigger : MonoBehaviour
 
     void OnGameStateChanged(GameStateChangeEvent @event)
     {
-        if (@event.previous == GameState.Start && @event.current == GameState.Plan)
+        if (@event.previous != GameState.Paused && @event.current == GameState.Plan)
+        {
+
             controller.StartDialogue(dialogue);
+        }
     }
 }

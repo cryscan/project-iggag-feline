@@ -16,11 +16,11 @@ public class GameDoor : MonoBehaviour
 
     IEnumerator WinCoroutine()
     {
-        GameManager.instance.TogglePause();
+        // GameManager.instance.TogglePause();
         EventBus.Publish(new GameWinEvent());
 
         yield return new WaitForSecondsRealtime(waitTime);
-        GameManager.instance.TogglePause();
+        // GameManager.instance.TogglePause();
 
         Time.timeScale = 1;
 
@@ -34,6 +34,7 @@ public class GameDoor : MonoBehaviour
 
         int nextIndex = scene.buildIndex + 1;
         if (end != "End") index = scene.buildIndex + 1;
-        GameManager.instance.GameOverReturn(index);
+        // GameManager.instance.GameOverReturn(index);
+        GameManager.instance.EnterPlanScene(index);
     }
 }
