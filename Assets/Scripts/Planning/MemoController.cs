@@ -54,8 +54,8 @@ public class MemoController : MonoBehaviour
         if (icon)
         {
             var position = Vector3.Lerp(progressBar.startPoint, progressBar.endPoint, progressBar.amount);
-            var progress = Instantiate(icon.prefab, position, Quaternion.identity);
-            var level = Instantiate(icon.prefab);
+            var progress = Instantiate(icon.prefab, position, Quaternion.identity, transform);
+            var level = Instantiate(icon.prefab, transform);
             icons.Add(@event.@event, new Icon() { progress = progress, level = level });
         }
     }

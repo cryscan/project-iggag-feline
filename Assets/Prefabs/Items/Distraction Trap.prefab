@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 8683141609083507394}
   - component: {fileID: 8683141609083507395}
   - component: {fileID: 8683141609083507399}
-  - component: {fileID: 4845756775404283616}
+  - component: {fileID: -5577101629113983897}
+  - component: {fileID: -8602691196709427060}
   m_Layer: 12
   m_Name: Distraction Trap
   m_TagString: Untagged
@@ -94,7 +95,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4845756775404283616
+--- !u!114 &-5577101629113983897
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,12 +104,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 8683141609083507420}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86bca1724b082d57d984eff446964b59, type: 3}
+  m_Script: {fileID: 11500000, guid: 9aee4487c56d72819a7248b839c9d4f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: 2
-  frozenData:
-    range: 5
-    duration: 3
-  activatePrefab: {fileID: 7528560845187571420, guid: d6687c66dc20de0fe8df4389ea7962dd,
+  activatedPrefab: {fileID: 7528560845187571420, guid: d6687c66dc20de0fe8df4389ea7962dd,
     type: 3}
+  _range: 10
+  maxCount: 2
+--- !u!114 &-8602691196709427060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8683141609083507420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d1a0c788fc50b40bbc4856a8387ca35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 8006639951871394162, guid: 578aed412309ce318880bc627c7b4936, type: 3}
