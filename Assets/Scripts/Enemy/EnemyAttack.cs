@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemyAttack : MonoBehaviour
 {
@@ -14,7 +15,11 @@ public class EnemyAttack : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
-            GameManager.instance.GameOverReturn();
+        {
+            // GameManager.instance.GameOverReturn();
+            Scene scene = SceneManager.GetActiveScene();
+	        GameManager.instance.EnterPlanScene(scene.name);
+        }
     }
 
     /*

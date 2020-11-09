@@ -20,21 +20,22 @@ public class GameDoor : MonoBehaviour
         EventBus.Publish(new GameWinEvent());
 
         yield return new WaitForSecondsRealtime(waitTime);
-        // GameManager.instance.TogglePause();
-
-        Time.timeScale = 1;
 
         //Heist scene logic
+        GameManager.instance.EnterPlanScene(GetNextIndex());
+    }
+
+    int GetNextIndex()
+    {
         int index = 0;
         Scene scene = SceneManager.GetActiveScene();
-        Debug.Log(scene.name);
 
-        string end = scene.path.Split('/')[2];
+        string end = scene.path.Split('/')[3];
         Debug.Log(end);
 
         int nextIndex = scene.buildIndex + 1;
         if (end != "End") index = scene.buildIndex + 1;
-        // GameManager.instance.GameOverReturn(index);
-        GameManager.instance.EnterPlanScene(index);
+
+        return index;
     }
 }

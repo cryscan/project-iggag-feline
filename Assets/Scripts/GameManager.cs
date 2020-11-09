@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
     {
         if (currentState == GameState.Paused)
         {
-            targetTimeScale = previousTimeScale;
+            targetTimeScale = 1;
 
             var previous = states.Pop();
             EventBus.Publish(new GameStateChangeEvent(previous, currentState));
