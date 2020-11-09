@@ -9,6 +9,7 @@ TagManager:
   - Trap Placer
   - Fire
   - Dialogue Controller
+  - Counter
   layers:
   - Default
   - TransparentFX
