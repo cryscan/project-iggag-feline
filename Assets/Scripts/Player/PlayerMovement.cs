@@ -33,8 +33,8 @@ public class PlayerMovement : MonoBehaviour
         var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
 
-        if (Input.GetKey(KeyCode.LeftShift)) speed = sprintSpeed;
-        else speed = moveSpeed;
+        // if (Input.GetKey(KeyCode.LeftShift)) speed = sprintSpeed;
+        // else speed = moveSpeed;
 
         var move = transform.forward * vertical + transform.right * horizontal;
         move = move.normalized;
