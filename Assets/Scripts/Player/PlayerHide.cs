@@ -45,7 +45,7 @@ public class PlayerHide : MonoBehaviour
                 hiding.ComeOut();
                 hiding = null;
             }
-            if (interacting)
+            else if (interacting)
             {
                 hiding = interacting;
                 hiding.Hide(gameObject);
@@ -57,7 +57,7 @@ public class PlayerHide : MonoBehaviour
     void OnPlayerInteracted(PlayerInteractEvent @event)
     {
         var hidable = @event.target.GetComponent<Hideable>();
-        if (hidable)
+        if (hidable && !hidable.inside)
         {
             interacting = hidable;
             EventBus.Publish(new PlayerPromptEvent(@event.target, InteractionType.Hide));
@@ -66,8 +66,12 @@ public class PlayerHide : MonoBehaviour
 
     void OnPlayerDisinteracted(PlayerDisinteractEvent @event)
     {
-        interacting = null;
-        EventBus.Publish(new PlayerDispromptEvent() { type = InteractionType.Hide });
+        var hidable = @event.target.GetComponent<Hideable>();
+        if (hidable)
+        {
+            interacting = null;
+            EventBus.Publish(new PlayerDispromptEvent() { type = InteractionType.Hide });
+        }
     }
 
     IEnumerator HideCoroutine()
