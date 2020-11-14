@@ -182,18 +182,20 @@ public class GuardReaction : MonoBehaviour
 
     IEnumerator FrozenCoroutine(float duration)
     {
-        // behavior.enabled = false;
         frozen = true;
+        behavior.DisableBehavior(true);
         agent.isStopped = true;
+
         detection.enabled = false;
         attack.enabled = false;
         _light.enabled = false;
 
         yield return new WaitForSeconds(duration);
 
-        // behavior.enabled = true;
         frozen = false;
         agent.isStopped = false;
+        behavior.EnableBehavior();
+
         detection.enabled = true;
         attack.enabled = true;
         _light.enabled = true;
