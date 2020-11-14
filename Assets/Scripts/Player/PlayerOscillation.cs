@@ -43,7 +43,7 @@ public class PlayerOscillation : MonoBehaviour
         velocity.y = 0;
         var speed = velocity.magnitude;
 
-        float target = speed / movement.moveSpeed;
+        float target = Mathf.Clamp01(speed / movement.moveSpeed);
         blend = blend.Fallout(target, fallout);
 
         var position = head.position;
