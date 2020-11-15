@@ -40,6 +40,8 @@ public class GuardReaction : MonoBehaviour
 
         player = GameObject.FindGameObjectWithTag("Player");
         visibility = player.GetComponent<PlayerVisibility>();
+
+        GlobalVariables.Instance.SetVariableValue("Player", player);
     }
 
     void OnEnable()
