@@ -8678,7 +8678,7 @@ PrefabInstance:
     - target: {fileID: 8175160893377208905, guid: 79ebd4520ed648e498f4a127dfa119b5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8175160893377208905, guid: 79ebd4520ed648e498f4a127dfa119b5,
         type: 3}
@@ -31560,7 +31560,7 @@ PrefabInstance:
     - target: {fileID: 8175160893377208905, guid: 79ebd4520ed648e498f4a127dfa119b5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8175160893377208905, guid: 79ebd4520ed648e498f4a127dfa119b5,
         type: 3}
@@ -32303,6 +32303,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2072548404485632514, guid: 19400f7c7021481f78badcc4b9588e4d,
+        type: 3}
+      propertyPath: UICamera
+      value: 
+      objectReference: {fileID: 1679376330}
     - target: {fileID: 2768910473184062577, guid: 19400f7c7021481f78badcc4b9588e4d,
         type: 3}
       propertyPath: config.Array.data[0].count

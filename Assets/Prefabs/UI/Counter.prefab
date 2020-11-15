@@ -204,8 +204,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e713c2759000e544a080104bced0929, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frozenCount: {fileID: 7299395646613025659}
-  distractionCount: {fileID: 398610420419366894}
+  text: {fileID: 7299395646613025659}
+  counter: {fileID: 11400000, guid: fbb927768263f2833bb802401ecdff07, type: 2}
 --- !u!1 &6205211204358088602
 GameObject:
   m_ObjectHideFlags: 0
