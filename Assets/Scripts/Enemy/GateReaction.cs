@@ -6,6 +6,7 @@ using UnityEngine;
 public class GateReaction : MonoBehaviour
 {
     [SerializeField] float breakTime = 5;
+    [SerializeField] GameObject breakEffect;
     [SerializeField] string[] accessTags;
 
     bool broken = false;
@@ -19,6 +20,8 @@ public class GateReaction : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         if (!animator) enabled = false;
+
+        breakEffect.SetActive(false);
     }
 
     void OnEnable()
@@ -64,9 +67,12 @@ public class GateReaction : MonoBehaviour
     {
         broken = true;
         animator.SetBool("Open", true);
+        breakEffect.SetActive(true);
+
         yield return new WaitForSeconds(breakTime);
 
         animator.SetBool("Open", false);
+        breakEffect.SetActive(false);
         broken = false;
     }
 
