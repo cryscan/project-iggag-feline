@@ -52,12 +52,6 @@ namespace Feline.AI.Actions
             return base.GetSettings(stackData);
         }
 
-        public override bool CheckProceduralCondition(GoapActionStackData<string, object> stackData)
-        {
-            return base.CheckProceduralCondition(stackData);
-            // return base.CheckProceduralCondition(stackData) && stackData.settings.HasKey("Objective Position");
-        }
-
         public override void Run(IReGoapAction<string, object> previous, IReGoapAction<string, object> next, ReGoapState<string, object> settings, ReGoapState<string, object> goalState, System.Action<IReGoapAction<string, object>> done, System.Action<IReGoapAction<string, object>> fail)
         {
             base.Run(previous, next, settings, goalState, done, fail);
@@ -67,14 +61,23 @@ namespace Feline.AI.Actions
                 var destination = settings.Get("Objective Position") as Vector3?;
                 if (destination.HasValue)
                 {
+                    // behavior.DisableBehavior();
                     behavior.ExternalBehavior = external;
                     behavior.SetVariableValue("Destination", destination.Value);
-                    behavior.EnableBehavior();
+                    // behavior.EnableBehavior();
                     return;
                 }
             }
 
             failCallback(this);
+        }
+
+        public override void Exit(IReGoapAction<string, object> next)
+        {
+            base.Exit(next);
+
+            var state = agent.GetMemory().GetWorldState();
+            state.Set("At", effects.Get("At"));
         }
 
         void SetDefaultEffects() => effects.Set("At", default(Vector3));

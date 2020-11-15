@@ -27,6 +27,8 @@ public class GuardReaction : MonoBehaviour
     bool searching = false;
     bool frozen = false;
 
+    Coroutine frozenCoroutine = null;
+
     Subscription<DetectEvent> detectEventHandler;
     Subscription<LossTargetEvent> lossTargetHandler;
     Subscription<TrapActivateEvent> trapActivateHandler;
@@ -165,8 +167,8 @@ public class GuardReaction : MonoBehaviour
             FrozenTrap frozen = (FrozenTrap)@event.trap;
             if (distance < frozen.range)
             {
-                StopAllCoroutines();
-                StartCoroutine(FrozenCoroutine(frozen.duration));
+                if (frozenCoroutine != null) StopCoroutine(frozenCoroutine);
+                frozenCoroutine = StartCoroutine(FrozenCoroutine(frozen.duration));
             }
         }
         else if (@event.trap is DistractionTrap)
@@ -201,5 +203,7 @@ public class GuardReaction : MonoBehaviour
         detection.enabled = true;
         attack.enabled = true;
         _light.enabled = true;
+
+        frozenCoroutine = null;
     }
 }
