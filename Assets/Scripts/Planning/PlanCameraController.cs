@@ -9,6 +9,11 @@ public class PlanCameraController : MonoBehaviour
 
     Vector3 _move = Vector3.zero;
 
+    void Start()
+    {
+        StartCoroutine(ResetCoroutine());
+    }
+
     private void Update()
     {
         var horizontal = Input.GetAxis("Horizontal");
@@ -18,5 +23,15 @@ public class PlanCameraController : MonoBehaviour
         _move = _move.Fallout(move, fallout);
 
         transform.position = transform.position + _move * speed * Time.deltaTime;
+    }
+
+    IEnumerator ResetCoroutine()
+    {
+        yield return null;
+
+        var player = GameObject.FindWithTag("Player");
+        var position = player.transform.position;
+        position.y = transform.position.y;
+        transform.position = position;
     }
 }

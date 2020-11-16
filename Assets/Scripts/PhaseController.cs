@@ -33,7 +33,7 @@ public class PhaseController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (game.currentState == GameState.Plan)
-                game.EnterPlayScene(playSceneName);
+                game.EnterPlaySceneRelocate(playSceneName);
         }
     }
 }

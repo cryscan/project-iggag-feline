@@ -21,12 +21,16 @@ public class PlaceTrap : MonoBehaviour
     TrapBase trap;
     RangeIndicator indicator;
 
+    DialogueController dialogueController;
+
     private void Awake()
     {
         _camera = Camera.main;
         trap = prefab.GetComponent<TrapBase>();
         indicator = GetComponent<RangeIndicator>();
         counter.count = initialCount;
+
+        dialogueController = GameObject.FindWithTag("Dialogue Controller").GetComponent<DialogueController>();
     }
 
     private void Update()
@@ -52,7 +56,7 @@ public class PlaceTrap : MonoBehaviour
                 indicator.radius = 0;
             }
 
-            if (valid && Input.GetMouseButtonDown(0))
+            if (valid && Input.GetMouseButtonDown(0) && !dialogueController.running)
                 InstantiateTrap();
         }
         else

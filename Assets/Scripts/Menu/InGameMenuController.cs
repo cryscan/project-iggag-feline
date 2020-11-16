@@ -9,37 +9,29 @@ public class InGameMenuController : MonoBehaviour
     [SerializeField] GameObject container;
 
     bool active = false;
-    bool dialogueOccuring = false;
-    Subscription<DialogueEvent> handler;
+
+    DialogueController dialogueController;
 
     void Awake()
     {
+        dialogueController = GameObject.FindWithTag("Dialogue Controller").GetComponent<DialogueController>();
         container.SetActive(false);
-    }
-
-    void OnEnable()
-    {
-        handler = EventBus.Subscribe<DialogueEvent>(OnDialogue);
-    }
-
-    void OnDisable()
-    {
-        EventBus.Unsubscribe(handler);
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P) && !dialogueOccuring)
+        if (Input.GetKeyDown(KeyCode.Escape) && !dialogueController.running)
         {
             GameManager.instance.TogglePause();
             container.SetActive(!active);
             active = !active;
         }
-    }
 
-    void OnDialogue(DialogueEvent @event)
-    {
-        dialogueOccuring = @event.starting;
+        if (Input.GetKeyDown(KeyCode.R) && GameManager.instance.currentState != GameState.Paused)
+        {
+            Scene scene = SceneManager.GetActiveScene();
+            GameManager.instance.EnterPlanScene(scene.name);
+        }
     }
 
     public void MainMenuButton()
@@ -53,7 +45,6 @@ public class InGameMenuController : MonoBehaviour
     {
         GameManager.instance.TogglePause();
         Scene scene = SceneManager.GetActiveScene();
-        // SceneManager.LoadScene(scene.name);
         GameManager.instance.EnterPlanScene(scene.name);
     }
 }
