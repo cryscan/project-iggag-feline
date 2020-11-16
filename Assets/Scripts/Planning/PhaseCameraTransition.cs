@@ -8,7 +8,7 @@ public class PhaseCameraTransition : MonoBehaviour
     CinemachineVirtualCamera virtualCamera;
     Camera mainCamera, planCamera;
 
-    Subscription<GameStateChangeEvent> handler;
+    // Subscription<GameStateChangeEvent> handler;
 
     void Awake()
     {
@@ -18,29 +18,48 @@ public class PhaseCameraTransition : MonoBehaviour
         planCamera = GameObject.FindWithTag("Plan Camera").GetComponent<Camera>();
     }
 
-    void OnEnable()
+    void Update()
     {
-        handler = EventBus.Subscribe<GameStateChangeEvent>(OnGameStateChanged);
-    }
-
-    void OnDisable()
-    {
-        EventBus.Unsubscribe(handler);
-    }
-
-    void OnGameStateChanged(GameStateChangeEvent @event)
-    {
-        if (@event.current == GameState.Plan)
+        var state = GameManager.instance.currentState;
+        if (state == GameState.Plan)
         {
             virtualCamera.Priority = 100;
             mainCamera.enabled = false;
             planCamera.enabled = true;
         }
-        if (@event.previous == GameState.Plan && @event.current == GameState.Play)
+        else if (state == GameState.Play)
         {
             virtualCamera.Priority = 0;
             mainCamera.enabled = true;
             planCamera.enabled = false;
         }
     }
+
+    /*
+        void OnEnable()
+        {
+            handler = EventBus.Subscribe<GameStateChangeEvent>(OnGameStateChanged);
+        }
+
+        void OnDisable()
+        {
+            EventBus.Unsubscribe(handler);
+        }
+
+        void OnGameStateChanged(GameStateChangeEvent @event)
+        {
+            if (@event.current == GameState.Plan)
+            {
+                virtualCamera.Priority = 100;
+                mainCamera.enabled = false;
+                planCamera.enabled = true;
+            }
+            if (@event.current == GameState.Play)
+            {
+                virtualCamera.Priority = 0;
+                mainCamera.enabled = true;
+                planCamera.enabled = false;
+            }
+        }
+    */
 }

@@ -8,7 +8,6 @@ public class CompareGameState : Conditional
 
     public override TaskStatus OnUpdate()
     {
-        if (state == GameManager.instance.currentState) return TaskStatus.Success;
-        else return TaskStatus.Failure;
+        return state == GameManager.instance.currentState ? TaskStatus.Success : TaskStatus.Failure;
     }
 }

@@ -9,9 +9,9 @@ public class GateReaction : MonoBehaviour
     [SerializeField] float breakTime = 5;
     [SerializeField] GameObject breakEffect;
 
-    bool broken = false;
+    public bool broken { get; private set; } = false;
+    public bool open { get; private set; } = false;
     bool detected = false;
-    bool open = false;
 
     Animator animator;
 
