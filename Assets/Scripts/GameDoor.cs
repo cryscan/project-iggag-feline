@@ -7,11 +7,25 @@ using UnityEngine.SceneManagement;
 public class GameDoor : MonoBehaviour
 {
     [SerializeField] float waitTime = 2;
+    public int nextLevelNum = 0;
+    public bool conditionalDoor = false;
+    public bool condition = false;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
-            StartCoroutine(WinCoroutine());
+        {
+            if (!conditionalDoor || condition)
+            {
+                if (!GameManager.instance.practiceMode)
+                {
+                    MainMenuController.UnlockLevel(nextLevelNum);
+                }
+
+                StartCoroutine(WinCoroutine());
+            }
+        }
+            
     }
 
     IEnumerator WinCoroutine()
@@ -22,7 +36,14 @@ public class GameDoor : MonoBehaviour
         yield return new WaitForSecondsRealtime(waitTime);
 
         //Heist scene logic
-        GameManager.instance.EnterPlanScene(GetNextIndex());
+        if (GameManager.instance.practiceMode)
+        {
+            GameManager.instance.EnterPlanScene(0);
+        }
+        else
+        {
+            GameManager.instance.EnterPlanScene(GetNextIndex());
+        }
     }
 
     int GetNextIndex()

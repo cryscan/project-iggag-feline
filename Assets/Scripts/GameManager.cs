@@ -30,6 +30,7 @@ public class GameLoseEvent { }
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
+    public bool practiceMode = false;
 
     Stack<GameState> states = new Stack<GameState>();
     public GameState currentState { get => states.Peek(); }
