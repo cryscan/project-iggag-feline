@@ -9,18 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: 99b4678eb8c7ea54b87ceb13631ec017
   - enabled: 1
-    path: Assets/Scenes/Heist 1/1.1 (Outside).unity
-    guid: 71365c28d43888e42b6d4460793ed5a5
-  - enabled: 1
-    path: Assets/Scenes/Heist 1/1.2 (Inside).unity
-    guid: 2a92a2c12bde0d247a10d7ffdc787055
-  - enabled: 1
-    path: Assets/Scenes/Heist 1/1.3 (Office).unity
-    guid: c2619786259b614439f5ca9991a3f897
-  - enabled: 1
-    path: Assets/Scenes/Heist 1/End/1.4 (Escape).unity
-    guid: 0810464bd1490fb46af4b790a50f6d48
-  - enabled: 1
     path: Assets/Scenes/Heist 101/0-0-Intro.unity
     guid: 8865d376b0b0ee0e2a6bfb8a7d0ec79f
   - enabled: 1
@@ -35,4 +23,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Heist 101/0-4-Distraction.unity
     guid: c41f8231cae3b3858a44af706b384d4f
+  - enabled: 1
+    path: Assets/Scenes/Heist 1/1.1 (Outside).unity
+    guid: 71365c28d43888e42b6d4460793ed5a5
+  - enabled: 1
+    path: Assets/Scenes/Heist 1/1.2 (Inside).unity
+    guid: 2a92a2c12bde0d247a10d7ffdc787055
+  - enabled: 1
+    path: Assets/Scenes/Heist 1/1.3 (Office).unity
+    guid: c2619786259b614439f5ca9991a3f897
+  - enabled: 1
+    path: Assets/Scenes/Heist 1/End/1.4 (Escape).unity
+    guid: 0810464bd1490fb46af4b790a50f6d48
   m_configObjects: {}
