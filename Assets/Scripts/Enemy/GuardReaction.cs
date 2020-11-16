@@ -13,6 +13,8 @@ public class GuardReaction : MonoBehaviour
     [SerializeField] float searchingAlertSpeed = 32;
     [SerializeField] float dealertSpeed = 2;
 
+    [SerializeField] GameObject brokenEffect;
+
     BehaviorTree behavior;
     NavMeshAgent agent;
     ConeDetection detection;
@@ -44,6 +46,8 @@ public class GuardReaction : MonoBehaviour
         visibility = player.GetComponent<PlayerVisibility>();
 
         GlobalVariables.Instance.SetVariableValue("Player", player);
+
+        brokenEffect.SetActive(false);
     }
 
     void OnEnable()
@@ -194,6 +198,8 @@ public class GuardReaction : MonoBehaviour
         attack.enabled = false;
         _light.enabled = false;
 
+        brokenEffect.SetActive(true);
+
         yield return new WaitForSeconds(duration);
 
         frozen = false;
@@ -203,6 +209,8 @@ public class GuardReaction : MonoBehaviour
         detection.enabled = true;
         attack.enabled = true;
         _light.enabled = true;
+
+        brokenEffect.SetActive(false);
 
         frozenCoroutine = null;
     }
