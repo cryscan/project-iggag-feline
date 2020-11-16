@@ -5,28 +5,61 @@ using UnityEngine;
 
 public class PhaseCameraTransition : MonoBehaviour
 {
-    CinemachineVirtualCamera _camera;
+    CinemachineVirtualCamera virtualCamera;
+    Camera mainCamera, planCamera;
 
-    Subscription<GameStateChangeEvent> handle;
+    // Subscription<GameStateChangeEvent> handler;
 
     void Awake()
     {
-        _camera = GetComponent<CinemachineVirtualCamera>();
+        virtualCamera = GetComponent<CinemachineVirtualCamera>();
+
+        mainCamera = Camera.main;
+        planCamera = GameObject.FindWithTag("Plan Camera").GetComponent<Camera>();
     }
 
-    void OnEnable()
+    void Update()
     {
-        handle = EventBus.Subscribe<GameStateChangeEvent>(OnGameStateChanged);
+        var state = GameManager.instance.currentState;
+        if (state == GameState.Plan)
+        {
+            virtualCamera.Priority = 100;
+            mainCamera.enabled = false;
+            planCamera.enabled = true;
+        }
+        else if (state == GameState.Play)
+        {
+            virtualCamera.Priority = 0;
+            mainCamera.enabled = true;
+            planCamera.enabled = false;
+        }
     }
 
-    void OnDisable()
-    {
-        EventBus.Unsubscribe(handle);
-    }
+    /*
+        void OnEnable()
+        {
+            handler = EventBus.Subscribe<GameStateChangeEvent>(OnGameStateChanged);
+        }
 
-    void OnGameStateChanged(GameStateChangeEvent @event)
-    {
-        if (@event.current == GameState.Plan) _camera.Priority = 100;
-        if (@event.previous == GameState.Plan && @event.current == GameState.Play) _camera.Priority = 0;
-    }
+        void OnDisable()
+        {
+            EventBus.Unsubscribe(handler);
+        }
+
+        void OnGameStateChanged(GameStateChangeEvent @event)
+        {
+            if (@event.current == GameState.Plan)
+            {
+                virtualCamera.Priority = 100;
+                mainCamera.enabled = false;
+                planCamera.enabled = true;
+            }
+            if (@event.current == GameState.Play)
+            {
+                virtualCamera.Priority = 0;
+                mainCamera.enabled = true;
+                planCamera.enabled = false;
+            }
+        }
+    */
 }

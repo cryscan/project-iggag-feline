@@ -10,6 +10,8 @@ TagManager:
   - Fire
   - Dialogue Controller
   - UI Camera
+  - Document
+  - Plan Camera
   layers:
   - Default
   - TransparentFX
@@ -25,7 +27,7 @@ TagManager:
   - Enemy
   - Trap
   - Collectable
-  - Infrastructure
+  - 
   - 
   - 
   - 

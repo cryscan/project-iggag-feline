@@ -125,17 +125,55 @@ public class GameManager : MonoBehaviour
     public void EnterPlanScene(int index) => StartCoroutine(LoadSceneCoroutine(index, () => StartPlan()));
     public void EnterPlanScene(string name) => StartCoroutine(LoadSceneCoroutine(name, () => StartPlan()));
 
-    public void RestartPlanScene(int index) => StartCoroutine(LoadSceneCoroutine(index, () => RestartPlan()));
-    public void RestartPlanScene(string name) => StartCoroutine(LoadSceneCoroutine(name, () => RestartPlan()));
+    // public void RestartPlanScene(int index) => StartCoroutine(LoadSceneCoroutine(index, () => RestartPlan()));
+    // public void RestartPlanScene(string name) => StartCoroutine(LoadSceneCoroutine(name, () => RestartPlan()));
 
     public void EnterPlayScene(int index) => StartCoroutine(LoadSceneCoroutine(index, () => StartPlay()));
     public void EnterPlayScene(string name) => StartCoroutine(LoadSceneCoroutine(name, () => StartPlay()));
+
+    public void EnterPlanSceneRelocate(string name)
+    {
+        var player = GameObject.FindWithTag("Player");
+        var position = player.transform.position;
+        var rotation = player.transform.rotation;
+
+        StartCoroutine(LoadSceneCoroutine(name, () =>
+        {
+            StartPlan();
+
+            player = GameObject.FindWithTag("Player");
+            var controller = player.GetComponent<CharacterController>();
+            var _enabled = controller.enabled;
+            controller.enabled = false;
+            player.transform.SetPositionAndRotation(position, rotation);
+            controller.enabled = _enabled;
+        }));
+    }
+
+    public void EnterPlaySceneRelocate(string name)
+    {
+        var player = GameObject.FindWithTag("Player");
+        var position = player.transform.position;
+        var rotation = player.transform.rotation;
+
+        StartCoroutine(LoadSceneCoroutine(name, () =>
+        {
+            StartPlay();
+
+            player = GameObject.FindWithTag("Player");
+            var controller = player.GetComponent<CharacterController>();
+            var _enabled = controller.enabled;
+            controller.enabled = false;
+            player.transform.SetPositionAndRotation(position, rotation);
+            controller.enabled = _enabled;
+        }));
+    }
 
     public void StartPlan()
     {
         if (currentState != GameState.Start)
         {
-            Debug.LogError($"[Game State] makes no sense starting plan at state {currentState.ToString()}");
+            Debug.LogWarning($"[Game State] makes no sense starting plan at state {currentState.ToString()}");
             // return;
         }
 
@@ -148,7 +186,7 @@ public class GameManager : MonoBehaviour
     {
         if (currentState != GameState.Plan && currentState != GameState.Play)
         {
-            Debug.LogError($"[Game State] makes no sense starting plan at state {currentState.ToString()}");
+            Debug.LogWarning($"[Game State] makes no sense starting plan at state {currentState.ToString()}");
             // return;
         }
 
@@ -164,7 +202,7 @@ public class GameManager : MonoBehaviour
     {
         if (currentState != GameState.Start && currentState != GameState.Plan)
         {
-            Debug.LogError($"[Game State] makes no sense starting play at state {currentState.ToString()}");
+            Debug.LogWarning($"[Game State] makes no sense starting play at state {currentState.ToString()}");
             return;
         }
 

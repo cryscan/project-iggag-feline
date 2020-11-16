@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class EnemyAttack : MonoBehaviour
 {
+    [SerializeField] bool plan = true;
+
     GameObject player;
 
     void Awake()
@@ -18,7 +20,8 @@ public class EnemyAttack : MonoBehaviour
         {
             // GameManager.instance.GameOverReturn();
             Scene scene = SceneManager.GetActiveScene();
-	        GameManager.instance.EnterPlanScene(scene.name);
+            if (plan) GameManager.instance.EnterPlanScene(scene.name);
+            else GameManager.instance.EnterPlayScene(scene.name);
         }
     }
 

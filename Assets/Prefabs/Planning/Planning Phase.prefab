@@ -33,6 +33,51 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1893015883990722460
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1893015883990722434}
+  - component: {fileID: 1893015883990722435}
+  m_Layer: 0
+  m_Name: Plan Camera Pivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1893015883990722434
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1893015883990722460}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 100, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1893015883888253145}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &1893015883990722435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1893015883990722460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4943b8bb11560d345ac2e3faffedd578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 16
+  fallout: 10
 --- !u!1 &1893015884118307476
 GameObject:
   m_ObjectHideFlags: 0
@@ -59,7 +104,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1893015884118307476}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 40, z: 0}
+  m_LocalPosition: {x: 0, y: 100, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1893015884678504305}
@@ -87,7 +132,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 1893015883990722434}
   m_Lens:
-    FieldOfView: 30
+    FieldOfView: 1
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -113,6 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b870c4df80592ee45b958c62bf94e37e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pivot: {fileID: 1893015883990722434}
 --- !u!1 &1893015884678504306
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,79 +302,4 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6479569642199766240, guid: 2f7a129e79acd3995aeb268105a54041,
     type: 3}
   m_PrefabInstance: {fileID: 1893015884598699129}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &6020483216798191203
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1893015883888253145}
-    m_Modifications:
-    - target: {fileID: 5316598852189776353, guid: cf9fc3d6d310e56adaa8916953b548f1,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5316598852189776353, guid: cf9fc3d6d310e56adaa8916953b548f1,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 5316598852189776353, guid: cf9fc3d6d310e56adaa8916953b548f1,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5316598852189776353, guid: cf9fc3d6d310e56adaa8916953b548f1,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 5316598852189776353, guid: cf9fc3d6d310e56adaa8916953b548f1,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5316598852189776353, guid: cf9fc3d6d310e56adaa8916953b548f1,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5316598852189776353, guid: cf9fc3d6d310e56adaa8916953b548f1,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 5316598852189776353, guid: cf9fc3d6d310e56adaa8916953b548f1,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5316598852189776353, guid: cf9fc3d6d310e56adaa8916953b548f1,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 5316598852189776353, guid: cf9fc3d6d310e56adaa8916953b548f1,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5316598852189776353, guid: cf9fc3d6d310e56adaa8916953b548f1,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5316598852189776383, guid: cf9fc3d6d310e56adaa8916953b548f1,
-        type: 3}
-      propertyPath: m_Name
-      value: Plan Camera Pivot
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: cf9fc3d6d310e56adaa8916953b548f1, type: 3}
---- !u!4 &1893015883990722434 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5316598852189776353, guid: cf9fc3d6d310e56adaa8916953b548f1,
-    type: 3}
-  m_PrefabInstance: {fileID: 6020483216798191203}
   m_PrefabAsset: {fileID: 0}

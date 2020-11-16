@@ -293,6 +293,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Planning Phase
       objectReference: {fileID: 0}
+    - target: {fileID: 1893015884118307483, guid: df2c119ec20e6c06cbe23f80822df69a,
+        type: 3}
+      propertyPath: m_Lens.FieldOfView
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df2c119ec20e6c06cbe23f80822df69a, type: 3}
 --- !u!4 &9187672155926545455 stripped

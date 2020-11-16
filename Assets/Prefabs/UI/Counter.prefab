@@ -162,6 +162,7 @@ GameObject:
   m_Component:
   - component: {fileID: 398610421203468785}
   - component: {fileID: 8140744463563634438}
+  - component: {fileID: 931045550752723206}
   m_Layer: 0
   m_Name: Counter
   m_TagString: Untagged
@@ -206,6 +207,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: {fileID: 7299395646613025659}
   counter: {fileID: 11400000, guid: fbb927768263f2833bb802401ecdff07, type: 2}
+--- !u!114 &931045550752723206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398610421203468786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e713c2759000e544a080104bced0929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 398610420419366894}
+  counter: {fileID: 11400000, guid: 1c75a856c8fa8394aac6666d7934c820, type: 2}
 --- !u!1 &6205211204358088602
 GameObject:
   m_ObjectHideFlags: 0

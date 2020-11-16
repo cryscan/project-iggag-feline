@@ -9,17 +9,20 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: 99b4678eb8c7ea54b87ceb13631ec017
   - enabled: 1
-    path: Assets/Scenes/Heist 0/0.1 (Basic).unity
-    guid: 44ba441a842836542971ae25bdfb4512
+    path: Assets/Scenes/Heist 101/0-0-Intro.unity
+    guid: 8865d376b0b0ee0e2a6bfb8a7d0ec79f
   - enabled: 1
-    path: Assets/Scenes/Heist 0/0.2 (Crate).unity
-    guid: 0b39f4c2fccd6ad42bddae6e6319859d
+    path: Assets/Scenes/Heist 101/0-1-Gate.unity
+    guid: 79488bea7a42887e0af78811c399b7bf
   - enabled: 1
-    path: Assets/Scenes/Heist 0/0.3 (Freeze).unity
-    guid: 5dbe40208c40edc4b96433e2a4ed35fc
+    path: Assets/Scenes/Heist 101/0-2-Guards.unity
+    guid: be9a26fcab1f30665b41732040f05e69
   - enabled: 1
-    path: Assets/Scenes/Heist 0/End/0.4 (Distraction).unity
-    guid: 625d5e725884c1443b7f82214bf29362
+    path: Assets/Scenes/Heist 101/0-3-EMP.unity
+    guid: 53bb881ca4613a24abd0c3b23ac53f55
+  - enabled: 1
+    path: Assets/Scenes/Heist 101/0-4-Distraction.unity
+    guid: c41f8231cae3b3858a44af706b384d4f
   - enabled: 1
     path: Assets/Scenes/Heist 1/1.1 (Outside).unity
     guid: 71365c28d43888e42b6d4460793ed5a5

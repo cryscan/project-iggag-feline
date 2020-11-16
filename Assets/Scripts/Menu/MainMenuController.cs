@@ -21,6 +21,9 @@ public class MainMenuController : MonoBehaviour
     public GameObject L1_2;
     public GameObject L1_3;
     public GameObject L1_4;
+
+    public GameObject black;
+
     static private int[] levelUnlocks = { 1, 0, 0, 0, 0, 1, 0, 0, 0 };
 
     static public void UnlockLevel(int level)
@@ -68,11 +71,8 @@ public class MainMenuController : MonoBehaviour
         }
         game = GameManager.instance;
         game.practiceMode = false;
-        ToMain();
-    }
 
-    public void ToMain()
-    {
+        // Set starting enable/disable
         MainMenu.SetActive(true);
         HeistMenu.SetActive(false);
         PracticeMenu.SetActive(false);
@@ -80,45 +80,89 @@ public class MainMenuController : MonoBehaviour
         Heist1.SetActive(false);
     }
 
+    public void ToMain()
+    {
+        StartCoroutine(ToMainCoroutine());
+    }
+
+    public IEnumerator ToMainCoroutine()
+    {
+        yield return StartCoroutine(FadeOut());
+        MainMenu.SetActive(true);
+        HeistMenu.SetActive(false);
+        PracticeMenu.SetActive(false);
+        HeistTutorial.SetActive(false);
+        Heist1.SetActive(false);
+        yield return StartCoroutine(FadeIn());
+    }
+
     public void ToHeistMenu()
     {
+        StartCoroutine(ToHeistMenuCoroutine());
+    }
+
+    public IEnumerator ToHeistMenuCoroutine()
+    {
+        yield return StartCoroutine(FadeOut());
         MainMenu.SetActive(false);
         HeistMenu.SetActive(true);
         PracticeMenu.SetActive(false);
         HeistTutorial.SetActive(false);
         Heist1.SetActive(false);
+        yield return StartCoroutine(FadeIn());
     }
 
     public void ToPracticeMenu()
     {
+        StartCoroutine(ToPracticeMenuCoroutine());
+    }
+
+    public IEnumerator ToPracticeMenuCoroutine()
+    {
+        yield return StartCoroutine(FadeOut());
         MainMenu.SetActive(false);
         HeistMenu.SetActive(false);
         PracticeMenu.SetActive(true);
         HeistTutorial.SetActive(false);
         Heist1.SetActive(false);
+        yield return StartCoroutine(FadeIn());
     }
 
     public void ToHeistTutorial()
     {
+        StartCoroutine(ToHeistTutorialCoroutine());
+    }
+
+    public IEnumerator ToHeistTutorialCoroutine()
+    {
+        yield return StartCoroutine(FadeOut());
         MainMenu.SetActive(false);
         HeistMenu.SetActive(false);
         PracticeMenu.SetActive(false);
         HeistTutorial.SetActive(true);
         Heist1.SetActive(false);
+        yield return StartCoroutine(FadeIn());
     }
 
     public void ToHeist1()
     {
+        StartCoroutine(ToHeist1Coroutine());
+    }
+
+    public IEnumerator ToHeist1Coroutine()
+    {
+        yield return StartCoroutine(FadeOut());
         MainMenu.SetActive(false);
         HeistMenu.SetActive(false);
         PracticeMenu.SetActive(false);
         HeistTutorial.SetActive(false);
         Heist1.SetActive(true);
+        yield return StartCoroutine(FadeIn());
     }
 
     public void QuitButton() => Application.Quit();
 
-    public void Heist0StartButton() => game.EnterPlanScene("0.1 (Basic)");
+    public void Heist0StartButton() => game.EnterPlayScene("0-0-intro");
 
     public void Heist1StartButton() => game.EnterPlanScene("1.1 (Outside)");
 
@@ -130,23 +174,23 @@ public class MainMenuController : MonoBehaviour
             game.practiceMode = true;
             if (levelNum == 0)
             {
-                game.EnterPlanScene("0.1 (Basic)");
+                game.EnterPlayScene("0-0-Intro");
             }
             else if (levelNum == 1)
             {
-                game.EnterPlanScene("0.2 (Crate)");
+                game.EnterPlanScene("0-1-Gate");
             }
             else if (levelNum == 2)
             {
-                game.EnterPlanScene("0.3 (Freeze)");
+                game.EnterPlayScene("0-2-Guards");
             }
             else if (levelNum == 3)
             {
-                game.EnterPlanScene("0.4 (Distraction)");
+                game.EnterPlanScene("0-3-EMP");
             }
             else if (levelNum == 4)
             {
-                game.EnterPlanScene("0.4 (Distraction)"); //Replace with actual scene names
+                game.EnterPlanScene("0-4-Distraction"); //Replace with actual scene names
             }
             else if (levelNum == 5)
             {
@@ -165,5 +209,63 @@ public class MainMenuController : MonoBehaviour
                 game.EnterPlanScene("1.4 (Escape)");
             }
         }
+    }
+
+    public IEnumerator FadeOut()
+    {
+        float duration = 0.5f;
+        float time_init = Time.time;
+        float progress = (Time.time - time_init) / duration;
+        // Start alpha at 0 then enable
+        Color temp = black.GetComponent<Image>().color;
+        temp.a = 0.0f;
+        black.GetComponent<Image>().color = temp;
+        black.SetActive(true);
+
+        float a_init = 0.0f;
+        float a_dest = 1.0f;
+        while (progress < 1.0f)
+        {
+            progress = (Time.time - time_init) / duration;
+            float a_new = Mathf.Lerp(a_init, a_dest, progress);
+            float interval = a_new - black.GetComponent<Image>().color.a;
+
+            temp.a += interval;
+            black.GetComponent<Image>().color = temp;
+
+            yield return null;
+        }
+        temp.a = a_dest;
+        black.GetComponent<Image>().color = temp;
+    }
+
+    public IEnumerator FadeIn()
+    {
+        float duration = 0.5f;
+        float time_init = Time.time;
+        float progress = (Time.time - time_init) / duration;
+        // Start alpha at 1
+        Color temp = black.GetComponent<Image>().color;
+        temp.a = 1.0f;
+        black.GetComponent<Image>().color = temp;
+
+        float a_init = 1.0f;
+        float a_dest = 0.0f;
+        while (progress < 1.0f)
+        {
+            progress = (Time.time - time_init) / duration;
+            float a_new = Mathf.Lerp(a_init, a_dest, progress);
+            float interval = a_new - black.GetComponent<Image>().color.a;
+
+            temp.a += interval;
+            black.GetComponent<Image>().color = temp;
+
+            yield return null;
+        }
+        // Disable image
+        temp.a = a_dest;
+        black.GetComponent<Image>().color = temp;
+
+        black.SetActive(false);
     }
 }

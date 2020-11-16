@@ -27,6 +27,8 @@ public class DialogueController : MonoBehaviour
     [SerializeField] GameObject container;
     [SerializeField] Text text;
 
+    public bool running { get; private set; } = false;
+
     string topic;
     Queue<string> sentences;
 
@@ -36,19 +38,32 @@ public class DialogueController : MonoBehaviour
         container.SetActive(false);
     }
 
+    void LateUpdate()
+    {
+        if (container.activeSelf)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                DisplayNextSentence();
+            }
+        }
+    }
+
     public void StartDialogue(Dialogue dialogue)
     {
-        EventBus.Publish(new DialogueEvent(true, dialogue.topic));
+        running = true;
 
         // Pause Game here
-        GameManager.instance.TogglePause();
-        container.SetActive(true);
-        // canvas.GetComponent<GraphicRaycaster>().enabled = true;
+        // GameManager.instance.TogglePause();
 
+        container.SetActive(true);
         topic = dialogue.topic;
 
         sentences.Clear();
         foreach (string sentence in dialogue.sentences) sentences.Enqueue(sentence);
+
+        EventBus.Publish(new DialogueEvent(true, dialogue.topic));
+
         DisplayNextSentence();
     }
 
@@ -71,20 +86,23 @@ public class DialogueController : MonoBehaviour
         foreach (char letter in sentence.ToCharArray())
         {
             text.text += letter;
-            yield return new WaitForSecondsRealtime(0.025f);
+            yield return new WaitForSecondsRealtime(0.005f);
         }
     }
 
     public void EndDialogue()
     {
-        EventBus.Publish(new DialogueEvent(false, topic));
         Debug.Log("[Dialogue] end of conversation");
+
+        running = false;
+        EventBus.Publish(new DialogueEvent(false, topic));
 
         topic = "";
 
         // Resume Game here
-        GameManager.instance.TogglePause();
+        // GameManager.instance.TogglePause();
         // canvas.GetComponent<GraphicRaycaster>().enabled = false;
+
         container.SetActive(false);
     }
 }

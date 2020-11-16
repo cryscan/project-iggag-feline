@@ -13,6 +13,8 @@ public class GuardReaction : MonoBehaviour
     [SerializeField] float searchingAlertSpeed = 32;
     [SerializeField] float dealertSpeed = 2;
 
+    [SerializeField] GameObject brokenEffect;
+
     BehaviorTree behavior;
     NavMeshAgent agent;
     ConeDetection detection;
@@ -44,6 +46,8 @@ public class GuardReaction : MonoBehaviour
         visibility = player.GetComponent<PlayerVisibility>();
 
         GlobalVariables.Instance.SetVariableValue("Player", player);
+
+        brokenEffect.SetActive(false);
     }
 
     void OnEnable()
@@ -174,7 +178,10 @@ public class GuardReaction : MonoBehaviour
         else if (@event.trap is DistractionTrap)
         {
             DistractionTrap distraction = (DistractionTrap)@event.trap;
-            if (distance < distraction.range && !distraction.ReachedMaxCount() && !frozen)
+            distance = Vector3.Distance(transform.position, distraction.transform.position);
+
+            if (distance < distraction.range && !distraction.ReachedMaxCount() && !frozen && !searching)
+            // if (!distraction.ReachedMaxCount() && !frozen && !searching)
             {
                 behavior.SetVariableValue("Alerted", true);
                 behavior.SetVariableValue("Spot Point", position);
@@ -194,6 +201,8 @@ public class GuardReaction : MonoBehaviour
         attack.enabled = false;
         _light.enabled = false;
 
+        brokenEffect.SetActive(true);
+
         yield return new WaitForSeconds(duration);
 
         frozen = false;
@@ -203,6 +212,8 @@ public class GuardReaction : MonoBehaviour
         detection.enabled = true;
         attack.enabled = true;
         _light.enabled = true;
+
+        brokenEffect.SetActive(false);
 
         frozenCoroutine = null;
     }
