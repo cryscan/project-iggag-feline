@@ -178,8 +178,10 @@ public class GuardReaction : MonoBehaviour
         else if (@event.trap is DistractionTrap)
         {
             DistractionTrap distraction = (DistractionTrap)@event.trap;
-            // if (distance < distraction.range && !distraction.ReachedMaxCount() && !frozen && !searching)
-            if (!distraction.ReachedMaxCount() && !frozen && !searching)
+            distance = Vector3.Distance(transform.position, distraction.transform.position);
+
+            if (distance < distraction.range && !distraction.ReachedMaxCount() && !frozen && !searching)
+            // if (!distraction.ReachedMaxCount() && !frozen && !searching)
             {
                 behavior.SetVariableValue("Alerted", true);
                 behavior.SetVariableValue("Spot Point", position);
