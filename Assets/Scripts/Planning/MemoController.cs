@@ -31,11 +31,10 @@ public class MemoController : MonoBehaviour
         }
     }
 
-    [SerializeField] Camera _camera;
     [SerializeField] Material material;
     [SerializeField] LinearProgressBar progress;
 
-    Camera mainCamera;
+    Camera mainCamera, UICamera;
 
     Dictionary<ScheduleTimerEvent, Icon> icons = new Dictionary<ScheduleTimerEvent, Icon>();
 
@@ -46,6 +45,7 @@ public class MemoController : MonoBehaviour
     void Awake()
     {
         mainCamera = Camera.main;
+        UICamera = GameObject.FindWithTag("UI Camera").GetComponent<Camera>();
     }
 
     void OnEnable()
@@ -69,21 +69,22 @@ public class MemoController : MonoBehaviour
         foreach (var pair in icons)
         {
             var position = mainCamera.WorldToScreenPoint(pair.Key.position);
+            position.z = 0;
             pair.Value.inGame.transform.position = position;
 
-            var direction = position - _camera.transform.position;
-            if (Vector3.Dot(_camera.transform.forward, direction) > 0)
+            var direction = pair.Key.position - mainCamera.transform.position;
+            if (Vector3.Dot(mainCamera.transform.forward, direction) > 0)
             {
                 pair.Value.inGame.SetActive(true);
 
                 // pair.Value.lineRenderer.SetPosition(0, _camera.ScreenToWorldPoint(pair.Value.onBar.transform.position));
                 position = pair.Value.onBar.transform.position;
                 position.z = 10;
-                pair.Value.lineRenderer.SetPosition(0, _camera.ScreenToWorldPoint(position));
+                pair.Value.lineRenderer.SetPosition(0, UICamera.ScreenToWorldPoint(position));
 
                 position = pair.Value.inGame.transform.position;
                 position.z = 10;
-                pair.Value.lineRenderer.SetPosition(1, _camera.ScreenToWorldPoint(position));
+                pair.Value.lineRenderer.SetPosition(1, UICamera.ScreenToWorldPoint(position));
             }
             else
                 pair.Value.inGame.SetActive(false);
