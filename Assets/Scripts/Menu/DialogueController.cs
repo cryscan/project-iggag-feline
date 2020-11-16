@@ -36,6 +36,17 @@ public class DialogueController : MonoBehaviour
         container.SetActive(false);
     }
 
+    void LateUpdate()
+    {
+    	if (container.activeSelf)
+    	{
+    		if (Input.GetMouseButtonDown(0))
+    		{
+    			DisplayNextSentence();
+    		}
+    	}
+    }
+
     public void StartDialogue(Dialogue dialogue)
     {
         EventBus.Publish(new DialogueEvent(true, dialogue.topic));
@@ -71,7 +82,7 @@ public class DialogueController : MonoBehaviour
         foreach (char letter in sentence.ToCharArray())
         {
             text.text += letter;
-            yield return new WaitForSecondsRealtime(0.025f);
+            yield return new WaitForSecondsRealtime(0.005f);
         }
     }
 
