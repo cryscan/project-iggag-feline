@@ -29954,8 +29954,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2709303c309397efa8d0f11a0f099ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alertSpeed: 6
-  dealertSpeed: 2
+  alertSpeed: 10
+  dealertSpeed: 4
   dealertTime: 10
   _light: {fileID: 441289738}
 --- !u!54 &1353492998

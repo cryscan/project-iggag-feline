@@ -7,12 +7,10 @@ public class RangeIndicator : MonoBehaviour
 {
     public Vector3 center;
     public float radius = 0;
-
-    [SerializeField] Camera UICamera;
     [SerializeField] int segments = 32;
     [SerializeField] float fallout = 10;
 
-    Camera _camera;
+    Camera _camera, UICamera;
     float _radius = 0;
     Vector3[] points;
 
@@ -21,6 +19,8 @@ public class RangeIndicator : MonoBehaviour
     void Awake()
     {
         _camera = Camera.main;
+        UICamera = GameObject.FindWithTag("UI Camera").GetComponent<Camera>();
+
         points = new Vector3[segments + 1];
 
         lineRenderer = GetComponent<LineRenderer>();

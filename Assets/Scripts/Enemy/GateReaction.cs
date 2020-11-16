@@ -5,12 +5,13 @@ using UnityEngine;
 
 public class GateReaction : MonoBehaviour
 {
+    [SerializeField] string[] accessTags;
     [SerializeField] float breakTime = 5;
     [SerializeField] GameObject breakEffect;
-    [SerializeField] string[] accessTags;
 
     bool broken = false;
     bool detected = false;
+    bool open = false;
 
     Animator animator;
 
@@ -36,15 +37,16 @@ public class GateReaction : MonoBehaviour
 
     void Update()
     {
+        animator.SetBool("Open", open);
+
         if (broken) return;
 
         if (detected)
         {
-            animator.SetBool("Open", true);
+            open = true;
             detected = false;
         }
-        else
-            animator.SetBool("Open", false);
+        else open = false;
     }
 
     public void SetBroken(bool broken) => this.broken = broken;
@@ -66,12 +68,12 @@ public class GateReaction : MonoBehaviour
     IEnumerator BreakCoroutine()
     {
         broken = true;
-        animator.SetBool("Open", true);
+        open = true;
         breakEffect.SetActive(true);
 
         yield return new WaitForSeconds(breakTime);
 
-        animator.SetBool("Open", false);
+        open = false;
         breakEffect.SetActive(false);
         broken = false;
     }
