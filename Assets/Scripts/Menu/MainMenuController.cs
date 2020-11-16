@@ -174,23 +174,23 @@ public class MainMenuController : MonoBehaviour
             game.practiceMode = true;
             if (levelNum == 0)
             {
-                game.EnterPlanScene("0.1 (Basic)");
+                game.EnterPlayScene("0-0-Intro");
             }
             else if (levelNum == 1)
             {
-                game.EnterPlanScene("0.2 (Crate)");
+                game.EnterPlanScene("0-1-Gate");
             }
             else if (levelNum == 2)
             {
-                game.EnterPlanScene("0.3 (Freeze)");
+                game.EnterPlayScene("0-2-Guards");
             }
             else if (levelNum == 3)
             {
-                game.EnterPlanScene("0.4 (Distraction)");
+                game.EnterPlanScene("0-3-EMP");
             }
             else if (levelNum == 4)
             {
-                game.EnterPlanScene("0.4 (Distraction)"); //Replace with actual scene names
+                game.EnterPlanScene("0-4-Distraction"); //Replace with actual scene names
             }
             else if (levelNum == 5)
             {
