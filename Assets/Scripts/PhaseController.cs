@@ -30,7 +30,7 @@ public class PhaseController : MonoBehaviour
             game.TogglePause();
         */
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             if (game.currentState == GameState.Plan)
                 game.EnterPlayScene(playSceneName);
