@@ -34635,6 +34635,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gate Small Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 4798226088389034490, guid: 7137e4d3aa1149da3ae31844dbda9d1a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7137e4d3aa1149da3ae31844dbda9d1a, type: 3}
 --- !u!4 &7244825662324886564 stripped
@@ -35071,8 +35076,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4798226088389034490, guid: 7137e4d3aa1149da3ae31844dbda9d1a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2002258971975867248, guid: 7137e4d3aa1149da3ae31844dbda9d1a, type: 3}
+    - {fileID: 8717361164459322312, guid: 7137e4d3aa1149da3ae31844dbda9d1a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7137e4d3aa1149da3ae31844dbda9d1a, type: 3}
 --- !u!4 &7244825662180243956 stripped
 Transform:
@@ -35117,12 +35128,24 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gate Small Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 4798226088389034490, guid: 7137e4d3aa1149da3ae31844dbda9d1a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7668405767464703427, guid: 7137e4d3aa1149da3ae31844dbda9d1a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8717361164459322312, guid: 7137e4d3aa1149da3ae31844dbda9d1a,
         type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2002258971975867248, guid: 7137e4d3aa1149da3ae31844dbda9d1a, type: 3}
+    - {fileID: 8717361164459322312, guid: 7137e4d3aa1149da3ae31844dbda9d1a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7137e4d3aa1149da3ae31844dbda9d1a, type: 3}
 --- !u!4 &7244825663579364030 stripped
 Transform:
@@ -35622,12 +35645,24 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gate Small Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 4798226088389034490, guid: 7137e4d3aa1149da3ae31844dbda9d1a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7668405767464703427, guid: 7137e4d3aa1149da3ae31844dbda9d1a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8717361164459322312, guid: 7137e4d3aa1149da3ae31844dbda9d1a,
         type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2002258971975867248, guid: 7137e4d3aa1149da3ae31844dbda9d1a, type: 3}
+    - {fileID: 8717361164459322312, guid: 7137e4d3aa1149da3ae31844dbda9d1a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7137e4d3aa1149da3ae31844dbda9d1a, type: 3}
 --- !u!4 &7244825663096386091 stripped
 Transform:
@@ -36152,12 +36187,24 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gate Small Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 4798226088389034490, guid: 7137e4d3aa1149da3ae31844dbda9d1a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7668405767464703427, guid: 7137e4d3aa1149da3ae31844dbda9d1a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8717361164459322312, guid: 7137e4d3aa1149da3ae31844dbda9d1a,
         type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2002258971975867248, guid: 7137e4d3aa1149da3ae31844dbda9d1a, type: 3}
+    - {fileID: 8717361164459322312, guid: 7137e4d3aa1149da3ae31844dbda9d1a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7137e4d3aa1149da3ae31844dbda9d1a, type: 3}
 --- !u!4 &7244825663280562941 stripped
 Transform:
