@@ -71,7 +71,7 @@ public class MainMenuController : MonoBehaviour
         }
         game = GameManager.instance;
         game.practiceMode = false;
-        
+
         // Set starting enable/disable
         MainMenu.SetActive(true);
         HeistMenu.SetActive(false);
@@ -162,7 +162,7 @@ public class MainMenuController : MonoBehaviour
 
     public void QuitButton() => Application.Quit();
 
-    public void Heist0StartButton() => game.EnterPlanScene("0.1 (Basic)");
+    public void Heist0StartButton() => game.EnterPlayScene("0-0-intro");
 
     public void Heist1StartButton() => game.EnterPlanScene("1.1 (Outside)");
 
@@ -224,7 +224,8 @@ public class MainMenuController : MonoBehaviour
 
         float a_init = 0.0f;
         float a_dest = 1.0f;
-        while(progress < 1.0f) {
+        while (progress < 1.0f)
+        {
             progress = (Time.time - time_init) / duration;
             float a_new = Mathf.Lerp(a_init, a_dest, progress);
             float interval = a_new - black.GetComponent<Image>().color.a;
@@ -247,10 +248,11 @@ public class MainMenuController : MonoBehaviour
         Color temp = black.GetComponent<Image>().color;
         temp.a = 1.0f;
         black.GetComponent<Image>().color = temp;
-        
+
         float a_init = 1.0f;
         float a_dest = 0.0f;
-        while(progress < 1.0f) {
+        while (progress < 1.0f)
+        {
             progress = (Time.time - time_init) / duration;
             float a_new = Mathf.Lerp(a_init, a_dest, progress);
             float interval = a_new - black.GetComponent<Image>().color.a;
