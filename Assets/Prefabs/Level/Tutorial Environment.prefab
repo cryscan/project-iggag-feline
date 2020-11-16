@@ -530,19 +530,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!65 &6338263260128894657
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6338263261081054329}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 49.571396, y: 77.046364, z: 55.44792}
-  m_Center: {x: -0.00024795532, y: 2.0451275e-12, z: 0.0000114440945}
 --- !u!1 &6338263260137805337
 GameObject:
   m_ObjectHideFlags: 0
@@ -7339,6 +7326,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!65 &6338263261490278198
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6338263260465943804}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 72.989, y: 79.475845, z: 73.97995}
+  m_Center: {x: 0.0000038146977, y: -0.000009536745, z: 0}
 --- !u!1 &6338263260477932765
 GameObject:
   m_ObjectHideFlags: 0
@@ -19022,6 +19022,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!65 &6338263260128894657
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6338263261081054329}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 49.571396, y: 77.046364, z: 55.44792}
+  m_Center: {x: -0.00024795532, y: 2.0451275e-12, z: 0.0000114440945}
 --- !u!1 &6338263261089469616
 GameObject:
   m_ObjectHideFlags: 0
@@ -21657,19 +21670,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 22.542429, y: 41.27464, z: 24.567013}
   m_Center: {x: 0.000052452084, y: 0.0000047683725, z: -0.000030994415}
---- !u!65 &6338263261490278198
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6338263260465943804}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 72.989, y: 79.475845, z: 73.97995}
-  m_Center: {x: 0.0000038146977, y: -0.000009536745, z: 0}
 --- !u!1 &6338263261570215272
 GameObject:
   m_ObjectHideFlags: 0
@@ -21680,7 +21680,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6338263261570215273}
   m_Layer: 0
-  m_Name: Environment
+  m_Name: Tutorial Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34782,6 +34782,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6338263260397715664}
     m_Modifications:
+    - target: {fileID: 2002258971975867248, guid: 7137e4d3aa1149da3ae31844dbda9d1a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3710053862009292597, guid: 7137e4d3aa1149da3ae31844dbda9d1a,
         type: 3}
       propertyPath: m_RootOrder
@@ -34806,6 +34811,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Gate Small Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717361164459322312, guid: 7137e4d3aa1149da3ae31844dbda9d1a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7137e4d3aa1149da3ae31844dbda9d1a, type: 3}
@@ -35277,6 +35287,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6338263260321796936}
     m_Modifications:
+    - target: {fileID: 2002258971975867248, guid: 7137e4d3aa1149da3ae31844dbda9d1a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3710053862009292597, guid: 7137e4d3aa1149da3ae31844dbda9d1a,
         type: 3}
       propertyPath: m_RootOrder
@@ -35301,6 +35316,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Gate Small Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717361164459322312, guid: 7137e4d3aa1149da3ae31844dbda9d1a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7137e4d3aa1149da3ae31844dbda9d1a, type: 3}
@@ -35797,6 +35817,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6338263260451007683}
     m_Modifications:
+    - target: {fileID: 2002258971975867248, guid: 7137e4d3aa1149da3ae31844dbda9d1a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3710053862009292597, guid: 7137e4d3aa1149da3ae31844dbda9d1a,
         type: 3}
       propertyPath: m_RootOrder
@@ -35821,6 +35846,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Gate Small Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717361164459322312, guid: 7137e4d3aa1149da3ae31844dbda9d1a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7137e4d3aa1149da3ae31844dbda9d1a, type: 3}
