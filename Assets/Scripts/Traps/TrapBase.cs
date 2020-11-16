@@ -38,6 +38,8 @@ public abstract class TrapBase : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public virtual float GetRange() => 0;
+
     void OnScheduleTimer(ScheduleTimerEvent @event)
     {
         if (@event.prefab == gameObject) Activate();

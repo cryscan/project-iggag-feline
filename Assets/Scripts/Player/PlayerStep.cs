@@ -14,15 +14,20 @@ public class PlayerStepEvent
     }
 }
 
-public class PlayerOscillation : MonoBehaviour
+public class PlayerStep : MonoBehaviour
 {
+    [Header("Visual")]
     [SerializeField] Transform head;
     [SerializeField] float amplitude = 0.2f;
     [SerializeField] float period = 0.5f;
     [SerializeField] float fallout = 10;
 
+    [Header("Sound")]
+    [SerializeField] GameObject stepAudio;
+
     CharacterController controller;
     PlayerMovement movement;
+    AudioSource[] audios;
 
     float height;
     float blend = 0;
@@ -33,6 +38,7 @@ public class PlayerOscillation : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         movement = GetComponent<PlayerMovement>();
+        audios = stepAudio.GetComponents<AudioSource>();
 
         height = head.position.y;
     }
@@ -47,7 +53,7 @@ public class PlayerOscillation : MonoBehaviour
         blend = blend.Fallout(target, fallout);
 
         var position = head.position;
-        position.y = height + blend * Oscillation();
+        position.y = height + Oscillation();
         head.position = position;
     }
 
@@ -58,11 +64,18 @@ public class PlayerOscillation : MonoBehaviour
 
         if (oscillation < -0.8f && !stepped)
         {
+            var rand = Random.Range(0, audios.Length);
+            var audio = audios[rand];
+            audio.volume = blend;
+            audio.volume *= Random.Range(0.8f, 1.0f);
+            audio.pitch = Random.Range(0.8f, 1.2f);
+            audio.Play();
+
             EventBus.Publish(new PlayerStepEvent(blend, transform.position));
             stepped = true;
         }
         if (oscillation > -0.8f) stepped = false;
 
-        return amplitude * oscillation;
+        return blend * amplitude * oscillation;
     }
 }

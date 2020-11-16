@@ -9,4 +9,6 @@ public class FrozenTrap : TrapBase
 
     [SerializeField] float _duration = 5;
     public float duration { get => _duration; }
+
+    public override float GetRange() => _range;
 }

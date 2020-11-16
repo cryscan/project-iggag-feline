@@ -10,6 +10,8 @@ public class DistractionTrap : TrapBase
     [SerializeField] int maxCount = 2;
     int count = 0;
 
+    public override float GetRange() => _range;
+
     public void IncreaseCount() => ++count;
 
     public bool ReachedMaxCount() => count >= maxCount;

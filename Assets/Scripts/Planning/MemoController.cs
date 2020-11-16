@@ -17,9 +17,9 @@ public class MemoController : MonoBehaviour
             this.onBar = onBar;
             this.inGame = inGame;
 
-            lineRenderer = onBar.GetComponent<LineRenderer>();
+            lineRenderer = inGame.GetComponent<LineRenderer>();
             if (!lineRenderer)
-                lineRenderer = onBar.AddComponent<LineRenderer>();
+                lineRenderer = inGame.AddComponent<LineRenderer>();
 
             lineRenderer.positionCount = 2;
             lineRenderer.startWidth = 0.1f;
@@ -74,14 +74,22 @@ public class MemoController : MonoBehaviour
             var position = mainCamera.WorldToScreenPoint(pair.Key.position);
             pair.Value.inGame.transform.position = position;
 
-            // pair.Value.lineRenderer.SetPosition(0, _camera.ScreenToWorldPoint(pair.Value.onBar.transform.position));
-            position = pair.Value.onBar.transform.position;
-            position.z = 10;
-            pair.Value.lineRenderer.SetPosition(0, _camera.ScreenToWorldPoint(position));
+            var direction = position - _camera.transform.position;
+            if (Vector3.Dot(_camera.transform.forward, direction) > 0)
+            {
+                pair.Value.inGame.SetActive(true);
 
-            position = pair.Value.inGame.transform.position;
-            position.z = 10;
-            pair.Value.lineRenderer.SetPosition(1, _camera.ScreenToWorldPoint(position));
+                // pair.Value.lineRenderer.SetPosition(0, _camera.ScreenToWorldPoint(pair.Value.onBar.transform.position));
+                position = pair.Value.onBar.transform.position;
+                position.z = 10;
+                pair.Value.lineRenderer.SetPosition(0, _camera.ScreenToWorldPoint(position));
+
+                position = pair.Value.inGame.transform.position;
+                position.z = 10;
+                pair.Value.lineRenderer.SetPosition(1, _camera.ScreenToWorldPoint(position));
+            }
+            else
+                pair.Value.inGame.SetActive(false);
         }
     }
 

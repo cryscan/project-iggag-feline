@@ -43,6 +43,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73652cd1c8ebf473f8cd425811ad8463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1246845366097339765
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1471985070153356087}
+  - component: {fileID: 5162719817876402412}
+  m_Layer: 0
+  m_Name: Planner Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1471985070153356087
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246845366097339765}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3589704658324581205}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5162719817876402412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246845366097339765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0dfaac3283c47f85952f50e80fd4755, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MultiThread: 0
+  ThreadsCount: 1
+  PlannerSettings:
+    PlanningEarlyExit: 0
+    MaxIterations: 1000
+    MaxNodesToExpand: 10000
+    UsingDynamicActions: 0
+  LogLevel: 3
+  NodeWarmupCount: 1000
+  StatesWarmupCount: 10000
 --- !u!1 &3703164825725915184
 GameObject:
   m_ObjectHideFlags: 0
@@ -72,7 +125,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3589704658324581205}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3123486146084867198
 MonoBehaviour:
@@ -162,6 +215,7 @@ Transform:
   - {fileID: 4564816866489517558}
   - {fileID: 4564816865735989404}
   - {fileID: 4323749146894562413}
+  - {fileID: 1471985070153356087}
   - {fileID: 2493369198328728265}
   - {fileID: 9187672155926545455}
   m_Father: {fileID: 0}
@@ -217,7 +271,7 @@ PrefabInstance:
     - target: {fileID: 1893015883888253145, guid: df2c119ec20e6c06cbe23f80822df69a,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1893015883888253145, guid: df2c119ec20e6c06cbe23f80822df69a,
         type: 3}

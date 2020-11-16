@@ -221,7 +221,11 @@ public class URPLensFlare : MonoBehaviour
 
     void CreateMesh()
     {
-        if (_totalMesh.Count <= 0) { Debug.Log("Not enough source"); return; }
+        if (_totalMesh.Count <= 0)
+        {
+            // Debug.Log("Not enough source"); 
+            return;
+        }
 
         List<Vector3> vertList = new List<Vector3>();
         List<Vector2> uvList = new List<Vector2>();
@@ -308,7 +312,7 @@ public class URPLensFlare : MonoBehaviour
                 _totalMesh[count].uv = _totalUv.ToArray();
                 _totalMesh[count].triangles = _totalTriangle.ToArray();
                 _totalMesh[count].colors = _totalColor.ToArray();
-                Debug.Log(observer.asset.flareSprite.width);
+                // Debug.Log(observer.asset.flareSprite.width);
                 _propertyBlock.SetTexture(STATIC_BaseMap, observer.asset.flareSprite);
 
                 Graphics.DrawMesh(_totalMesh[count], center, Quaternion.identity, material, 0, _camera, 0, _propertyBlock);

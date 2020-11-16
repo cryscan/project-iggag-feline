@@ -9,7 +9,7 @@ TagManager:
   - Trap Placer
   - Fire
   - Dialogue Controller
-  - Counter
+  - UI Camera
   layers:
   - Default
   - TransparentFX
@@ -32,7 +32,7 @@ TagManager:
   - 
   - Distraction
   - Ground
-  - 
+  - Door
   - Light
   - 
   - 

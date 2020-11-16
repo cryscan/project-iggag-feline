@@ -5,16 +5,11 @@ using UnityEngine.UI;
 
 public class CounterController : MonoBehaviour
 {
-    [SerializeField] Text frozenCount;
-    [SerializeField] Text distractionCount;
+    [SerializeField] Text text;
+    [SerializeField] CounterObject counter;
 
-    public void SetFrozenCount(float num)
+    void Update()
     {
-        frozenCount.text = num.ToString();
-    }
-
-    public void SetDistractionCount(float num)
-    {
-        distractionCount.text = num.ToString();
+        text.text = counter.count.ToString("00");
     }
 }

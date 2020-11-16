@@ -27,6 +27,8 @@ public class GuardReaction : MonoBehaviour
     bool searching = false;
     bool frozen = false;
 
+    Coroutine frozenCoroutine = null;
+
     Subscription<DetectEvent> detectEventHandler;
     Subscription<LossTargetEvent> lossTargetHandler;
     Subscription<TrapActivateEvent> trapActivateHandler;
@@ -40,6 +42,8 @@ public class GuardReaction : MonoBehaviour
 
         player = GameObject.FindGameObjectWithTag("Player");
         visibility = player.GetComponent<PlayerVisibility>();
+
+        GlobalVariables.Instance.SetVariableValue("Player", player);
     }
 
     void OnEnable()
@@ -163,8 +167,8 @@ public class GuardReaction : MonoBehaviour
             FrozenTrap frozen = (FrozenTrap)@event.trap;
             if (distance < frozen.range)
             {
-                StopAllCoroutines();
-                StartCoroutine(FrozenCoroutine(frozen.duration));
+                if (frozenCoroutine != null) StopCoroutine(frozenCoroutine);
+                frozenCoroutine = StartCoroutine(FrozenCoroutine(frozen.duration));
             }
         }
         else if (@event.trap is DistractionTrap)
@@ -182,20 +186,24 @@ public class GuardReaction : MonoBehaviour
 
     IEnumerator FrozenCoroutine(float duration)
     {
-        // behavior.enabled = false;
         frozen = true;
+        behavior.DisableBehavior(true);
         agent.isStopped = true;
+
         detection.enabled = false;
         attack.enabled = false;
         _light.enabled = false;
 
         yield return new WaitForSeconds(duration);
 
-        // behavior.enabled = true;
         frozen = false;
         agent.isStopped = false;
+        behavior.EnableBehavior();
+
         detection.enabled = true;
         attack.enabled = true;
         _light.enabled = true;
+
+        frozenCoroutine = null;
     }
 }
