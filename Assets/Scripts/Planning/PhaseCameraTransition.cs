@@ -7,7 +7,7 @@ public class PhaseCameraTransition : MonoBehaviour
 {
     CinemachineVirtualCamera _camera;
 
-    Subscription<GameStateChangeEvent> handle;
+    Subscription<GameStateChangeEvent> handler;
 
     void Awake()
     {
@@ -16,12 +16,12 @@ public class PhaseCameraTransition : MonoBehaviour
 
     void OnEnable()
     {
-        handle = EventBus.Subscribe<GameStateChangeEvent>(OnGameStateChanged);
+        handler = EventBus.Subscribe<GameStateChangeEvent>(OnGameStateChanged);
     }
 
     void OnDisable()
     {
-        EventBus.Unsubscribe(handle);
+        EventBus.Unsubscribe(handler);
     }
 
     void OnGameStateChanged(GameStateChangeEvent @event)

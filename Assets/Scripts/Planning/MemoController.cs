@@ -41,28 +41,25 @@ public class MemoController : MonoBehaviour
 
     Subscription<ScheduleAddEvent> scheduleAddhandler;
     Subscription<ScheduleTimerEvent> scheduleTimerHandler;
+    Subscription<GameStateChangeEvent> gameStateChangeHandler;
 
     void Awake()
     {
         mainCamera = Camera.main;
     }
 
-    void Start()
-    {
-        foreach (var schedule in ScheduleManager.instance.schedules)
-            AddIcon(schedule);
-    }
-
     void OnEnable()
     {
         scheduleAddhandler = EventBus.Subscribe<ScheduleAddEvent>(OnScheduleAdded);
         scheduleTimerHandler = EventBus.Subscribe<ScheduleTimerEvent>(OnScheduleTimer);
+        gameStateChangeHandler = EventBus.Subscribe<GameStateChangeEvent>(OnGameStateChanged);
     }
 
     void OnDisable()
     {
         EventBus.Unsubscribe(scheduleAddhandler);
         EventBus.Unsubscribe(scheduleTimerHandler);
+        EventBus.Unsubscribe(gameStateChangeHandler);
     }
 
     void Update()
@@ -104,6 +101,15 @@ public class MemoController : MonoBehaviour
             Destroy(icon.onBar);
 
             icons.Remove(@event);
+        }
+    }
+
+    void OnGameStateChanged(GameStateChangeEvent @event)
+    {
+        if (@event.previous != GameState.Paused && @event.current == GameState.Play)
+        {
+            foreach (var schedule in ScheduleManager.instance.schedules)
+                AddIcon(schedule);
         }
     }
 

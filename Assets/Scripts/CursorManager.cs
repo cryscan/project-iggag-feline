@@ -24,6 +24,14 @@ public class CursorManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
+        /*
+        else if (@event.current == GameState.Plan)
+        {
+            Debug.Log($"[Cursor] hidden at {@event.current}");
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = false;
+        }
+        */
         else
         {
             Debug.Log($"[Cursor] released at {@event.current}");
