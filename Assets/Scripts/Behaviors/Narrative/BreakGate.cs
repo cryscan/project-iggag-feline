@@ -4,7 +4,7 @@ using BehaviorDesigner.Runtime.Tasks;
 
 public class BreakGate : Action
 {
-    public GateReaction gate;
+    public GateController gate;
 
     public override TaskStatus OnUpdate()
     {

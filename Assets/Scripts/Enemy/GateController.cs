@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class GateReaction : MonoBehaviour
+public class GateController : MonoBehaviour
 {
     [SerializeField] string[] accessTags;
     [SerializeField] float breakTime = 5;

@@ -4,7 +4,7 @@ using BehaviorDesigner.Runtime.Tasks;
 
 public class IsGateOpen : Conditional
 {
-    public GateReaction gate;
+    public GateController gate;
 
     public override TaskStatus OnUpdate()
     {
