@@ -23,9 +23,10 @@ public class AimAtPath : Action
         if (timer > 5 / fallout.Value) return TaskStatus.Success;
         timer += Time.deltaTime;
 
-        if (agent.path.corners.Length < 2) return TaskStatus.Running;
+        Vector3 target;
+        if (agent.path.corners.Length < 2) target = agent.destination;
+        else target = agent.path.corners[1];
 
-        Vector3 target = agent.path.corners[1];
         var direction = target - subject.Value.transform.position;
         direction.y = 0;
 

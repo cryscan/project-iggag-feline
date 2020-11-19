@@ -16,6 +16,7 @@ namespace Feline.AI.Actions
         [UnityEngine.Tooltip("Should be Search behavior")]
         [SerializeField] ExternalBehaviorTree external;
         [SerializeField] float speed = 4;
+        [SerializeField] float subspeed = 2;
 
         BehaviorTree behavior;
 
@@ -42,6 +43,7 @@ namespace Feline.AI.Actions
                 behavior.ExternalBehavior = external;
                 behavior.SetVariableValue("Position", spot);
                 behavior.SetVariableValue("Speed", speed);
+                behavior.SetVariableValue("Subspeed", subspeed);
             }
             else failCallback(this);
 
