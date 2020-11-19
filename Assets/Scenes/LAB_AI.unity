@@ -5394,7 +5394,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Go To
   Cost: 10
-  external: {fileID: 0}
+  external: {fileID: 11400000, guid: 11a7f80721e28010cb26deb298afd47a, type: 2}
 --- !u!114 &1353492986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5629,9 +5629,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2709303c309397efa8d0f11a0f099ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alertSpeed: 10
   dealertSpeed: 4
   dealertTime: 10
+  sightAlertSpeed: 10
+  hearAlertSpeed: 3
+  hearRange: 4
+  hearNominalSpeed: 4
   _light: {fileID: 441289738}
 --- !u!54 &1353492998
 Rigidbody:

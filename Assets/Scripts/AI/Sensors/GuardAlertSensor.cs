@@ -11,11 +11,23 @@ namespace Feline.AI.Sensors
     [RequireComponent(typeof(BehaviorTree))]
     public class GuardAlertSensor : ReGoapSensor<string, object>
     {
-        [SerializeField] float alertSpeed = 6, dealertSpeed = 2;
+        [Header("Dealert")]
+        [SerializeField] float dealertSpeed = 4;
 
         [Tooltip("Time for the agent to give up searching")]
         [SerializeField] float dealertTime = 10;
 
+        [Header("Sight")]
+        [SerializeField] float sightAlertSpeed = 10;
+
+        [Header("Hearing")]
+        [SerializeField] float hearAlertSpeed = 2;
+        [SerializeField] float hearRange = 5;
+
+        [Tooltip("Alert level will increase hear alert speed amount if the player is heard with this speed")]
+        [SerializeField] float hearNominalSpeed = 4;
+
+        [Header("Light")]
         [SerializeField] Light _light;
 
         GameObject player;
@@ -32,7 +44,7 @@ namespace Feline.AI.Sensors
 
         Subscription<DetectEvent> detectEventHandler;
         Subscription<LossTargetEvent> lossTargetHandler;
-
+        Subscription<PlayerStepEvent> playerStepHandler;
 
         void Awake()
         {
@@ -44,6 +56,7 @@ namespace Feline.AI.Sensors
         {
             detectEventHandler = EventBus.Subscribe<DetectEvent>(OnDetected);
             lossTargetHandler = EventBus.Subscribe<LossTargetEvent>(OnLostTarget);
+            playerStepHandler = EventBus.Subscribe<PlayerStepEvent>(OnPlayerStep);
         }
 
         void OnDisable()
@@ -71,13 +84,13 @@ namespace Feline.AI.Sensors
 
         void UpdateAlertLevel()
         {
-            if (detected) alertLevel += alertSpeed * Time.deltaTime;
+            if (detected) alertLevel += sightAlertSpeed * Time.deltaTime;
             else alertLevel -= dealertSpeed * Time.deltaTime;
 
             var distance = Vector3.Distance(transform.position, player.transform.position);
             alertLevel = Mathf.Clamp(alertLevel, 0, distance + 1);
 
-            if (alertLevel > distance && detected)
+            if (alertLevel > distance)
             {
                 if (dealertCoroutine != null) StopCoroutine(dealertCoroutine);
                 alerted = true;
@@ -101,6 +114,8 @@ namespace Feline.AI.Sensors
                 var direction = player.transform.position - transform.position;
                 Debug.DrawRay(transform.position, direction.normalized * alertLevel);
             }
+
+            Gizmos.DrawWireSphere(transform.position, hearRange);
         }
 
         void OnDetected(DetectEvent @event)
@@ -113,6 +128,19 @@ namespace Feline.AI.Sensors
         {
             if (@event.target != player || @event.subject != gameObject) return;
             detected = false;
+        }
+
+        void OnPlayerStep(PlayerStepEvent @event)
+        {
+            var state = memory.GetWorldState();
+            var distance = Vector3.Distance(@event.position, transform.position);
+            if (distance < hearRange)
+            {
+                var normalizedSpeed = @event.velocity.magnitude / hearNominalSpeed;
+                alertLevel += normalizedSpeed * hearAlertSpeed;
+                state.Set("Spotted Position", @event.position);
+                Debug.Log("[Guard] heard player");
+            }
         }
 
         IEnumerator DealertCoroutine()
