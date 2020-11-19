@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class PlayerStepEvent
 {
-    public float blend;
     public Vector3 position;
+    public Vector3 velocity;
 
-    public PlayerStepEvent(float blend, Vector3 position)
+    public PlayerStepEvent(Vector3 position, Vector3 velocity)
     {
-        this.blend = blend;
         this.position = position;
+        this.velocity = velocity;
     }
 }
 
@@ -71,7 +71,7 @@ public class PlayerStep : MonoBehaviour
             audio.pitch = Random.Range(0.8f, 1.2f);
             audio.Play();
 
-            EventBus.Publish(new PlayerStepEvent(blend, transform.position));
+            EventBus.Publish(new PlayerStepEvent(transform.position, controller.velocity));
             stepped = true;
         }
         if (oscillation > -0.8f) stepped = false;

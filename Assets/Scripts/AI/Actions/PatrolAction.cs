@@ -41,16 +41,6 @@ namespace Feline.AI.Actions
             effects.Set("Can See Player", true);
         }
 
-        void OnEnable()
-        {
-            behavior.OnBehaviorEnd += OnBehaviorEnded;
-        }
-
-        void OnDisable()
-        {
-            behavior.OnBehaviorEnd -= OnBehaviorEnded;
-        }
-
         public override void Run(IReGoapAction<string, object> previous, IReGoapAction<string, object> next, ReGoapState<string, object> settings, ReGoapState<string, object> goalState, Action<IReGoapAction<string, object>> done, Action<IReGoapAction<string, object>> fail)
         {
             base.Run(previous, next, settings, goalState, done, fail);
@@ -58,14 +48,24 @@ namespace Feline.AI.Actions
             behavior.ExternalBehavior = external;
             behavior.SetVariableValue("Path Points", pathPoints);
             behavior.SetVariableValue("Speed", speed);
+
+            StopAllCoroutines();
+            StartCoroutine(ActionCheckCoroutine());
         }
 
-        void OnBehaviorEnded(Behavior behavior)
+        IEnumerator ActionCheckCoroutine()
         {
-            if (behavior.ExecutionStatus == TaskStatus.Failure)
+            var state = agent.GetMemory().GetWorldState();
+
+            while (true)
             {
-                // Debug.Break();
-                doneCallback(this);
+                bool alerted = (bool)state.Get("Alerted");
+                bool canSeePlayer = (bool)state.Get("Can See Player");
+
+                if (alerted) failCallback(this);
+                if (canSeePlayer) doneCallback(this);
+
+                yield return null;
             }
         }
     }

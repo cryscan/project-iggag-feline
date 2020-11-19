@@ -31,7 +31,6 @@ namespace Feline.AI.Actions
 
             behavior.ExternalBehavior = external;
             behavior.EnableBehavior();
-
             doneCallback(this);
         }
     }
