@@ -45,6 +45,7 @@ namespace Feline.AI.Sensors
         Subscription<DetectEvent> detectEventHandler;
         Subscription<LossTargetEvent> lossTargetHandler;
         Subscription<PlayerStepEvent> playerStepHandler;
+        Subscription<TrapActivateEvent> trapActivateHandler;
 
         void Awake()
         {
@@ -57,12 +58,15 @@ namespace Feline.AI.Sensors
             detectEventHandler = EventBus.Subscribe<DetectEvent>(OnDetected);
             lossTargetHandler = EventBus.Subscribe<LossTargetEvent>(OnLostTarget);
             playerStepHandler = EventBus.Subscribe<PlayerStepEvent>(OnPlayerStep);
+            trapActivateHandler = EventBus.Subscribe<TrapActivateEvent>(OnTrapActivated);
         }
 
         void OnDisable()
         {
             EventBus.Unsubscribe(detectEventHandler);
             EventBus.Unsubscribe(lossTargetHandler);
+            EventBus.Unsubscribe(playerStepHandler);
+            EventBus.Unsubscribe(trapActivateHandler);
         }
 
         void Update()
@@ -142,6 +146,8 @@ namespace Feline.AI.Sensors
                 Debug.Log("[Guard] heard player");
             }
         }
+
+        void OnTrapActivated(TrapActivateEvent @event) { }
 
         IEnumerator DealertCoroutine()
         {
