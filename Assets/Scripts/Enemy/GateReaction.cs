@@ -50,7 +50,7 @@ public class GateReaction : MonoBehaviour
         else open = false;
     }
 
-    public void SetBroken()
+    public void Break()
     {
         broken = true;
         open = true;

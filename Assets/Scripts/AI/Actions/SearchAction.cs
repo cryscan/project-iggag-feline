@@ -5,7 +5,6 @@ using System.Linq;
 using UnityEngine;
 
 using BehaviorDesigner.Runtime;
-using BehaviorDesigner.Runtime.Tasks;
 
 using ReGoap.Core;
 using ReGoap.Unity;
@@ -32,40 +31,37 @@ namespace Feline.AI.Actions
             effects.Set("Can See Player", true);
         }
 
-        void OnEnable()
-        {
-            behavior.OnBehaviorEnd += OnBehaviorEnded;
-        }
-
-        void OnDisable()
-        {
-            behavior.OnBehaviorEnd -= OnBehaviorEnded;
-        }
-
         public override void Run(IReGoapAction<string, object> previous, IReGoapAction<string, object> next, ReGoapState<string, object> settings, ReGoapState<string, object> goalState, Action<IReGoapAction<string, object>> done, Action<IReGoapAction<string, object>> fail)
         {
             base.Run(previous, next, settings, goalState, done, fail);
 
             var state = agent.GetMemory().GetWorldState();
-            if (state.HasKey("Spot"))
+            if (state.HasKey("Spotted Position"))
             {
-                Vector3 spot = (Vector3)state.Get("Spot");
+                Vector3 spot = (Vector3)state.Get("Spotted Position");
                 behavior.ExternalBehavior = external;
                 behavior.SetVariableValue("Position", spot);
                 behavior.SetVariableValue("Speed", speed);
             }
             else failCallback(this);
+
+            StopAllCoroutines();
+            StartCoroutine(ActionCheckCoroutine());
         }
 
-        void OnBehaviorEnded(Behavior behavior)
+        IEnumerator ActionCheckCoroutine()
         {
-            if (behavior.ExecutionStatus == TaskStatus.Failure)
+            var state = agent.GetMemory().GetWorldState();
+
+            while (true)
             {
-                var state = agent.GetMemory().GetWorldState();
+                bool alerted = (bool)state.Get("Alerted");
                 bool canSeePlayer = (bool)state.Get("Can See Player");
 
+                if (!alerted) failCallback(this);
                 if (canSeePlayer) doneCallback(this);
-                else failCallback(this);
+
+                yield return null;
             }
         }
     }

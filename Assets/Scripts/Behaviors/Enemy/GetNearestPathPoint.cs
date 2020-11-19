@@ -4,15 +4,15 @@ using UnityEngine;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 
-public class GetClosestPathPoint : Action
+public class GetNearestPathPoint : Action
 {
-    public SharedGameObjectList pathPoints;
+    public SharedGameObjectList pathPointList;
     public SharedVector3 position;
 
     public SharedGameObject storeGameObject;
     public SharedInt storeIndex;
 
-    public static GameObject FindClosestPoint(List<GameObject> points, Vector3 refPoint, out int index)
+    public static GameObject FindNearestPoint(List<GameObject> points, Vector3 reference, out int index)
     {
         GameObject result = null;
         float min = float.PositiveInfinity;
@@ -21,7 +21,7 @@ public class GetClosestPathPoint : Action
         for (int i = 0; i < points.Count; ++i)
         {
             var point = points[i];
-            var distance = Vector3.Distance(refPoint, point.transform.position);
+            var distance = Vector3.Distance(reference, point.transform.position);
             if (distance < min)
             {
                 result = point;
@@ -36,7 +36,7 @@ public class GetClosestPathPoint : Action
     public override TaskStatus OnUpdate()
     {
         int index;
-        storeGameObject.Value = FindClosestPoint(pathPoints.Value, position.Value, out index);
+        storeGameObject.Value = FindNearestPoint(pathPointList.Value, position.Value, out index);
         storeIndex.Value = index;
 
         return TaskStatus.Success;

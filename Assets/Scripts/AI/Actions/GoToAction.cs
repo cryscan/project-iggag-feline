@@ -39,7 +39,7 @@ namespace Feline.AI.Actions
         public override ReGoapState<string, object> GetEffects(GoapActionStackData<string, object> stackData)
         {
             var position = GetGoalPosition(stackData.goalState);
-            if (position.HasValue) effects.Set("At", position);
+            if (position.HasValue) effects.Set("At Position", position);
             else SetDefaultEffects();
 
             return base.GetEffects(stackData);
@@ -47,8 +47,8 @@ namespace Feline.AI.Actions
 
         public override List<ReGoapState<string, object>> GetSettings(GoapActionStackData<string, object> stackData)
         {
-            if (stackData.goalState.HasKey("At"))
-                settings.Set("Objective Position", stackData.goalState.Get("At"));
+            if (stackData.goalState.HasKey("At Position"))
+                settings.Set("Objective Position", stackData.goalState.Get("At Position"));
             return base.GetSettings(stackData);
         }
 
@@ -61,15 +61,12 @@ namespace Feline.AI.Actions
                 var destination = settings.Get("Objective Position") as Vector3?;
                 if (destination.HasValue)
                 {
-                    // behavior.DisableBehavior();
                     behavior.ExternalBehavior = external;
                     behavior.SetVariableValue("Destination", destination.Value);
-                    // behavior.EnableBehavior();
                     return;
                 }
             }
-
-            failCallback(this);
+            else failCallback(this);
         }
 
         public override void Exit(IReGoapAction<string, object> next)
@@ -77,29 +74,23 @@ namespace Feline.AI.Actions
             base.Exit(next);
 
             var state = agent.GetMemory().GetWorldState();
-            state.Set("At", effects.Get("At"));
+            state.Set("At Position", effects.Get("At Position"));
         }
 
-        void SetDefaultEffects() => effects.Set("At", default(Vector3));
+        void SetDefaultEffects() => effects.Set("At Position", default(Vector3));
 
         Vector3? GetGoalPosition(ReGoapState<string, object> state)
         {
             Vector3? result = null;
-            if (state != null) result = state.Get("At") as Vector3?;
+            if (state != null) result = state.Get("At Position") as Vector3?;
             return result;
         }
 
         void OnBehaviorEnded(Behavior behavior)
         {
-            switch (behavior.ExecutionStatus)
-            {
-                case TaskStatus.Success:
-                    doneCallback(this);
-                    break;
-                case TaskStatus.Failure:
-                    failCallback(this);
-                    break;
-            }
+            if (behavior.ExternalBehavior != external) return;
+            if (behavior.ExecutionStatus == TaskStatus.Success) doneCallback(this);
+            else if (behavior.ExecutionStatus == TaskStatus.Failure) failCallback(this);
         }
     }
 }

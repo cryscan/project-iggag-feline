@@ -32,30 +32,30 @@ namespace Feline.AI.Actions
             effects.Set("Player Dead", true);
         }
 
-        void OnEnable()
-        {
-            behavior.OnBehaviorEnd += OnBehaviorEnded;
-        }
-
-        void OnDisable()
-        {
-            behavior.OnBehaviorEnd -= OnBehaviorEnded;
-        }
-
         public override void Run(IReGoapAction<string, object> previous, IReGoapAction<string, object> next, ReGoapState<string, object> settings, ReGoapState<string, object> goalState, Action<IReGoapAction<string, object>> done, Action<IReGoapAction<string, object>> fail)
         {
             base.Run(previous, next, settings, goalState, done, fail);
 
             behavior.ExternalBehavior = external;
             behavior.SetVariableValue("Speed", speed);
+
+            StopAllCoroutines();
+            StartCoroutine(ActionCheckCoroutine());
         }
 
-        void OnBehaviorEnded(Behavior behavior)
+        IEnumerator ActionCheckCoroutine()
         {
-            if (behavior.ExecutionStatus == TaskStatus.Failure)
+            var state = agent.GetMemory().GetWorldState();
+
+            while (true)
             {
-                // Debug.Break();
-                failCallback(this);
+                bool canSeePlayer = (bool)state.Get("Can See Player");
+                bool playerDead = (bool)state.Get("Player Dead");
+
+                if (!canSeePlayer) failCallback(this);
+                if (playerDead) doneCallback(this);
+
+                yield return null;
             }
         }
     }

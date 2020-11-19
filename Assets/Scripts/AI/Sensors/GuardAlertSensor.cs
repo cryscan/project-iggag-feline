@@ -55,7 +55,6 @@ namespace Feline.AI.Sensors
         void Update()
         {
             UpdateAlertLevel();
-            UpdateLight();
         }
 
         public override void UpdateSensor()
@@ -65,16 +64,9 @@ namespace Feline.AI.Sensors
             state.Set("Alerted", alerted);
             state.Set("Can See Player", canSeePlayer);
 
-            if (canSeePlayer) state.Set("Spot", player.transform.position);
+            if (canSeePlayer) state.Set("Spotted Position", player.transform.position);
 
-            try
-            {
-                behavior.SetVariableValue("Alerted", alerted);
-                behavior.SetVariableValue("Can See Player", canSeePlayer);
-            }
-            catch
-            {
-            }
+            UpdateLight();
         }
 
         void UpdateAlertLevel()
@@ -95,6 +87,13 @@ namespace Feline.AI.Sensors
             canSeePlayer = detected && alerted;
         }
 
+        void UpdateLight()
+        {
+            if (canSeePlayer) _light.color = Color.red;
+            else if (alerted || detected) _light.color = Color.yellow;
+            else _light.color = Color.white;
+        }
+
         void OnDrawGizmos()
         {
             if (player)
@@ -102,13 +101,6 @@ namespace Feline.AI.Sensors
                 var direction = player.transform.position - transform.position;
                 Debug.DrawRay(transform.position, direction.normalized * alertLevel);
             }
-        }
-
-        void UpdateLight()
-        {
-            if (canSeePlayer) _light.color = Color.red;
-            else if (alerted || detected) _light.color = Color.yellow;
-            else _light.color = Color.white;
         }
 
         void OnDetected(DetectEvent @event)
