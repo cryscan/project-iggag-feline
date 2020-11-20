@@ -79,6 +79,6 @@ public class PlayerHide : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         controller.enabled = false;
-        transform.position = new Vector3(1000, 0, 1000);
+        // transform.position = new Vector3(1000, 0, 1000);
     }
 }

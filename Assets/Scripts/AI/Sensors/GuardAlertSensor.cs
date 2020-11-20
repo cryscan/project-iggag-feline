@@ -149,7 +149,7 @@ namespace Feline.AI.Sensors
             {
                 var normalizedSpeed = @event.velocity.magnitude / hearNominalSpeed;
                 alertLevel += normalizedSpeed * hearAlertSpeed;
-                state.Set("Spotted Position", @event.position);
+                spottedPosition = @event.position;
                 Debug.Log("[Guard] heard player");
             }
         }
