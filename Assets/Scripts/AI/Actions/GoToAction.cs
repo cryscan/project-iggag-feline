@@ -23,7 +23,9 @@ namespace Feline.AI.Actions
             behavior = GetComponent<BehaviorTree>();
 
             base.Awake();
-            SetDefaultEffects();
+
+            preconditions.Set("Frozen", false);
+            effects.Set("At Position", default(Vector3));
         }
 
         void OnEnable()
@@ -40,7 +42,7 @@ namespace Feline.AI.Actions
         {
             var position = GetGoalPosition(stackData.goalState);
             if (position.HasValue) effects.Set("At Position", position);
-            else SetDefaultEffects();
+            else effects.Set("At Position", default(Vector3));
 
             return base.GetEffects(stackData);
         }
@@ -76,8 +78,6 @@ namespace Feline.AI.Actions
             var state = agent.GetMemory().GetWorldState();
             state.Set("At Position", effects.Get("At Position"));
         }
-
-        void SetDefaultEffects() => effects.Set("At Position", default(Vector3));
 
         Vector3? GetGoalPosition(ReGoapState<string, object> state)
         {

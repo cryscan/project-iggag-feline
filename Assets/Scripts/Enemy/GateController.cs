@@ -44,11 +44,7 @@ public class GateController : MonoBehaviour
 
     public void Open(float duration, int priority)
     {
-        if (broken)
-        {
-            Debug.Log("[Gate] gate is already broken");
-            return;
-        }
+        if (broken) return;
         if (this.priority > priority) return;
 
         this.priority = priority;
@@ -71,6 +67,7 @@ public class GateController : MonoBehaviour
 
     public void Break()
     {
+        StopAllCoroutines();
         broken = true;
         open = true;
     }

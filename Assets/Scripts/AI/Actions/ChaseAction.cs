@@ -18,17 +18,22 @@ namespace Feline.AI.Actions
         [UnityEngine.Tooltip("Should be Chase behavior")]
         [SerializeField] ExternalBehaviorTree external;
 
+        [SerializeField] GameObject _audio;
         [SerializeField] float speed = 6;
 
         BehaviorTree behavior;
 
+        GameObject player;
+
         protected override void Awake()
         {
             behavior = GetComponent<BehaviorTree>();
+            player = GameObject.FindWithTag("Player");
 
             base.Awake();
 
             preconditions.Set("Can See Player", true);
+
             effects.Set("Player Dead", true);
         }
 
@@ -37,6 +42,8 @@ namespace Feline.AI.Actions
             base.Run(previous, next, settings, goalState, done, fail);
 
             behavior.ExternalBehavior = external;
+            behavior.SetVariableValue("Target", player);
+            behavior.SetVariableValue("Audio", _audio);
             behavior.SetVariableValue("Speed", speed);
 
             StopAllCoroutines();
