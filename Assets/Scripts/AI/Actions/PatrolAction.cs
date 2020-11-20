@@ -46,7 +46,7 @@ namespace Feline.AI.Actions
             base.Run(previous, next, settings, goalState, done, fail);
 
             behavior.ExternalBehavior = external;
-            behavior.SetVariableValue("Path Points", pathPoints);
+            behavior.SetVariableValue("Path Point List", pathPoints);
             behavior.SetVariableValue("Speed", speed);
 
             StopAllCoroutines();

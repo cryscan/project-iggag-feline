@@ -21,8 +21,8 @@ namespace Feline.AI.Sensors
         [SerializeField] float sightAlertSpeed = 10;
 
         [Header("Hearing")]
-        [SerializeField] float hearAlertSpeed = 2;
-        [SerializeField] float hearRange = 5;
+        [SerializeField] float hearAlertSpeed = 3;
+        [SerializeField] float hearRange = 4;
 
         [Tooltip("Alert level will increase hear alert speed amount if the player is heard with this speed")]
         [SerializeField] float hearNominalSpeed = 4;
@@ -35,6 +35,7 @@ namespace Feline.AI.Sensors
         bool detected = false;
         bool canSeePlayer = false;
         bool alerted = false;
+        Vector3 spottedPosition = Vector3.zero;
 
         float alertLevel = 0;
 
@@ -80,8 +81,7 @@ namespace Feline.AI.Sensors
 
             state.Set("Alerted", alerted);
             state.Set("Can See Player", canSeePlayer);
-
-            if (canSeePlayer) state.Set("Spotted Position", player.transform.position);
+            state.Set("Spotted Position", spottedPosition);
 
             UpdateLight();
         }
@@ -94,14 +94,14 @@ namespace Feline.AI.Sensors
             var distance = Vector3.Distance(transform.position, player.transform.position);
             alertLevel = Mathf.Clamp(alertLevel, 0, distance + 1);
 
-            if (alertLevel > distance)
-            {
-                if (dealertCoroutine != null) StopCoroutine(dealertCoroutine);
-                alerted = true;
-                dealertCoroutine = StartCoroutine(DealertCoroutine());
-            }
+            if (alertLevel > distance) Alert();
 
             canSeePlayer = detected && alerted;
+            if (canSeePlayer)
+            {
+                Alert();
+                spottedPosition = player.transform.position;
+            }
         }
 
         void UpdateLight()
@@ -109,6 +109,13 @@ namespace Feline.AI.Sensors
             if (canSeePlayer) _light.color = Color.red;
             else if (alerted || detected) _light.color = Color.yellow;
             else _light.color = Color.white;
+        }
+
+        void Alert()
+        {
+            if (dealertCoroutine != null) StopCoroutine(dealertCoroutine);
+            alerted = true;
+            dealertCoroutine = StartCoroutine(DealertCoroutine());
         }
 
         void OnDrawGizmos()
@@ -142,12 +149,29 @@ namespace Feline.AI.Sensors
             {
                 var normalizedSpeed = @event.velocity.magnitude / hearNominalSpeed;
                 alertLevel += normalizedSpeed * hearAlertSpeed;
-                state.Set("Spotted Position", @event.position);
+                spottedPosition = @event.position;
                 Debug.Log("[Guard] heard player");
             }
         }
 
-        void OnTrapActivated(TrapActivateEvent @event) { }
+        void OnTrapActivated(TrapActivateEvent @event)
+        {
+            var position = @event.trap.transform.position;
+
+            if (@event.trap is DistractionTrap)
+            {
+                DistractionTrap distraction = (DistractionTrap)@event.trap;
+                var distance = Vector3.Distance(transform.position, distraction.transform.position);
+
+                if (distance < distraction.range && !distraction.ReachedMaxCount() && !alerted)
+                // if (!distraction.ReachedMaxCount() && !frozen && !searching)
+                {
+                    Alert();
+                    spottedPosition = position;
+                    distraction.IncreaseCount();
+                }
+            }
+        }
 
         IEnumerator DealertCoroutine()
         {
