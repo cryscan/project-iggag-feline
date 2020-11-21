@@ -15,27 +15,31 @@ namespace Feline.AI.Actions
     {
         [UnityEngine.Tooltip("Should be Move behavior")]
         [SerializeField] ExternalBehaviorTree external;
+        [SerializeField] bool interruptAlerted = true;
+        [SerializeField] float speed = 4;
 
         BehaviorTree behavior;
+
+        Subscription<GuardSpotEvent> handler;
 
         protected override void Awake()
         {
             behavior = GetComponent<BehaviorTree>();
 
             base.Awake();
-
-            preconditions.Set("Frozen", false);
             effects.Set("At Position", default(Vector3));
         }
 
         void OnEnable()
         {
             behavior.OnBehaviorEnd += OnBehaviorEnded;
+            handler = EventBus.Subscribe<GuardSpotEvent>(OnGuardSpotted);
         }
 
         void OnDisable()
         {
             behavior.OnBehaviorEnd -= OnBehaviorEnded;
+            EventBus.Unsubscribe(handler);
         }
 
         public override ReGoapState<string, object> GetEffects(GoapActionStackData<string, object> stackData)
@@ -65,6 +69,7 @@ namespace Feline.AI.Actions
                 {
                     behavior.ExternalBehavior = external;
                     behavior.SetVariableValue("Destination", destination.Value);
+                    behavior.SetVariableValue("Speed", speed);
                     return;
                 }
             }
@@ -83,6 +88,15 @@ namespace Feline.AI.Actions
             if (behavior.ExternalBehavior != external) return;
             if (behavior.ExecutionStatus == TaskStatus.Success) doneCallback(this);
             else if (behavior.ExecutionStatus == TaskStatus.Failure) failCallback(this);
+        }
+
+        void OnGuardSpotted(GuardSpotEvent @event)
+        {
+            if (interruptAlerted && @event.subject == gameObject)
+            {
+                Debug.Log("[Go To] failed on Alert");
+                failCallback(this);
+            }
         }
     }
 }

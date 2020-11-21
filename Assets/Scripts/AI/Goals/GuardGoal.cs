@@ -18,16 +18,5 @@ namespace Feline.AI.Goals
 
             agent = GetComponent<IReGoapAgent<string, object>>();
         }
-
-        public override bool IsGoalPossible()
-        {
-            var state = agent.GetMemory().GetWorldState();
-            if (state.Get("Frozen") != null)
-            {
-                bool frozen = (bool)state.Get("Frozen");
-                return !frozen;
-            }
-            return true;
-        }
     }
 }

@@ -791,7 +791,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dealertSpeed: 4
-  dealertTime: 10
+  alertDuration: 10
   sightAlertSpeed: 10
   hearAlertSpeed: 3
   hearRange: 4
@@ -874,6 +874,8 @@ MonoBehaviour:
   Name: Go To
   Cost: 1
   external: {fileID: 11400000, guid: 11a7f80721e28010cb26deb298afd47a, type: 2}
+  interruptAlerted: 1
+  speed: 4
 --- !u!114 &4286069259433053339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -906,8 +908,8 @@ MonoBehaviour:
   Name: Search
   Cost: 1
   external: {fileID: 11400000, guid: c29dbbe5925bf6d66bdac051f27fd160, type: 2}
-  speed: 4
-  subspeed: 2
+  interruptAlerted: 1
+  speed: 2
 --- !u!114 &6252985065528106047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -924,7 +926,7 @@ MonoBehaviour:
   Cost: 1
   external: {fileID: 11400000, guid: 38c5002b1fa0d3ebe875d2b2f0f751fc, type: 2}
   _audio: {fileID: 2301438030163663283}
-  speed: 6
+  speed: 5
 --- !u!1 &6275353643892283995
 GameObject:
   m_ObjectHideFlags: 0

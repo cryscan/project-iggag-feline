@@ -50,6 +50,12 @@ namespace Feline.AI.Actions
             StartCoroutine(ActionCheckCoroutine());
         }
 
+        public override void Exit(IReGoapAction<string, object> next)
+        {
+            StopAllCoroutines();
+            base.Exit(next);
+        }
+
         IEnumerator ActionCheckCoroutine()
         {
             var state = agent.GetMemory().GetWorldState();
@@ -57,11 +63,7 @@ namespace Feline.AI.Actions
             while (true)
             {
                 bool canSeePlayer = (bool)state.Get("Can See Player");
-                bool playerDead = (bool)state.Get("Player Dead");
-
                 if (!canSeePlayer) failCallback(this);
-                if (playerDead) doneCallback(this);
-
                 yield return null;
             }
         }

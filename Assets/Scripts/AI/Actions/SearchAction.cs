@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 
 using BehaviorDesigner.Runtime;
+using BehaviorDesigner.Runtime.Tasks;
 
 using ReGoap.Core;
 using ReGoap.Unity;
@@ -15,10 +16,12 @@ namespace Feline.AI.Actions
     {
         [UnityEngine.Tooltip("Should be Search behavior")]
         [SerializeField] ExternalBehaviorTree external;
-        [SerializeField] float speed = 4;
-        [SerializeField] float subspeed = 2;
+        [SerializeField] bool interruptAlerted = true;
+        [SerializeField] float speed = 2;
 
         BehaviorTree behavior;
+
+        Subscription<GuardSpotEvent> handler;
 
         protected override void Awake()
         {
@@ -32,21 +35,46 @@ namespace Feline.AI.Actions
             effects.Set("Can See Player", true);
         }
 
+        void OnEnable()
+        {
+            behavior.OnBehaviorEnd += OnBehaviorEnded;
+            handler = EventBus.Subscribe<GuardSpotEvent>(OnGuardSpotted);
+        }
+
+        void OnDisable()
+        {
+            behavior.OnBehaviorEnd -= OnBehaviorEnded;
+            EventBus.Unsubscribe(handler);
+        }
+
+        public override ReGoapState<string, object> GetPreconditions(GoapActionStackData<string, object> stackData)
+        {
+            var state = agent.GetMemory().GetWorldState();
+
+            if (state.HasKey("Spotted Position"))
+            {
+                Vector3 position = (Vector3)state.Get("Spotted Position");
+                preconditions.Set("At Position", position);
+            }
+
+            return base.GetPreconditions(stackData);
+        }
+
         public override void Run(IReGoapAction<string, object> previous, IReGoapAction<string, object> next, ReGoapState<string, object> settings, ReGoapState<string, object> goalState, Action<IReGoapAction<string, object>> done, Action<IReGoapAction<string, object>> fail)
         {
             base.Run(previous, next, settings, goalState, done, fail);
 
-            var state = agent.GetMemory().GetWorldState();
-            if (state.HasKey("Spotted Position"))
-            {
-                behavior.ExternalBehavior = external;
-                behavior.SetVariableValue("Speed", speed);
-                behavior.SetVariableValue("Subspeed", subspeed);
+            behavior.ExternalBehavior = external;
+            behavior.SetVariableValue("Speed", speed);
 
-                StopAllCoroutines();
-                StartCoroutine(ActionCheckCoroutine());
-            }
-            else failCallback(this);
+            StopAllCoroutines();
+            StartCoroutine(ActionCheckCoroutine());
+        }
+
+        public override void Exit(IReGoapAction<string, object> next)
+        {
+            StopAllCoroutines();
+            base.Exit(next);
         }
 
         IEnumerator ActionCheckCoroutine()
@@ -55,9 +83,6 @@ namespace Feline.AI.Actions
 
             while (true)
             {
-                Vector3 position = (Vector3)state.Get("Spotted Position");
-                behavior.SetVariableValue("Position", position);
-
                 bool alerted = (bool)state.Get("Alerted");
                 bool canSeePlayer = (bool)state.Get("Can See Player");
 
@@ -65,6 +90,21 @@ namespace Feline.AI.Actions
                 if (canSeePlayer) doneCallback(this);
 
                 yield return null;
+            }
+        }
+
+        void OnBehaviorEnded(Behavior behavior)
+        {
+            if (behavior.ExecutionStatus == TaskStatus.Success) doneCallback(this);
+            else if (behavior.ExecutionStatus == TaskStatus.Failure) failCallback(this);
+        }
+
+        void OnGuardSpotted(GuardSpotEvent @event)
+        {
+            if (interruptAlerted && @event.subject == gameObject)
+            {
+                Debug.Log("[Search] failed on Alert");
+                failCallback(this);
             }
         }
     }

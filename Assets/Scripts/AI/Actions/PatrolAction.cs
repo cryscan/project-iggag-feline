@@ -53,6 +53,12 @@ namespace Feline.AI.Actions
             StartCoroutine(ActionCheckCoroutine());
         }
 
+        public override void Exit(IReGoapAction<string, object> next)
+        {
+            StopAllCoroutines();
+            base.Exit(next);
+        }
+
         IEnumerator ActionCheckCoroutine()
         {
             var state = agent.GetMemory().GetWorldState();
