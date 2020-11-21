@@ -22,8 +22,12 @@ public class ConeDetection : MonoBehaviour
 
     public bool detected { get; private set; } = false;
 
-    // GameObject player;
+    [Header("Follow")]
+    [SerializeField] float angleLimit = 60;
+    [SerializeField] float fallout = 10;
+
     GameObject[] targets;
+    GameObject target;
 
     void Awake()
     {
@@ -33,6 +37,7 @@ public class ConeDetection : MonoBehaviour
     void Update()
     {
         foreach (var target in targets) Detect(target);
+        Follow();
     }
 
     void OnDrawGizmos()
@@ -65,6 +70,7 @@ public class ConeDetection : MonoBehaviour
                     Debug.Log($"[Detect] {hit.collider.gameObject}");
                     // Debug.Break();
 
+                    this.target = target;
                     EventBus.Publish(new DetectEvent(gameObject, target, type, fov));
                     detected = true;
                 }
@@ -77,6 +83,23 @@ public class ConeDetection : MonoBehaviour
             EventBus.Publish(new LossTargetEvent(gameObject, target, type, fov, position));
             detected = false;
         }
+    }
+
+    void Follow()
+    {
+        Vector3 direction;
+        if (detected)
+        {
+            direction = target.transform.position - eye.position;
+            direction.y = 0;
+        }
+        else direction = transform.forward;
+
+        var angle = Vector3.SignedAngle(eye.forward, direction, eye.up);
+        angle = Mathf.Clamp(angle, -angleLimit, angleLimit);
+
+        float rotation = 0.0f.Fallout(angle, fallout);
+        eye.Rotate(0, rotation, 0, Space.Self);
     }
 }
 
