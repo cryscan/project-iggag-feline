@@ -13,9 +13,7 @@ namespace Feline.AI.Sensors
     {
         [Header("Dealert")]
         [SerializeField] float dealertSpeed = 4;
-
-        [Tooltip("Time for the agent to give up searching")]
-        [SerializeField] float dealertTime = 10;
+        [SerializeField] float alertDuration = 10;
 
         [Header("Sight")]
         [SerializeField] float sightAlertSpeed = 10;
@@ -35,11 +33,13 @@ namespace Feline.AI.Sensors
         bool detected = false;
         bool canSeePlayer = false;
         bool alerted = false;
-        Vector3 spottedPosition = Vector3.zero;
+
+        Vector3 spottedPosition = default(Vector3);
+        Vector3 lastSpottedPosition = default(Vector3);
 
         float alertLevel = 0;
 
-        Coroutine dealertCoroutine = null;
+        Coroutine alertCoroutine = null;
 
         BehaviorTree behavior;
 
@@ -83,6 +83,12 @@ namespace Feline.AI.Sensors
             state.Set("Can See Player", canSeePlayer);
             state.Set("Spotted Position", spottedPosition);
 
+            if (lastSpottedPosition != spottedPosition)
+            {
+                EventBus.Publish(new GuardSpotEvent() { subject = gameObject });
+                lastSpottedPosition = spottedPosition;
+            }
+
             UpdateLight();
         }
 
@@ -94,14 +100,14 @@ namespace Feline.AI.Sensors
             var distance = Vector3.Distance(transform.position, player.transform.position);
             alertLevel = Mathf.Clamp(alertLevel, 0, distance + 1);
 
-            if (alertLevel > distance) Alert();
-
-            canSeePlayer = detected && alerted;
-            if (canSeePlayer)
+            if (alertLevel > distance)
             {
-                Alert();
+                // Actively alerted by player.
+                Alert(alertDuration);
                 spottedPosition = player.transform.position;
             }
+
+            canSeePlayer = detected && alerted;
         }
 
         void UpdateLight()
@@ -111,11 +117,17 @@ namespace Feline.AI.Sensors
             else _light.color = Color.white;
         }
 
-        void Alert()
+        public void Alert(float duration)
         {
-            if (dealertCoroutine != null) StopCoroutine(dealertCoroutine);
-            alerted = true;
-            dealertCoroutine = StartCoroutine(DealertCoroutine());
+            if (alertCoroutine != null) StopCoroutine(alertCoroutine);
+            alertCoroutine = StartCoroutine(AlertCoroutine(duration));
+        }
+
+        public void Dealert()
+        {
+            if (alertCoroutine != null) StopCoroutine(alertCoroutine);
+            alertCoroutine = null;
+            alerted = false;
         }
 
         void OnDrawGizmos()
@@ -123,7 +135,9 @@ namespace Feline.AI.Sensors
             if (player)
             {
                 var direction = player.transform.position - transform.position;
-                Debug.DrawRay(transform.position, direction.normalized * alertLevel);
+                Debug.DrawRay(transform.position, direction.normalized * alertLevel, Color.red);
+
+                Gizmos.DrawWireSphere(spottedPosition, 0.1f);
             }
 
             Gizmos.DrawWireSphere(transform.position, hearRange);
@@ -149,7 +163,6 @@ namespace Feline.AI.Sensors
             {
                 var normalizedSpeed = @event.velocity.magnitude / hearNominalSpeed;
                 alertLevel += normalizedSpeed * hearAlertSpeed;
-                spottedPosition = @event.position;
                 Debug.Log("[Guard] heard player");
             }
         }
@@ -166,18 +179,26 @@ namespace Feline.AI.Sensors
                 if (distance < distraction.range && !distraction.ReachedMaxCount() && !alerted)
                 // if (!distraction.ReachedMaxCount() && !frozen && !searching)
                 {
-                    Alert();
+                    Alert(alertDuration);
                     spottedPosition = position;
                     distraction.IncreaseCount();
                 }
             }
         }
 
-        IEnumerator DealertCoroutine()
+        IEnumerator AlertCoroutine(float duration)
         {
-            yield return new WaitForSeconds(dealertTime);
+            alerted = true;
+
+            yield return new WaitForSeconds(duration);
             alerted = false;
-            dealertCoroutine = null;
+            alertCoroutine = null;
         }
     }
+}
+
+public class GuardSpotEvent
+{
+    public GameObject subject;
+
 }

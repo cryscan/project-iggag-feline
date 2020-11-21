@@ -50,8 +50,6 @@ public class ConeDetection : MonoBehaviour
         var distance = direction.magnitude;
         var angle = Vector3.Angle(eye.forward, direction);
 
-        Debug.DrawRay(eye.position, direction, Color.red);
-
         bool lost = true;
         if (angle < fov / 2 && distance <= range)
         {

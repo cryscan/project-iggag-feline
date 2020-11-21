@@ -74,12 +74,14 @@ public class GateController : MonoBehaviour
 
     void OnTrapActivated(TrapActivateEvent @event)
     {
+        /*
         if (@event.trap is FrozenTrap)
         {
             FrozenTrap frozen = (FrozenTrap)@event.trap;
             var distance = Vector3.Distance(frozen.transform.position, transform.position);
             if (distance < frozen.range) Break();
         }
+        */
     }
 
     IEnumerator OpenCoroutine(float duration)

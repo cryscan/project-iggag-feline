@@ -50,31 +50,21 @@ public class ScheduleManager : MonoBehaviour
     void Update()
     {
         var state = GameManager.instance.currentState;
-
         if (state == GameState.Plan || state == GameState.Play) timer += Time.deltaTime;
-
-        if (state == GameState.Play)
-        {
-            /*
-            if (schedules.Count > 0 && schedules[0].timer < timer)
-            {
-                var schedule = schedules[0];
-                EventBus.Publish(schedule);
-                schedules.RemoveAt(0);
-            }
-            */
-        }
     }
 
     IEnumerator ScheduleExecuteCoroutine()
     {
         while (schedules.Count > 0)
         {
-            var schedule = schedules[0];
-            yield return new WaitForSeconds(schedule.timer - timer);
+            // Important, or the first one will be missing on the timeline.
+            yield return null;
 
-            EventBus.Publish(schedule);
+            var schedule = schedules[0];
             schedules.RemoveAt(0);
+
+            yield return new WaitForSeconds(schedule.timer - timer);
+            EventBus.Publish(schedule);
         }
     }
 
@@ -92,7 +82,6 @@ public class ScheduleManager : MonoBehaviour
         if (@event.previous == GameState.Plan && @event.current == GameState.Play)
         {
             timer = 0;
-            StartCoroutine(ScheduleExecuteCoroutine());
 
             schedules.Sort((x, y) => (int)(x.timer - y.timer));
 
@@ -102,6 +91,9 @@ public class ScheduleManager : MonoBehaviour
                 var _object = Instantiate(schedule.prefab, schedule.position, Quaternion.identity);
                 schedule.prefab = _object;
             }
+
+            StopAllCoroutines();
+            StartCoroutine(ScheduleExecuteCoroutine());
         }
 
         if (@event.previous != GameState.Paused && @event.current == GameState.Plan)

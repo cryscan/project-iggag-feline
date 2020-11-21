@@ -42,7 +42,6 @@ public class GuardFrozenSensor : ReGoapSensor<string, object>
 
     public override void UpdateSensor()
     {
-        memory.GetWorldState().Set("Frozen", frozen);
         effect.SetActive(frozen);
     }
 
