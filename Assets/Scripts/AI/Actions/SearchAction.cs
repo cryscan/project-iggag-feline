@@ -39,16 +39,14 @@ namespace Feline.AI.Actions
             var state = agent.GetMemory().GetWorldState();
             if (state.HasKey("Spotted Position"))
             {
-                Vector3 spot = (Vector3)state.Get("Spotted Position");
                 behavior.ExternalBehavior = external;
-                behavior.SetVariableValue("Position", spot);
                 behavior.SetVariableValue("Speed", speed);
                 behavior.SetVariableValue("Subspeed", subspeed);
+
+                StopAllCoroutines();
+                StartCoroutine(ActionCheckCoroutine());
             }
             else failCallback(this);
-
-            StopAllCoroutines();
-            StartCoroutine(ActionCheckCoroutine());
         }
 
         IEnumerator ActionCheckCoroutine()
@@ -57,6 +55,9 @@ namespace Feline.AI.Actions
 
             while (true)
             {
+                Vector3 position = (Vector3)state.Get("Spotted Position");
+                behavior.SetVariableValue("Position", position);
+
                 bool alerted = (bool)state.Get("Alerted");
                 bool canSeePlayer = (bool)state.Get("Can See Player");
 

@@ -94,14 +94,14 @@ namespace Feline.AI.Sensors
             var distance = Vector3.Distance(transform.position, player.transform.position);
             alertLevel = Mathf.Clamp(alertLevel, 0, distance + 1);
 
-            if (alertLevel > distance) Alert();
-
-            canSeePlayer = detected && alerted;
-            if (canSeePlayer)
+            if (alertLevel > distance)
             {
+                // Actively alerted by player.
                 Alert();
                 spottedPosition = player.transform.position;
             }
+
+            canSeePlayer = detected && alerted;
         }
 
         void UpdateLight()
@@ -123,7 +123,9 @@ namespace Feline.AI.Sensors
             if (player)
             {
                 var direction = player.transform.position - transform.position;
-                Debug.DrawRay(transform.position, direction.normalized * alertLevel);
+                Debug.DrawRay(transform.position, direction.normalized * alertLevel, Color.red);
+
+                Gizmos.DrawWireSphere(spottedPosition, 0.1f);
             }
 
             Gizmos.DrawWireSphere(transform.position, hearRange);
@@ -149,7 +151,6 @@ namespace Feline.AI.Sensors
             {
                 var normalizedSpeed = @event.velocity.magnitude / hearNominalSpeed;
                 alertLevel += normalizedSpeed * hearAlertSpeed;
-                spottedPosition = @event.position;
                 Debug.Log("[Guard] heard player");
             }
         }
