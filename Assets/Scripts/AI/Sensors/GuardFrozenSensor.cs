@@ -15,7 +15,6 @@ public class GuardFrozenSensor : ReGoapSensor<string, object>
     [SerializeField] Light _light;
 
     bool frozen;
-    Coroutine frozenCoroutine;
 
     BehaviorTree behavior;
     NavMeshAgent agent;
@@ -60,8 +59,8 @@ public class GuardFrozenSensor : ReGoapSensor<string, object>
 
     void Freeze(float duration)
     {
-        if (frozenCoroutine != null) StopCoroutine(frozenCoroutine);
-        frozenCoroutine = StartCoroutine(FrozenCoroutine(duration));
+        StopAllCoroutines();
+        StartCoroutine(FrozenCoroutine(duration));
     }
 
     IEnumerator FrozenCoroutine(float duration)
@@ -81,7 +80,5 @@ public class GuardFrozenSensor : ReGoapSensor<string, object>
         agent.enabled = true;
         behavior.EnableBehavior();
         detection.enabled = true;
-
-        frozenCoroutine = null;
     }
 }
