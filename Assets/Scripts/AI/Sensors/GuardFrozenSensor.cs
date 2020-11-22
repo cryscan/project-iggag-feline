@@ -50,7 +50,7 @@ public class GuardFrozenSensor : ReGoapSensor<string, object>
 
         if (@event.trap is FrozenTrap)
         {
-            FrozenTrap frozen = (FrozenTrap)@event.trap;
+            var frozen = @event.trap as FrozenTrap;
             var distance = Vector3.Distance(transform.position, frozen.transform.position);
 
             if (distance < frozen.range) Freeze(frozen.duration);

@@ -5,17 +5,15 @@ using UnityEngine;
 
 namespace Feline.AI.Actions
 {
-    public class GoToStandAction : GoToAction
+    public class ReserveGoToAction : GoToAction
     {
-        string role;
+        [SerializeField] string role;
 
         protected override void Awake()
         {
-            role = typeof(StandPoint).ToString();
-
             base.Awake();
 
-            preconditions.Set($"Has Available {role}", true);
+            preconditions.Set($"Has Role {role}", true);
             effects.Set($"Reserved {role}", true);
         }
 
@@ -37,13 +35,14 @@ namespace Feline.AI.Actions
 
         public override void Run(IReGoapAction<string, object> previous, IReGoapAction<string, object> next, ReGoapState<string, object> settings, ReGoapState<string, object> goalState, System.Action<IReGoapAction<string, object>> done, System.Action<IReGoapAction<string, object>> fail)
         {
-            if (settings.HasKey($"Objective {role}"))
+            var key = $"Objective {role}";
+            if (settings.HasKey(key))
             {
-                var standPoint = settings.Get($"Objective {role}") as StandPoint;
-                if (standPoint)
+                var role = settings.Get(key) as Role;
+                if (role)
                 {
-                    if (!standPoint.Reserve(gameObject)) fail(this);
-                    StartCoroutine(ActionCheckCoroutine(standPoint));
+                    if (!role.Reserve(gameObject)) fail(this);
+                    StartCoroutine(ActionCheckCoroutine(role));
                 }
                 else fail(this);
             }
@@ -59,11 +58,16 @@ namespace Feline.AI.Actions
             base.Exit(next);
         }
 
-        IEnumerator ActionCheckCoroutine(StandPoint standPoint)
+        public override string ToString()
+        {
+            return $"GoapAction({Name}, {role})";
+        }
+
+        IEnumerator ActionCheckCoroutine(Role role)
         {
             while (true)
             {
-                if (!standPoint.valid || standPoint.reservation != gameObject) failCallback(this);
+                if (!role.valid || !role.IsReserved(gameObject)) failCallback(this);
                 yield return null;
             }
         }

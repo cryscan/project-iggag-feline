@@ -17,12 +17,11 @@ namespace Feline.AI.Actions
 
         BehaviorTree behavior;
 
-        string role;
+        string role = "StandPoint";
 
         protected override void Awake()
         {
             behavior = GetComponent<BehaviorTree>();
-            role = typeof(StandPoint).ToString();
 
             base.Awake();
             preconditions.Set("Alerted", false);
@@ -81,7 +80,7 @@ namespace Feline.AI.Actions
             var state = agent.GetMemory().GetWorldState();
             while (true)
             {
-                if (!standPoint.valid || standPoint.reservation != gameObject) failCallback(this);
+                if (!standPoint.valid || !standPoint.IsReserved(gameObject)) failCallback(this);
 
                 bool canSeePlayer = (bool)state.Get("Can See Player");
                 bool alerted = (bool)state.Get("Alerted");

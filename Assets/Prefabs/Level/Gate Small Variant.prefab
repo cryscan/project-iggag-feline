@@ -140,9 +140,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e6a196e82cc01215ad510c2aa9733fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  access:
+  roles: []
+  effect: {fileID: 7668405767464703427}
+  accessTags:
   - Enemy
-  breakEffect: {fileID: 7668405767464703427}
 --- !u!65 &6227487607768296586
 BoxCollider:
   m_ObjectHideFlags: 0

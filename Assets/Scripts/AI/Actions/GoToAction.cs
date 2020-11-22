@@ -67,7 +67,9 @@ namespace Feline.AI.Actions
                 var destination = settings.Get("Objective Position") as Vector3?;
                 if (destination.HasValue)
                 {
+                    behavior.DisableBehavior();
                     behavior.ExternalBehavior = external;
+                    behavior.EnableBehavior();
 
                     behavior.SetVariableValue("Destination", destination.Value);
                     behavior.SetVariableValue("Speed", speed);

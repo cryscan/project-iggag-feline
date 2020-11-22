@@ -172,7 +172,7 @@ namespace Feline.AI.Sensors
 
             if (@event.trap is DistractionTrap)
             {
-                DistractionTrap distraction = (DistractionTrap)@event.trap;
+                var distraction = @event.trap as DistractionTrap;
                 var distance = Vector3.Distance(transform.position, distraction.transform.position);
 
                 if (distance < distraction.range && !distraction.ReachedMaxCount() && !alerted)

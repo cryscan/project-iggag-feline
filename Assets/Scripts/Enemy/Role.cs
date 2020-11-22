@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Role : MonoBehaviour, IRole
+public abstract class Role : MonoBehaviour
 {
     [SerializeField] bool _valid;
     public bool valid { get => _valid; }
@@ -32,14 +32,4 @@ public abstract class Role : MonoBehaviour, IRole
 
         return false;
     }
-}
-
-
-public interface IRole
-{
-    bool IsAvailable();
-    bool IsReserved(GameObject _object);
-    void SetValid(bool valid);
-
-    bool Reserve(GameObject _object);
 }
