@@ -3358,11 +3358,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Guardian Pack (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 2088457699688421717, guid: 39488a604fa3f13f384e42061659516c,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2244289826925010576, guid: 39488a604fa3f13f384e42061659516c,
         type: 3}
       propertyPath: m_LocalPosition.z
