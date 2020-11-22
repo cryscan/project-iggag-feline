@@ -16,7 +16,7 @@ namespace Feline.AI.Actions
     {
         [UnityEngine.Tooltip("Should be Search behavior")]
         [SerializeField] ExternalBehaviorTree external;
-        [SerializeField] bool interruptAlerted = true;
+        [SerializeField] bool interruptSpotted = true;
         [SerializeField] float speed = 2;
 
         BehaviorTree behavior;
@@ -67,7 +67,6 @@ namespace Feline.AI.Actions
             behavior.ExternalBehavior = external;
             behavior.SetVariableValue("Speed", speed);
 
-            StopAllCoroutines();
             StartCoroutine(ActionCheckCoroutine());
         }
 
@@ -101,7 +100,7 @@ namespace Feline.AI.Actions
 
         void OnGuardSpotted(GuardSpotEvent @event)
         {
-            if (interruptAlerted && @event.subject == gameObject)
+            if (interruptSpotted && @event.subject == gameObject)
             {
                 Debug.Log("[Search] failed on Alert");
                 failCallback(this);

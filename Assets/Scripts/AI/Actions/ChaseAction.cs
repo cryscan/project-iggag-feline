@@ -46,7 +46,6 @@ namespace Feline.AI.Actions
             behavior.SetVariableValue("Audio", _audio);
             behavior.SetVariableValue("Speed", speed);
 
-            StopAllCoroutines();
             StartCoroutine(ActionCheckCoroutine());
         }
 

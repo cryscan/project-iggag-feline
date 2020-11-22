@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class EnemyAttack : MonoBehaviour
 {
+    [SerializeField] GameObject prefab;
+    [SerializeField] GameObject view;
     [SerializeField] bool plan = true;
 
     GameObject player;
@@ -19,9 +21,16 @@ public class EnemyAttack : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             // GameManager.instance.GameOverReturn();
+            /*
             Scene scene = SceneManager.GetActiveScene();
             if (plan) GameManager.instance.EnterPlanScene(scene.name);
             else GameManager.instance.EnterPlayScene(scene.name);
+            */
+            Instantiate(prefab, transform.position, transform.rotation);
+
+            collision.gameObject.SetActive(false);
+            Destroy(view);
+            Destroy(gameObject);
         }
     }
 

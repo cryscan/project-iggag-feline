@@ -15,7 +15,7 @@ namespace Feline.AI.Actions
     {
         [UnityEngine.Tooltip("Should be Move behavior")]
         [SerializeField] ExternalBehaviorTree external;
-        [SerializeField] bool interruptAlerted = true;
+        [SerializeField] bool interruptSpotted = true;
         [SerializeField] float speed = 4;
 
         BehaviorTree behavior;
@@ -68,12 +68,13 @@ namespace Feline.AI.Actions
                 if (destination.HasValue)
                 {
                     behavior.ExternalBehavior = external;
+
                     behavior.SetVariableValue("Destination", destination.Value);
                     behavior.SetVariableValue("Speed", speed);
-                    return;
                 }
+                else fail(this);
             }
-            else failCallback(this);
+            else fail(this);
         }
 
         Vector3? GetGoalPosition(ReGoapState<string, object> state)
@@ -85,6 +86,7 @@ namespace Feline.AI.Actions
 
         void OnBehaviorEnded(Behavior behavior)
         {
+            Debug.Log("[Go To] behavior ended");
             if (behavior.ExternalBehavior != external) return;
             if (behavior.ExecutionStatus == TaskStatus.Success) doneCallback(this);
             else if (behavior.ExecutionStatus == TaskStatus.Failure) failCallback(this);
@@ -92,9 +94,9 @@ namespace Feline.AI.Actions
 
         void OnGuardSpotted(GuardSpotEvent @event)
         {
-            if (interruptAlerted && @event.subject == gameObject)
+            if (interruptSpotted && @event.subject == gameObject)
             {
-                Debug.Log("[Go To] failed on Alert");
+                Debug.Log("[Go To] failed on spotted");
                 failCallback(this);
             }
         }

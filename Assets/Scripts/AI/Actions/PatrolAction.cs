@@ -28,7 +28,7 @@ namespace Feline.AI.Actions
         {
             behavior = GetComponent<BehaviorTree>();
 
-            pathPointsParent.parent = null;
+            // pathPointsParent.parent = null;
             var query = from i in Enumerable.Range(0, pathPointsParent.childCount)
                         select pathPointsParent.GetChild(i).gameObject;
             pathPoints = query.ToList();
@@ -49,7 +49,6 @@ namespace Feline.AI.Actions
             behavior.SetVariableValue("Path Point List", pathPoints);
             behavior.SetVariableValue("Speed", speed);
 
-            StopAllCoroutines();
             StartCoroutine(ActionCheckCoroutine());
         }
 
@@ -62,14 +61,13 @@ namespace Feline.AI.Actions
         IEnumerator ActionCheckCoroutine()
         {
             var state = agent.GetMemory().GetWorldState();
-
             while (true)
             {
                 bool alerted = (bool)state.Get("Alerted");
                 bool canSeePlayer = (bool)state.Get("Can See Player");
 
-                if (alerted) failCallback(this);
                 if (canSeePlayer) doneCallback(this);
+                else if (alerted) failCallback(this);
 
                 yield return null;
             }
