@@ -827,7 +827,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4839249185068438682}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf6ecf47d15cfa029aee94cfbca0f87a, type: 3}
+  m_Script: {fileID: 11500000, guid: e2fbd01277b980226a3a7fff24a16e69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &4098726470332918386
@@ -928,7 +928,7 @@ MonoBehaviour:
   Cost: 1
   external: {fileID: 11400000, guid: c29dbbe5925bf6d66bdac051f27fd160, type: 2}
   interruptSpotted: 1
-  speed: 2
+  speed: 4
 --- !u!114 &6252985065528106047
 MonoBehaviour:
   m_ObjectHideFlags: 0

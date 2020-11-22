@@ -7,19 +7,22 @@ namespace Feline.AI.Actions
 {
     public class GoToStandAction : GoToAction
     {
+        string role;
+
         protected override void Awake()
         {
+            role = typeof(StandPoint).ToString();
+
             base.Awake();
 
-            preconditions.Set("Has Available Stand Point", true);
-            effects.Set("Reserved Stand Point", true);
+            preconditions.Set($"Has Available {role}", true);
+            effects.Set($"Reserved {role}", true);
         }
 
         public override ReGoapState<string, object> GetEffects(GoapActionStackData<string, object> stackData)
         {
-            var key = "Stand Point";
             var state = stackData.goalState;
-            if (state.HasKey(key)) effects.Set(key, state.Get(key));
+            if (state.HasKey(role)) effects.Set(role, state.Get(role));
 
             return base.GetEffects(stackData);
         }
@@ -27,16 +30,16 @@ namespace Feline.AI.Actions
         public override List<ReGoapState<string, object>> GetSettings(GoapActionStackData<string, object> stackData)
         {
             var state = stackData.goalState;
-            if (state.HasKey("Stand Point")) settings.Set("Objective Stand Point", state.Get("Stand Point"));
+            if (state.HasKey(role)) settings.Set($"Objective {role}", state.Get(role));
 
             return base.GetSettings(stackData);
         }
 
         public override void Run(IReGoapAction<string, object> previous, IReGoapAction<string, object> next, ReGoapState<string, object> settings, ReGoapState<string, object> goalState, System.Action<IReGoapAction<string, object>> done, System.Action<IReGoapAction<string, object>> fail)
         {
-            if (settings.HasKey("Objective Stand Point"))
+            if (settings.HasKey($"Objective {role}"))
             {
-                var standPoint = settings.Get("Objective Stand Point") as StandPoint;
+                var standPoint = settings.Get($"Objective {role}") as StandPoint;
                 if (standPoint)
                 {
                     if (!standPoint.Reserve(gameObject)) fail(this);
