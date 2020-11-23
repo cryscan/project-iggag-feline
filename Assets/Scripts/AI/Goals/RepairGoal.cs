@@ -27,7 +27,7 @@ namespace Feline.AI.Goals
                 bool hasRepairPoint = (bool)state.Get("Has Role RepairPoint");
                 return hasRepairPoint;
             }
-            return base.IsGoalPossible();
+            return false;
         }
     }
 }

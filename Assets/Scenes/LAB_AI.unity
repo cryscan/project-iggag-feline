@@ -4984,7 +4984,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1265837405}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20, y: 0, z: 2}
+  m_LocalPosition: {x: 19, y: 0, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1449452496}
@@ -10465,6 +10465,16 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1968244160}
+    - target: {fileID: 3006416382795179494, guid: 821f317c4492b2bce91f26268a107eee,
+        type: 3}
+      propertyPath: roles.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3006416382795179494, guid: 821f317c4492b2bce91f26268a107eee,
+        type: 3}
+      propertyPath: roles.Array.data[1]
+      value: 
+      objectReference: {fileID: 1265837406}
     - target: {fileID: 3390156157858423001, guid: 821f317c4492b2bce91f26268a107eee,
         type: 3}
       propertyPath: accessTags.Array.size
@@ -10578,6 +10588,16 @@ PrefabInstance:
     - target: {fileID: 5234103067993763651, guid: 821f317c4492b2bce91f26268a107eee,
         type: 3}
       propertyPath: associatedRoles.Array.data[0]
+      value: 
+      objectReference: {fileID: 1265837406}
+    - target: {fileID: 5907841382333473804, guid: 821f317c4492b2bce91f26268a107eee,
+        type: 3}
+      propertyPath: roles.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907841382333473804, guid: 821f317c4492b2bce91f26268a107eee,
+        type: 3}
+      propertyPath: roles.Array.data[1]
       value: 
       objectReference: {fileID: 1265837406}
     - target: {fileID: 6338263260123246072, guid: 821f317c4492b2bce91f26268a107eee,

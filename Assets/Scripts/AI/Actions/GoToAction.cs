@@ -19,6 +19,7 @@ namespace Feline.AI.Actions
         [SerializeField] float speed = 4;
 
         BehaviorTree behavior;
+        Vector3? destination;
 
         Subscription<GuardSpotEvent> handler;
 
@@ -64,12 +65,10 @@ namespace Feline.AI.Actions
 
             if (settings.HasKey("Objective Position"))
             {
-                var destination = settings.Get("Objective Position") as Vector3?;
+                destination = settings.Get("Objective Position") as Vector3?;
                 if (destination.HasValue)
                 {
-                    behavior.DisableBehavior();
                     behavior.ExternalBehavior = external;
-                    behavior.EnableBehavior();
 
                     behavior.SetVariableValue("Destination", destination.Value);
                     behavior.SetVariableValue("Speed", speed);
@@ -77,6 +76,14 @@ namespace Feline.AI.Actions
                 else fail(this);
             }
             else fail(this);
+        }
+
+        public override void Exit(IReGoapAction<string, object> next)
+        {
+            if (destination.HasValue)
+                agent.GetMemory().GetWorldState().Set("At Position", destination.Value);
+
+            base.Exit(next);
         }
 
         Vector3? GetGoalPosition(ReGoapState<string, object> state)

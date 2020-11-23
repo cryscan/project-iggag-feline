@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using ReGoap.Core;
 using UnityEngine;
+
+using ReGoap.Core;
+using ReGoap.Unity;
 
 namespace Feline.AI.Actions
 {
-    public class ReserveGoToAction : GoToAction
+    public class ReserveRoleAction : ReGoapAction<string, object>
     {
         [SerializeField] string role;
 
@@ -35,26 +37,21 @@ namespace Feline.AI.Actions
 
         public override void Run(IReGoapAction<string, object> previous, IReGoapAction<string, object> next, ReGoapState<string, object> settings, ReGoapState<string, object> goalState, System.Action<IReGoapAction<string, object>> done, System.Action<IReGoapAction<string, object>> fail)
         {
+            base.Run(previous, next, settings, goalState, done, fail);
+
             var key = $"Objective {role}";
             if (settings.HasKey(key))
             {
                 var role = settings.Get(key) as Role;
-                if (role)
-                {
-                    if (!role.Reserve(gameObject)) fail(this);
-                    StartCoroutine(ActionCheckCoroutine(role));
-                }
+                if (role && role.Reserve(gameObject)) done(this);
                 else fail(this);
             }
             else fail(this);
-
-            base.Run(previous, next, settings, goalState, done, fail);
         }
 
         public override void Exit(IReGoapAction<string, object> next)
         {
             StopAllCoroutines();
-
             base.Exit(next);
         }
 
@@ -63,13 +60,16 @@ namespace Feline.AI.Actions
             return $"GoapAction({Name}, {role})";
         }
 
-        IEnumerator ActionCheckCoroutine(Role role)
-        {
-            while (true)
-            {
-                if (!role.valid || !role.IsReserved(gameObject)) failCallback(this);
-                yield return null;
-            }
-        }
+        /*
+                IEnumerator ActionCheckCoroutine(Role role)
+                {
+                    while (true)
+                    {
+                        if (!role.valid || !role.IsReserved(gameObject)) failCallback(this);
+                        yield return null;
+                    }
+                }
+            
+        */
     }
 }

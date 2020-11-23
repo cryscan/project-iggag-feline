@@ -573,9 +573,10 @@ MonoBehaviour:
   roles:
   - {fileID: 240760922941499538}
   effect: {fileID: 1993466299800307204}
-  maxHitPoint: 100
+  maxHitPoint: 200
   repairHitPoint: 1
   repairDelay: 0.1
+  hitPoint: 0
 --- !u!114 &240760922941499538
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using BehaviorDesigner.Runtime;
+
 using ReGoap.Core;
 using ReGoap.Unity;
 using System;
@@ -10,10 +12,15 @@ namespace Feline.AI.Actions
 {
     public class RepairAction : ReGoapAction<string, object>
     {
+        [SerializeField] ExternalBehavior external;
+
         string role = "RepairPoint";
+
+        BehaviorTree behavior;
 
         protected override void Awake()
         {
+            behavior = GetComponent<BehaviorTree>();
             base.Awake();
 
             preconditions.Set($"Reserved {role}", true);
@@ -46,18 +53,36 @@ namespace Feline.AI.Actions
             if (settings.HasKey($"Objective {role}"))
             {
                 var repairPoint = settings.Get($"Objective {role}") as RepairPoint;
-                if (repairPoint) StartCoroutine(ActionCheckCoroutine(repairPoint));
+                if (repairPoint)
+                {
+                    behavior.ExternalBehavior = external;
+                    StartCoroutine(RepairCoroutine(repairPoint));
+                    StartCoroutine(ActionCheckCoroutine(repairPoint));
+                }
                 else fail(this);
             }
             else fail(this);
+        }
+
+        public override void Exit(IReGoapAction<string, object> next)
+        {
+            StopAllCoroutines();
+            base.Exit(next);
+        }
+
+        IEnumerator RepairCoroutine(RepairPoint repairPoint)
+        {
+            while (true)
+            {
+                repairPoint.breakable.Repair();
+                yield return new WaitForSeconds(0.1f);
+            }
         }
 
         IEnumerator ActionCheckCoroutine(RepairPoint repairPoint)
         {
             while (true)
             {
-                repairPoint.breakable.Repair();
-
                 if (!repairPoint.breakable.broken) doneCallback(this);
                 else if (!repairPoint.valid) doneCallback(this);
                 else if (!repairPoint.IsReserved(gameObject)) failCallback(this);
