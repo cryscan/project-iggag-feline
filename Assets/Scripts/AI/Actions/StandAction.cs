@@ -16,6 +16,7 @@ namespace Feline.AI.Actions
         [SerializeField] ExternalBehaviorTree external;
 
         BehaviorTree behavior;
+        int index = 0;
 
         string type = "StandPoint";
 
@@ -58,6 +59,7 @@ namespace Feline.AI.Actions
                 {
                     behavior.ExternalBehavior = external;
                     behavior.SetVariableValue("Points", standPoint.points);
+                    behavior.SetVariableValue("Index", index);
 
                     StartCoroutine(ActionCheckCoroutine(standPoint));
                 }
@@ -69,6 +71,10 @@ namespace Feline.AI.Actions
         public override void Exit(IReGoapAction<string, object> next)
         {
             StopAllCoroutines();
+
+            var shared = behavior.GetVariable("Index") as SharedInt;
+            index = shared.Value;
+
             base.Exit(next);
         }
 
