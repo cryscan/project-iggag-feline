@@ -13,6 +13,7 @@ namespace Feline.AI.Actions
     public class RepairAction : ReGoapAction<string, object>
     {
         [SerializeField] ExternalBehavior external;
+        [SerializeField] Light _light;
 
         string role = "RepairPoint";
 
@@ -55,6 +56,8 @@ namespace Feline.AI.Actions
                 var repairPoint = settings.Get($"Objective {role}") as RepairPoint;
                 if (repairPoint)
                 {
+                    _light.enabled = false;
+
                     behavior.ExternalBehavior = external;
                     StartCoroutine(RepairCoroutine(repairPoint));
                     StartCoroutine(ActionCheckCoroutine(repairPoint));
@@ -67,6 +70,8 @@ namespace Feline.AI.Actions
         public override void Exit(IReGoapAction<string, object> next)
         {
             StopAllCoroutines();
+            _light.enabled = true;
+
             base.Exit(next);
         }
 

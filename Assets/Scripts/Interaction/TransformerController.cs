@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TransformerController : Breakable
 {
+    [SerializeField] LinearProgressBar progressBar;
+
     [SerializeField] int maxHitPoint = 10;
     [SerializeField] int repairHitPoint = 1;
     [SerializeField] float repairDelay = 0.1f;
@@ -15,6 +17,7 @@ public class TransformerController : Breakable
 
     void Awake()
     {
+        progressBar.max = maxHitPoint;
         hitPoint = maxHitPoint;
     }
 
@@ -31,6 +34,8 @@ public class TransformerController : Breakable
     protected override void Update()
     {
         base.Update();
+
+        progressBar.current = hitPoint;
         timer += Time.deltaTime;
     }
 

@@ -78,6 +78,7 @@ namespace Feline.AI.Actions
             else fail(this);
         }
 
+        /*
         public override void Exit(IReGoapAction<string, object> next)
         {
             if (destination.HasValue)
@@ -85,6 +86,7 @@ namespace Feline.AI.Actions
 
             base.Exit(next);
         }
+        */
 
         Vector3? GetGoalPosition(ReGoapState<string, object> state)
         {
