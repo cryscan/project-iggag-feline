@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 1893015884118307482}
   - component: {fileID: 1893015884118307483}
   - component: {fileID: 1893015884118307481}
+  - component: {fileID: 395528111139761898}
   m_Layer: 0
   m_Name: CM vcam2
   m_TagString: Untagged
@@ -158,7 +159,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b870c4df80592ee45b958c62bf94e37e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pivot: {fileID: 1893015883990722434}
+--- !u!114 &395528111139761898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1893015884118307476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a1d11226389b1870a87c8c4cadfd8dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spacial: 0
+  impulse: 5
+  fallout: 10
 --- !u!1 &1893015884678504306
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,6 +186,7 @@ GameObject:
   - component: {fileID: 1893015884678504310}
   - component: {fileID: 1893015884678504311}
   - component: {fileID: 1893015884678504304}
+  - component: {fileID: 7612950351345004058}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -228,6 +244,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4c41ac9245b87c4192012080077d830, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7612950351345004058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1893015884678504306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+  m_AmplitudeGain: 0
+  m_FrequencyGain: 1
+  mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1001 &1893015884598699129
 PrefabInstance:
   m_ObjectHideFlags: 0
