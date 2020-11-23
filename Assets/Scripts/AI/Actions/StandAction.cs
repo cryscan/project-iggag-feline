@@ -17,7 +17,7 @@ namespace Feline.AI.Actions
 
         BehaviorTree behavior;
 
-        string role = "StandPoint";
+        string type = "StandPoint";
 
         protected override void Awake()
         {
@@ -27,25 +27,22 @@ namespace Feline.AI.Actions
             preconditions.Set("Alerted", false);
             preconditions.Set("Can See Player", false);
 
-            preconditions.Set($"Reserved {role}", true);
+            preconditions.Set($"Reserved Role", type);
             effects.Set("Can See Player", true);
         }
 
         public override ReGoapState<string, object> GetPreconditions(GoapActionStackData<string, object> stackData)
         {
-            var standPoint = agent.GetMemory().GetWorldState().Get($"Nearest {role}") as StandPoint;
-            if (standPoint)
-            {
-                preconditions.Set(role, standPoint);
-                preconditions.Set("At Position", standPoint.transform.position);
-            }
+            var standPoint = agent.GetMemory().GetWorldState().Get($"Nearest {type}") as StandPoint;
+            if (standPoint) preconditions.Set("At Position", standPoint.transform.position);
+
             return base.GetPreconditions(stackData);
         }
 
         public override List<ReGoapState<string, object>> GetSettings(GoapActionStackData<string, object> stackData)
         {
-            var standPoint = agent.GetMemory().GetWorldState().Get($"Nearest {role}") as StandPoint;
-            settings.Set($"Objective {role}", standPoint);
+            var standPoint = agent.GetMemory().GetWorldState().Get($"Nearest {type}") as StandPoint;
+            settings.Set($"Objective {type}", standPoint);
 
             return base.GetSettings(stackData);
         }
@@ -54,9 +51,9 @@ namespace Feline.AI.Actions
         {
             base.Run(previous, next, settings, goalState, done, fail);
 
-            if (settings.HasKey($"Objective {role}"))
+            if (settings.HasKey($"Objective {type}"))
             {
-                var standPoint = settings.Get($"Objective {role}") as StandPoint;
+                var standPoint = settings.Get($"Objective {type}") as StandPoint;
                 if (standPoint)
                 {
                     behavior.ExternalBehavior = external;

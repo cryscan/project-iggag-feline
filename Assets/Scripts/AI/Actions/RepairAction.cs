@@ -15,7 +15,7 @@ namespace Feline.AI.Actions
         [SerializeField] ExternalBehavior external;
         [SerializeField] Light _light;
 
-        string role = "RepairPoint";
+        string type = "RepairPoint";
 
         BehaviorTree behavior;
 
@@ -24,25 +24,22 @@ namespace Feline.AI.Actions
             behavior = GetComponent<BehaviorTree>();
             base.Awake();
 
-            preconditions.Set($"Reserved {role}", true);
-            effects.Set($"Has Role {role}", false);
+            preconditions.Set($"Reserved Role", type);
+            effects.Set($"Has Role {type}", false);
         }
 
         public override ReGoapState<string, object> GetPreconditions(GoapActionStackData<string, object> stackData)
         {
-            var repairPoint = agent.GetMemory().GetWorldState().Get($"Nearest {role}") as RepairPoint;
-            if (repairPoint)
-            {
-                preconditions.Set(role, repairPoint);
-                preconditions.Set("At Position", repairPoint.transform.position);
-            }
+            var repairPoint = agent.GetMemory().GetWorldState().Get($"Nearest {type}") as RepairPoint;
+            if (repairPoint) preconditions.Set("At Position", repairPoint.transform.position);
+
             return base.GetPreconditions(stackData);
         }
 
         public override List<ReGoapState<string, object>> GetSettings(GoapActionStackData<string, object> stackData)
         {
-            var repairPoint = agent.GetMemory().GetWorldState().Get($"Nearest {role}") as RepairPoint;
-            settings.Set($"Objective {role}", repairPoint);
+            var repairPoint = agent.GetMemory().GetWorldState().Get($"Nearest {type}") as RepairPoint;
+            settings.Set($"Objective {type}", repairPoint);
 
             return base.GetSettings(stackData);
         }
@@ -51,9 +48,9 @@ namespace Feline.AI.Actions
         {
             base.Run(previous, next, settings, goalState, done, fail);
 
-            if (settings.HasKey($"Objective {role}"))
+            if (settings.HasKey($"Objective {type}"))
             {
-                var repairPoint = settings.Get($"Objective {role}") as RepairPoint;
+                var repairPoint = settings.Get($"Objective {type}") as RepairPoint;
                 if (repairPoint)
                 {
                     _light.enabled = false;

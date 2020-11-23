@@ -78,16 +78,6 @@ namespace Feline.AI.Actions
             else fail(this);
         }
 
-        /*
-        public override void Exit(IReGoapAction<string, object> next)
-        {
-            if (destination.HasValue)
-                agent.GetMemory().GetWorldState().Set("At Position", destination.Value);
-
-            base.Exit(next);
-        }
-        */
-
         Vector3? GetGoalPosition(ReGoapState<string, object> state)
         {
             Vector3? result = null;

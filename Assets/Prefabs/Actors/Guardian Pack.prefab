@@ -471,7 +471,6 @@ GameObject:
   - component: {fileID: 6252985065528106047}
   - component: {fileID: 1194088606516131546}
   - component: {fileID: 2749596907246032498}
-  - component: {fileID: 7959552516256948240}
   - component: {fileID: 3193382812130103443}
   m_Layer: 11
   m_Name: Guardian
@@ -976,7 +975,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Reserve Role
   Cost: 1
-  role: StandPoint
 --- !u!114 &2749596907246032498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -992,21 +990,6 @@ MonoBehaviour:
   Name: Stand
   Cost: 1
   external: {fileID: 11400000, guid: b84a7dd4abbf6dc29ba1bfe115c8de66, type: 2}
---- !u!114 &7959552516256948240
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4839249185068438682}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 840211242192410bcb641101fd5d016d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Name: Reserve Role
-  Cost: 1
-  role: RepairPoint
 --- !u!114 &3193382812130103443
 MonoBehaviour:
   m_ObjectHideFlags: 0
