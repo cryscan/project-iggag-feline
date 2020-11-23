@@ -5,20 +5,20 @@ using UnityEngine;
 public class PlayerView : MonoBehaviour
 {
     [System.Serializable]
-    struct Attachment
+    public struct Attachment
     {
         public Transform mesh;
         public Transform pivot;
     }
 
     [Header("Body")]
-    [SerializeField] Transform body;
-    [SerializeField] Transform bodyPivot;
+    [SerializeField] protected Transform body;
+    [SerializeField] protected Transform bodyPivot;
 
     [Header("Attachments")]
-    [SerializeField] List<Attachment> attachments;
+    [SerializeField] protected List<Attachment> attachments;
 
-    void LateUpdate()
+    protected virtual void LateUpdate()
     {
         body.SetPositionAndRotation(bodyPivot.position, bodyPivot.rotation);
         foreach (var attachment in attachments)
