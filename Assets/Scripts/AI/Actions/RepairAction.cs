@@ -56,7 +56,8 @@ namespace Feline.AI.Actions
                     _light.enabled = false;
 
                     behavior.ExternalBehavior = external;
-                    StartCoroutine(RepairCoroutine(repairPoint));
+                    behavior.SetVariableValue("Target", repairPoint.breakable.gameObject);
+
                     StartCoroutine(ActionCheckCoroutine(repairPoint));
                 }
                 else fail(this);
