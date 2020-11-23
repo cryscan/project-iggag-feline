@@ -3,18 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class GateController : MonoBehaviour
+public class GateController : Breakable
 {
-    [SerializeField] string[] access = { "Enemy" };
-    [SerializeField] GameObject breakEffect;
+    [SerializeField] string[] accessTags = { "Enemy" };
 
-    public bool broken { get; private set; } = false;
     public bool open { get; private set; } = false;
 
     Animator animator;
 
     int priority = 0;
-    Coroutine openCoroutine = null;
 
     Subscription<TrapActivateEvent> trapActivateHandler;
 
@@ -22,8 +19,6 @@ public class GateController : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         if (!animator) enabled = false;
-
-        breakEffect.SetActive(false);
     }
 
     void OnEnable()
@@ -36,10 +31,10 @@ public class GateController : MonoBehaviour
         EventBus.Unsubscribe(trapActivateHandler);
     }
 
-    void Update()
+    protected override void Update()
     {
+        base.Update();
         animator.SetBool("Open", open);
-        breakEffect.SetActive(broken);
     }
 
     public void Open(float duration, int priority)
@@ -49,26 +44,23 @@ public class GateController : MonoBehaviour
 
         this.priority = priority;
 
-        if (openCoroutine != null) StopCoroutine(openCoroutine);
-        openCoroutine = StartCoroutine(OpenCoroutine(duration));
+        StopAllCoroutines();
+        StartCoroutine(OpenCoroutine(duration));
     }
 
     public void Close()
     {
-        if (openCoroutine != null)
-        {
-            StopCoroutine(openCoroutine);
-            openCoroutine = null;
-        }
+        if (broken) return;
 
         priority = 0;
         open = false;
     }
 
-    public void Break()
+    public override void Break()
     {
+        base.Break();
+
         StopAllCoroutines();
-        broken = true;
         open = true;
     }
 
@@ -90,13 +82,12 @@ public class GateController : MonoBehaviour
         yield return new WaitForSeconds(duration);
         open = false;
 
-        openCoroutine = null;
         priority = 0;
     }
 
     void OnTriggerStay(Collider collider)
     {
-        if (access.Contains(collider.gameObject.tag))
+        if (accessTags.Contains(collider.gameObject.tag))
             Open(1.0f, 1);
     }
 }

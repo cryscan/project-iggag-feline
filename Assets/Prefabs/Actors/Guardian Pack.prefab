@@ -461,8 +461,9 @@ GameObject:
   - component: {fileID: 5718969460797326528}
   - component: {fileID: 1034199816588944579}
   - component: {fileID: 1580491443432474284}
-  - component: {fileID: 4098726470332918386}
+  - component: {fileID: 895092746486669333}
   - component: {fileID: 1609914989272660047}
+  - component: {fileID: 6859943974828251064}
   - component: {fileID: 663403531502398176}
   - component: {fileID: 7210535546943786924}
   - component: {fileID: 4286069259433053339}
@@ -470,6 +471,8 @@ GameObject:
   - component: {fileID: 6252985065528106047}
   - component: {fileID: 1194088606516131546}
   - component: {fileID: 2749596907246032498}
+  - component: {fileID: 7959552516256948240}
+  - component: {fileID: 3193382812130103443}
   m_Layer: 11
   m_Name: Guardian
   m_TagString: Enemy
@@ -827,10 +830,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4839249185068438682}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf6ecf47d15cfa029aee94cfbca0f87a, type: 3}
+  m_Script: {fileID: 11500000, guid: e2fbd01277b980226a3a7fff24a16e69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4098726470332918386
+--- !u!114 &895092746486669333
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -839,13 +842,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4839249185068438682}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d35597765cd6c6fb7b09a6f77d03c718, type: 3}
+  m_Script: {fileID: 11500000, guid: 3dadf6dcaa18c6b6d8c6428b7ae84eee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: Idle
-  Priority: 1
-  ErrorDelay: 0.5
-  WarnPossibleGoal: 1
 --- !u!114 &1609914989272660047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -860,6 +859,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Guard
   Priority: 10
+  ErrorDelay: 0.5
+  WarnPossibleGoal: 1
+  WarnDelay: 2
+--- !u!114 &6859943974828251064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839249185068438682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d60f40c56234f3f7e9dc632d31b7dc96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Repair
+  Priority: 20
   ErrorDelay: 0.5
   WarnPossibleGoal: 1
   WarnDelay: 2
@@ -928,7 +944,7 @@ MonoBehaviour:
   Cost: 1
   external: {fileID: 11400000, guid: c29dbbe5925bf6d66bdac051f27fd160, type: 2}
   interruptSpotted: 1
-  speed: 2
+  speed: 4
 --- !u!114 &6252985065528106047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -958,11 +974,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840211242192410bcb641101fd5d016d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: Go To Stand
+  Name: Reserve Role
   Cost: 1
-  external: {fileID: 11400000, guid: 11a7f80721e28010cb26deb298afd47a, type: 2}
-  interruptSpotted: 1
-  speed: 4
+  role: StandPoint
 --- !u!114 &2749596907246032498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -978,6 +992,36 @@ MonoBehaviour:
   Name: Stand
   Cost: 1
   external: {fileID: 11400000, guid: b84a7dd4abbf6dc29ba1bfe115c8de66, type: 2}
+--- !u!114 &7959552516256948240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839249185068438682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840211242192410bcb641101fd5d016d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Reserve Role
+  Cost: 1
+  role: RepairPoint
+--- !u!114 &3193382812130103443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839249185068438682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1104d0b357f6dec2a4c1b060849a095, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Repair
+  Cost: 1
+  external: {fileID: 11400000, guid: ec352ff2589359a5ebc6ac122cbf4781, type: 2}
 --- !u!1 &6275353643892283995
 GameObject:
   m_ObjectHideFlags: 0

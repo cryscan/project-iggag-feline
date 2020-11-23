@@ -1,51 +1,47 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System;
 using UnityEngine;
 
 using BehaviorDesigner.Runtime;
 
-using ReGoap.Unity;
 using ReGoap.Core;
+using ReGoap.Unity;
+using System;
 
 namespace Feline.AI.Actions
 {
-    public class StandAction : ReGoapAction<string, object>
+    public class RepairAction : ReGoapAction<string, object>
     {
-        [Tooltip("Should be Stand action")]
-        [SerializeField] ExternalBehaviorTree external;
+        [SerializeField] ExternalBehavior external;
+
+        string role = "RepairPoint";
 
         BehaviorTree behavior;
-
-        string role = "StandPoint";
 
         protected override void Awake()
         {
             behavior = GetComponent<BehaviorTree>();
-
             base.Awake();
-            preconditions.Set("Alerted", false);
-            preconditions.Set("Can See Player", false);
 
             preconditions.Set($"Reserved {role}", true);
-            effects.Set("Can See Player", true);
+            effects.Set($"Has Role {role}", false);
         }
 
         public override ReGoapState<string, object> GetPreconditions(GoapActionStackData<string, object> stackData)
         {
-            var standPoint = agent.GetMemory().GetWorldState().Get($"Nearest {role}") as StandPoint;
-            if (standPoint)
+            var repairPoint = agent.GetMemory().GetWorldState().Get($"Nearest {role}") as RepairPoint;
+            if (repairPoint)
             {
-                preconditions.Set(role, standPoint);
-                preconditions.Set("At Position", standPoint.transform.position);
+                preconditions.Set(role, repairPoint);
+                preconditions.Set("At Position", repairPoint.transform.position);
             }
             return base.GetPreconditions(stackData);
         }
 
         public override List<ReGoapState<string, object>> GetSettings(GoapActionStackData<string, object> stackData)
         {
-            var standPoint = agent.GetMemory().GetWorldState().Get($"Nearest {role}") as StandPoint;
-            settings.Set($"Objective {role}", standPoint);
+            var repairPoint = agent.GetMemory().GetWorldState().Get($"Nearest {role}") as RepairPoint;
+            settings.Set($"Objective {role}", repairPoint);
 
             return base.GetSettings(stackData);
         }
@@ -56,13 +52,12 @@ namespace Feline.AI.Actions
 
             if (settings.HasKey($"Objective {role}"))
             {
-                var standPoint = settings.Get($"Objective {role}") as StandPoint;
-                if (standPoint)
+                var repairPoint = settings.Get($"Objective {role}") as RepairPoint;
+                if (repairPoint)
                 {
                     behavior.ExternalBehavior = external;
-                    behavior.SetVariableValue("Points", standPoint.points);
-
-                    StartCoroutine(ActionCheckCoroutine(standPoint));
+                    StartCoroutine(RepairCoroutine(repairPoint));
+                    StartCoroutine(ActionCheckCoroutine(repairPoint));
                 }
                 else fail(this);
             }
@@ -75,18 +70,22 @@ namespace Feline.AI.Actions
             base.Exit(next);
         }
 
-        IEnumerator ActionCheckCoroutine(StandPoint standPoint)
+        IEnumerator RepairCoroutine(RepairPoint repairPoint)
         {
-            var state = agent.GetMemory().GetWorldState();
             while (true)
             {
-                if (!standPoint.valid || !standPoint.IsReserved(gameObject)) failCallback(this);
+                repairPoint.breakable.Repair();
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
 
-                bool canSeePlayer = (bool)state.Get("Can See Player");
-                bool alerted = (bool)state.Get("Alerted");
-
-                if (canSeePlayer) doneCallback(this);
-                else if (alerted) failCallback(this);
+        IEnumerator ActionCheckCoroutine(RepairPoint repairPoint)
+        {
+            while (true)
+            {
+                if (!repairPoint.breakable.broken) doneCallback(this);
+                else if (!repairPoint.valid) doneCallback(this);
+                else if (!repairPoint.IsReserved(gameObject)) failCallback(this);
 
                 yield return null;
             }
