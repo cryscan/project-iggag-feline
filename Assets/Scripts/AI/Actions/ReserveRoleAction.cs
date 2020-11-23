@@ -59,17 +59,5 @@ namespace Feline.AI.Actions
         {
             return $"GoapAction({Name}, {role})";
         }
-
-        /*
-                IEnumerator ActionCheckCoroutine(Role role)
-                {
-                    while (true)
-                    {
-                        if (!role.valid || !role.IsReserved(gameObject)) failCallback(this);
-                        yield return null;
-                    }
-                }
-            
-        */
     }
 }
