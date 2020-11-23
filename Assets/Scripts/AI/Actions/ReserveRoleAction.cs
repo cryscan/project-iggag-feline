@@ -9,28 +9,39 @@ namespace Feline.AI.Actions
 {
     public class ReserveRoleAction : ReGoapAction<string, object>
     {
-        [SerializeField] string role;
-
-        protected override void Awake()
+        public override ReGoapState<string, object> GetPreconditions(GoapActionStackData<string, object> stackData)
         {
-            base.Awake();
+            preconditions.Clear();
+            var state = stackData.goalState;
+            if (state.HasKey("Reserved Role"))
+            {
+                var type = state.Get("Reserved Role") as string;
+                preconditions.Set($"Has Role {type}", true);
+            }
 
-            preconditions.Set($"Has Role {role}", true);
-            effects.Set($"Reserved {role}", true);
+            return base.GetPreconditions(stackData);
         }
 
         public override ReGoapState<string, object> GetEffects(GoapActionStackData<string, object> stackData)
         {
+            effects.Clear();
             var state = stackData.goalState;
-            if (state.HasKey(role)) effects.Set(role, state.Get(role));
+            if (state.HasKey("Reserved Role")) effects.Set("Reserved Role", state.Get("Reserved Role"));
 
             return base.GetEffects(stackData);
         }
 
         public override List<ReGoapState<string, object>> GetSettings(GoapActionStackData<string, object> stackData)
         {
+            settings.Clear();
             var state = stackData.goalState;
-            if (state.HasKey(role)) settings.Set($"Objective {role}", state.Get(role));
+
+            string type = null;
+            if (state.HasKey("Reserved Role")) type = state.Get("Reserved Role") as string;
+
+            Role role = null;
+            if (type != null) role = agent.GetMemory().GetWorldState().Get($"Nearest {type}") as Role;
+            if (role) settings.Set("Objective Role", role);
 
             return base.GetSettings(stackData);
         }
@@ -39,10 +50,9 @@ namespace Feline.AI.Actions
         {
             base.Run(previous, next, settings, goalState, done, fail);
 
-            var key = $"Objective {role}";
-            if (settings.HasKey(key))
+            if (settings.HasKey("Objective Role"))
             {
-                var role = settings.Get(key) as Role;
+                var role = settings.Get("Objective Role") as Role;
                 if (role && role.Reserve(gameObject)) done(this);
                 else fail(this);
             }
@@ -53,11 +63,6 @@ namespace Feline.AI.Actions
         {
             StopAllCoroutines();
             base.Exit(next);
-        }
-
-        public override string ToString()
-        {
-            return $"GoapAction({Name}, {role})";
         }
     }
 }
