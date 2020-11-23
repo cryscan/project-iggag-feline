@@ -10434,6 +10434,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1968244160}
+    - target: {fileID: 2388150453593509296, guid: 821f317c4492b2bce91f26268a107eee,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3006416382795179494, guid: 821f317c4492b2bce91f26268a107eee,
         type: 3}
       propertyPath: roles.Array.size
@@ -11274,6 +11279,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1922443221}
+    - target: {fileID: 6440248096488950874, guid: 821f317c4492b2bce91f26268a107eee,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7131761662458162625, guid: 821f317c4492b2bce91f26268a107eee,
         type: 3}
       propertyPath: m_Mesh
