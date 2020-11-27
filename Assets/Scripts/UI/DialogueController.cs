@@ -33,7 +33,7 @@ public class DialogueController : MonoBehaviour
         DialogueManager.instance.RegisterController(this);
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (container.activeSelf && Input.GetMouseButtonDown(0))
         {
@@ -76,7 +76,7 @@ public class DialogueController : MonoBehaviour
 
     public void DisplayCurrentSentence()
     {
-        if (sentences.Count == 0)
+        if (currentSentence == null)
         {
             Debug.LogError("[Dialogue] no current sentence");
             return;
