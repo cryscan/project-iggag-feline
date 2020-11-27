@@ -82,7 +82,7 @@ namespace Feline.AI.Actions
             var state = agent.GetMemory().GetWorldState();
             while (true)
             {
-                if (!standPoint.valid || !standPoint.IsReserved(gameObject)) failCallback(this);
+                if (!standPoint.enabled || !standPoint.IsReserved(gameObject)) failCallback(this);
 
                 bool canSeePlayer = (bool)state.Get("Can See Player");
                 bool alerted = (bool)state.Get("Alerted");

@@ -834,7 +834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2fbd01277b980226a3a7fff24a16e69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 5
+  range: 10
 --- !u!114 &895092746486669333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -847,7 +847,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dadf6dcaa18c6b6d8c6428b7ae84eee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 5
+  range: 10
 --- !u!114 &1609914989272660047
 MonoBehaviour:
   m_ObjectHideFlags: 0

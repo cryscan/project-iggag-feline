@@ -4,19 +4,23 @@ using UnityEngine;
 
 public abstract class Role : MonoBehaviour
 {
-    [SerializeField] bool _valid;
-    public bool valid { get => _valid; }
-
     public GameObject reservation { get; private set; }
 
-    void Update()
+    Subscription<RoleReleaseEvent> roleReleaseHandler;
+
+    void OnEnable()
     {
-        if (!_valid) reservation = null;
+        roleReleaseHandler = EventBus.Subscribe<RoleReleaseEvent>(OnRoleReleased);
     }
 
-    public bool IsAvailable() => _valid && reservation == null;
+    void OnDisable()
+    {
+        EventBus.Unsubscribe(roleReleaseHandler);
+        reservation = null;
+    }
+
+    public bool IsAvailable() => enabled && reservation == null;
     public bool IsReserved(GameObject _object) => reservation == _object;
-    public void SetValid(bool valid) => _valid = valid;
 
     public bool Reserve(GameObject _object)
     {
@@ -27,9 +31,18 @@ public abstract class Role : MonoBehaviour
         }
         else if (IsReserved(_object)) return true;
 
-        if (_valid) Debug.LogWarning($"[Role] {ToString()} has been reserved by {this.reservation}, can't be reserved by {_object}");
+        if (enabled) Debug.LogWarning($"[Role] {ToString()} has been reserved by {this.reservation}, can't be reserved by {_object}");
         else Debug.LogWarning($"[Role] {ToString()} cannot reserve: not valid");
 
         return false;
     }
+
+    public void Release(GameObject _object)
+    {
+        if (IsReserved(_object)) reservation = null;
+    }
+
+    void OnRoleReleased(RoleReleaseEvent @event) => Release(@event.subject);
 }
+
+public class RoleReleaseEvent { public GameObject subject; }
