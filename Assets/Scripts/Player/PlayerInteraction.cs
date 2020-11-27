@@ -55,10 +55,10 @@ public enum InteractionType
     ComeOut,
 }
 
-public class PlayerInteractEvent { public GameObject target; }
-public class PlayerDisinteractEvent { public GameObject target; }
+public class PlayerInteractEvent : IEvent { public GameObject target; }
+public class PlayerDisinteractEvent : IEvent { public GameObject target; }
 
-public class PlayerPromptEvent
+public class PlayerPromptEvent : IEvent
 {
     public GameObject target;
     public InteractionType type;
@@ -70,4 +70,4 @@ public class PlayerPromptEvent
     }
 }
 
-public class PlayerDispromptEvent { public InteractionType type; }
+public class PlayerDispromptEvent : IEvent { public InteractionType type; }

@@ -20,6 +20,11 @@ namespace Feline.AI.Sensors
             ts = FindObjectsOfType(typeof(T)) as T[];
         }
 
+        void OnDrawGizmos()
+        {
+            Gizmos.DrawWireSphere(transform.position, range);
+        }
+
         public override void UpdateSensor()
         {
             var state = memory.GetWorldState();

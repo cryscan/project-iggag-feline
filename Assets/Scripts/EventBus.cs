@@ -6,11 +6,13 @@ using System;
 using System.Linq;
 using UnityEngine;
 
+public interface IEvent { }
+
 public static class EventBus
 {
     static Dictionary<Type, IList> topics = new Dictionary<Type, IList>();
 
-    public static void Publish<T>(T @event)
+    public static void Publish<T>(T @event) where T : IEvent
     {
         /* Use type T to identify correct subscriber list (correct "topic") */
         Type t = typeof(T);
@@ -61,7 +63,7 @@ public static class EventBus
         }
     }
 
-    public static Subscription<T> Subscribe<T>(Action<T> callback)
+    public static Subscription<T> Subscribe<T>(Action<T> callback) where T : IEvent
     {
         /* Determine event type so we can find the correct subscriber list */
         Type t = typeof(T);
@@ -80,7 +82,7 @@ public static class EventBus
         return subscription;
     }
 
-    public static void Unsubscribe<T>(Subscription<T> subscription)
+    public static void Unsubscribe<T>(Subscription<T> subscription) where T : IEvent
     {
         Type t = typeof(T);
 
@@ -108,7 +110,7 @@ public static class EventBus
 
 /* A "handle" type that is returned when the EventBus.Subscribe() function is used.
  * Use this handle to unsubscribe if you wish via EventBus.Unsubscribe */
-public class Subscription<T>
+public class Subscription<T> where T : IEvent
 {
     public Action<T> callback { get; private set; }
     public Subscription(Action<T> _callback)

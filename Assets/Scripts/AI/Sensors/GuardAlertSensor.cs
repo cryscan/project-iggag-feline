@@ -196,8 +196,4 @@ namespace Feline.AI.Sensors
     }
 }
 
-public class GuardSpotEvent
-{
-    public GameObject subject;
-
-}
+public class GuardSpotEvent : IEvent { public GameObject subject; }

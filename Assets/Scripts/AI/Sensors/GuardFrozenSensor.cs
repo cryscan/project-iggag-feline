@@ -16,17 +16,19 @@ public class GuardFrozenSensor : ReGoapSensor<string, object>
 
     bool frozen;
 
+    Collider _collider;
+    ConeDetection detection;
     BehaviorTree behavior;
     NavMeshAgent agent;
-    ConeDetection detection;
 
     Subscription<TrapActivateEvent> trapActivateHandler;
 
     void Awake()
     {
+        _collider = GetComponent<Collider>();
+        detection = GetComponent<ConeDetection>();
         behavior = GetComponent<BehaviorTree>();
         agent = GetComponent<NavMeshAgent>();
-        detection = GetComponent<ConeDetection>();
     }
 
     void OnEnable()
@@ -68,17 +70,23 @@ public class GuardFrozenSensor : ReGoapSensor<string, object>
         frozen = true;
 
         _light.enabled = false;
-        agent.enabled = false;
-        behavior.DisableBehavior(true);
+        _collider.enabled = false;
         detection.enabled = false;
+
+        behavior.DisableBehavior(true);
+
+        var stopped = agent.isStopped;
+        agent.isStopped = true;
 
         yield return new WaitForSeconds(duration);
 
         frozen = false;
 
         _light.enabled = true;
-        agent.enabled = true;
-        behavior.EnableBehavior();
+        _collider.enabled = true;
         detection.enabled = true;
+
+        behavior.EnableBehavior();
+        agent.isStopped = stopped;
     }
 }

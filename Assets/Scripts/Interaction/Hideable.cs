@@ -45,7 +45,7 @@ public class Hideable : MonoBehaviour
     }
 }
 
-public class HideEvent
+public class HideEvent : IEvent
 {
     public GameObject subject;
     public Hideable hideable;
@@ -57,7 +57,7 @@ public class HideEvent
     }
 }
 
-public class ComeOutEvent
+public class ComeOutEvent : IEvent
 {
     public GameObject subject;
     public Hideable hideable;

@@ -103,7 +103,7 @@ public class ConeDetection : MonoBehaviour
     }
 }
 
-public class DetectEvent
+public class DetectEvent : IEvent
 {
     public GameObject subject, target;
     public DetectionType type;
@@ -118,7 +118,7 @@ public class DetectEvent
     }
 }
 
-public class LossTargetEvent
+public class LossTargetEvent : IEvent
 {
     public GameObject subject, target;
     public DetectionType type;

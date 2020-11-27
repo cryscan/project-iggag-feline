@@ -2,34 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using ReGoap.Core;
+
 public abstract class Role : MonoBehaviour
 {
-    [SerializeField] bool _valid;
-    public bool valid { get => _valid; }
+    [SerializeField] GameObject _reservation;
+    public GameObject reservation { get => _reservation; }
 
-    public GameObject reservation { get; private set; }
-
-    void Update()
+    void OnDisable()
     {
-        if (!_valid) reservation = null;
+        if (reservation != null) Release(_reservation);
     }
 
-    public bool IsAvailable() => _valid && reservation == null;
+    public bool IsAvailable() => enabled && reservation == null;
     public bool IsReserved(GameObject _object) => reservation == _object;
-    public void SetValid(bool valid) => _valid = valid;
 
     public bool Reserve(GameObject _object)
     {
         if (IsAvailable())
         {
-            reservation = _object;
+            _reservation = _object;
             return true;
         }
         else if (IsReserved(_object)) return true;
 
-        if (_valid) Debug.LogWarning($"[Role] {ToString()} has been reserved by {this.reservation}, can't be reserved by {_object}");
+        if (enabled) Debug.LogWarning($"[Role] {ToString()} has been reserved by {this.reservation}, can't be reserved by {_object}");
         else Debug.LogWarning($"[Role] {ToString()} cannot reserve: not valid");
 
         return false;
+    }
+
+    public void Release(GameObject _object)
+    {
+        if (IsReserved(_object)) _reservation = null;
     }
 }

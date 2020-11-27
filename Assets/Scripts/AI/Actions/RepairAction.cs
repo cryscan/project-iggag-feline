@@ -24,7 +24,7 @@ namespace Feline.AI.Actions
             behavior = GetComponent<BehaviorTree>();
             base.Awake();
 
-            preconditions.Set($"Reserved Role", type);
+            preconditions.Set($"Reserved Role Type", type);
             effects.Set($"Has Role {type}", false);
         }
 
@@ -87,7 +87,7 @@ namespace Feline.AI.Actions
             while (true)
             {
                 if (!repairPoint.breakable.broken) doneCallback(this);
-                else if (!repairPoint.valid) doneCallback(this);
+                else if (!repairPoint.enabled) doneCallback(this);
                 else if (!repairPoint.IsReserved(gameObject)) failCallback(this);
 
                 yield return null;

@@ -6,20 +6,8 @@ using UnityEngine.UI;
 [System.Serializable]
 public class Dialogue
 {
-    public string topic;
+    public bool pause = false;
     public string[] sentences;
-}
-
-public class DialogueEvent
-{
-    public bool starting;
-    public string topic;
-
-    public DialogueEvent(bool starting, string topic)
-    {
-        this.starting = starting;
-        this.topic = topic;
-    }
 }
 
 public class DialogueController : MonoBehaviour
@@ -29,8 +17,10 @@ public class DialogueController : MonoBehaviour
 
     public bool running { get; private set; } = false;
 
-    string topic;
     Queue<string> sentences;
+    string currentSentence;
+
+    bool typing = false;
 
     void Awake()
     {
@@ -38,14 +28,17 @@ public class DialogueController : MonoBehaviour
         container.SetActive(false);
     }
 
+    void Start()
+    {
+        DialogueManager.instance.RegisterController(this);
+    }
+
     void LateUpdate()
     {
-        if (container.activeSelf)
+        if (container.activeSelf && Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                DisplayNextSentence();
-            }
+            if (!typing) DisplayNextSentence();
+            else DisplayCurrentSentence();
         }
     }
 
@@ -57,12 +50,11 @@ public class DialogueController : MonoBehaviour
         // GameManager.instance.TogglePause();
 
         container.SetActive(true);
-        topic = dialogue.topic;
 
         sentences.Clear();
         foreach (string sentence in dialogue.sentences) sentences.Enqueue(sentence);
 
-        EventBus.Publish(new DialogueEvent(true, dialogue.topic));
+        // EventBus.Publish(new DialogueEvent(true, dialogue.topic));
 
         DisplayNextSentence();
     }
@@ -74,34 +66,51 @@ public class DialogueController : MonoBehaviour
             EndDialogue();
             return;
         }
-        string sentence = sentences.Dequeue();
+
+        currentSentence = sentences.Dequeue();
         StopAllCoroutines();
-        StartCoroutine(TypeSentence(sentence));
+        StartCoroutine(TypeSentence(currentSentence));
+
         Debug.Log("[Dialogue] sentence displayed");
+    }
+
+    public void DisplayCurrentSentence()
+    {
+        if (currentSentence == null)
+        {
+            Debug.LogError("[Dialogue] no current sentence");
+            return;
+        }
+
+        StopAllCoroutines();
+        typing = false;
+        text.text = currentSentence;
     }
 
     IEnumerator TypeSentence(string sentence)
     {
+        typing = true;
         text.text = "";
         foreach (char letter in sentence.ToCharArray())
         {
             text.text += letter;
             yield return new WaitForSecondsRealtime(0.005f);
         }
+        typing = false;
     }
 
     public void EndDialogue()
     {
-        Debug.Log("[Dialogue] end of conversation");
-
         running = false;
-        EventBus.Publish(new DialogueEvent(false, topic));
+        currentSentence = null;
 
-        topic = "";
+        // EventBus.Publish(new DialogueEvent(false, topic));
 
         // Resume Game here
         // GameManager.instance.TogglePause();
         // canvas.GetComponent<GraphicRaycaster>().enabled = false;
+
+        Debug.Log("[Dialogue] end of conversation");
 
         container.SetActive(false);
     }

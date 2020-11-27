@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31613ca181e0c9024b2995fc4c3ae1ff, type: 3}
   m_Name: Distraction Counter
   m_EditorClassIdentifier: 
-  count: 0
+  sprite: {fileID: 21300000, guid: eac03806995d8771a8a0b7c66e3b1431, type: 3}
+  selected: 0
+  count: 10

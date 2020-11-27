@@ -9,6 +9,12 @@ public abstract class Breakable : MonoBehaviour
     [SerializeField] GameObject effect;
     public bool broken { get; private set; } = false;
 
+    protected virtual void Start()
+    {
+        effect?.SetActive(false);
+        foreach (var role in roles) role.enabled = false;
+    }
+
     protected virtual void Update()
     {
         effect?.SetActive(broken);
@@ -17,12 +23,12 @@ public abstract class Breakable : MonoBehaviour
     public virtual void Break()
     {
         broken = true;
-        foreach (var role in roles) role.SetValid(true);
+        foreach (var role in roles) role.enabled = true;
     }
 
     public virtual void Repair()
     {
         broken = false;
-        foreach (var role in roles) role.SetValid(false);
+        foreach (var role in roles) role.enabled = false;
     }
 }
