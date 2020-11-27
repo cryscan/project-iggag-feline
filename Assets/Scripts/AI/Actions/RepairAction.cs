@@ -24,7 +24,7 @@ namespace Feline.AI.Actions
             behavior = GetComponent<BehaviorTree>();
             base.Awake();
 
-            preconditions.Set($"Reserved Role", type);
+            preconditions.Set($"Reserved Role Type", type);
             effects.Set($"Has Role {type}", false);
         }
 

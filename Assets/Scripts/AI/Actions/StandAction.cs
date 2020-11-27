@@ -27,7 +27,7 @@ namespace Feline.AI.Actions
             preconditions.Set("Alerted", false);
             preconditions.Set("Can See Player", false);
 
-            preconditions.Set($"Reserved Role", type);
+            preconditions.Set($"Reserved Role Type", type);
             effects.Set("Can See Player", true);
         }
 

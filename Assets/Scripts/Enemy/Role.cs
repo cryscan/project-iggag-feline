@@ -2,21 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using ReGoap.Core;
+
 public abstract class Role : MonoBehaviour
 {
-    public GameObject reservation { get; private set; }
-
-    Subscription<RoleReleaseEvent> roleReleaseHandler;
-
-    void OnEnable()
-    {
-        roleReleaseHandler = EventBus.Subscribe<RoleReleaseEvent>(OnRoleReleased);
-    }
+    [SerializeField] GameObject _reservation;
+    public GameObject reservation { get => _reservation; }
 
     void OnDisable()
     {
-        EventBus.Unsubscribe(roleReleaseHandler);
-        reservation = null;
+        if (reservation != null) Release(_reservation);
     }
 
     public bool IsAvailable() => enabled && reservation == null;
@@ -26,7 +21,7 @@ public abstract class Role : MonoBehaviour
     {
         if (IsAvailable())
         {
-            reservation = _object;
+            _reservation = _object;
             return true;
         }
         else if (IsReserved(_object)) return true;
@@ -39,10 +34,6 @@ public abstract class Role : MonoBehaviour
 
     public void Release(GameObject _object)
     {
-        if (IsReserved(_object)) reservation = null;
+        if (IsReserved(_object)) _reservation = null;
     }
-
-    void OnRoleReleased(RoleReleaseEvent @event) => Release(@event.subject);
 }
-
-public class RoleReleaseEvent { public GameObject subject; }
