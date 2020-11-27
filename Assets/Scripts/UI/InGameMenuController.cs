@@ -10,17 +10,14 @@ public class InGameMenuController : MonoBehaviour
 
     bool active = false;
 
-    DialogueController dialogueController;
-
     void Awake()
     {
-        dialogueController = GameObject.FindWithTag("Dialogue Controller").GetComponent<DialogueController>();
         container.SetActive(false);
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !dialogueController.running)
+        if (Input.GetKeyDown(KeyCode.Escape) && !DialogueManager.instance.running)
         {
             GameManager.instance.TogglePause();
             container.SetActive(!active);

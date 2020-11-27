@@ -12,7 +12,7 @@ public enum GameState
     Paused,
 }
 
-public class GameStateChangeEvent
+public class GameStateChangeEvent : IEvent
 {
     public GameState previous;
     public GameState current;
@@ -24,9 +24,6 @@ public class GameStateChangeEvent
     }
 }
 
-public class GameWinEvent { }
-public class GameLoseEvent { }
-
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
@@ -36,7 +33,6 @@ public class GameManager : MonoBehaviour
     public GameState currentState { get => states.Peek(); }
 
     [SerializeField] float pauseTimeScaleFallout = 10;
-    float previousTimeScale = 1;
     float targetTimeScale = 1;
 
     void Awake()
@@ -102,7 +98,6 @@ public class GameManager : MonoBehaviour
         }
         else if (currentState != GameState.Start)
         {
-            previousTimeScale = Time.timeScale;
             targetTimeScale = 0;
 
             var previous = currentState;
@@ -124,9 +119,6 @@ public class GameManager : MonoBehaviour
 
     public void EnterPlanScene(int index) => StartCoroutine(LoadSceneCoroutine(index, () => StartPlan()));
     public void EnterPlanScene(string name) => StartCoroutine(LoadSceneCoroutine(name, () => StartPlan()));
-
-    // public void RestartPlanScene(int index) => StartCoroutine(LoadSceneCoroutine(index, () => RestartPlan()));
-    // public void RestartPlanScene(string name) => StartCoroutine(LoadSceneCoroutine(name, () => RestartPlan()));
 
     public void EnterPlayScene(int index) => StartCoroutine(LoadSceneCoroutine(index, () => StartPlay()));
     public void EnterPlayScene(string name) => StartCoroutine(LoadSceneCoroutine(name, () => StartPlay()));
@@ -171,10 +163,10 @@ public class GameManager : MonoBehaviour
 
     public void StartPlan()
     {
-        if (currentState != GameState.Start)
+        if (currentState == GameState.Paused)
         {
-            Debug.LogWarning($"[Game State] makes no sense starting plan at state {currentState.ToString()}");
-            // return;
+            Debug.LogError("[Game Manager] start plan at paused");
+            return;
         }
 
         var previous = currentState;
@@ -182,27 +174,11 @@ public class GameManager : MonoBehaviour
         EventBus.Publish(new GameStateChangeEvent(previous, currentState));
     }
 
-    public void RestartPlan()
-    {
-        if (currentState != GameState.Plan && currentState != GameState.Play)
-        {
-            Debug.LogWarning($"[Game State] makes no sense starting plan at state {currentState.ToString()}");
-            // return;
-        }
-
-        var previous = states.Pop();
-        EventBus.Publish(new GameStateChangeEvent(previous, currentState));
-
-        previous = currentState;
-        states.Push(GameState.Plan);
-        EventBus.Publish(new GameStateChangeEvent(previous, currentState));
-    }
-
     public void StartPlay()
     {
-        if (currentState != GameState.Start && currentState != GameState.Plan)
+        if (currentState == GameState.Paused)
         {
-            Debug.LogWarning($"[Game State] makes no sense starting play at state {currentState.ToString()}");
+            Debug.LogError("[Game Manager] start play at paused");
             return;
         }
 

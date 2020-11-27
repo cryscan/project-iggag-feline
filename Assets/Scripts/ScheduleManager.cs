@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ScheduleAddEvent { public ScheduleTimerEvent @event; }
+public class ScheduleAddEvent : IEvent { public ScheduleTimerEvent @event; }
 
 [System.Serializable]
-public class ScheduleTimerEvent
+public class ScheduleTimerEvent : IEvent
 {
     public float timer;
     public GameObject prefab;

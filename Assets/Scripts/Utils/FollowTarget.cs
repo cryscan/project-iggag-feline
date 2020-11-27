@@ -11,12 +11,12 @@ public class FollowTarget : MonoBehaviour
     void Awake()
     {
         transform.parent = null;
-        if (look) rotationTarget = GameObject.FindGameObjectWithTag("Player Head").transform;
+        if (look) rotationTarget = GameObject.FindWithTag("Player Head").transform;
     }
 
     void Update()
     {
-        transform.position = positionTarget.position;
+        if (positionTarget) transform.position = positionTarget.position;
         if (rotationTarget) transform.rotation = rotationTarget.rotation;
     }
 }

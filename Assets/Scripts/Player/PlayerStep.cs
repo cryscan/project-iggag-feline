@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStepEvent
+public class PlayerStepEvent : IEvent
 {
     public Vector3 position;
     public Vector3 velocity;

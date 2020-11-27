@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrapActivateEvent
+public class TrapActivateEvent : IEvent
 {
     public TrapBase trap;
     public GameObject activated;

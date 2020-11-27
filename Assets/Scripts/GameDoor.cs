@@ -25,25 +25,16 @@ public class GameDoor : MonoBehaviour
                 StartCoroutine(WinCoroutine());
             }
         }
-            
+
     }
 
     IEnumerator WinCoroutine()
     {
-        // GameManager.instance.TogglePause();
-        EventBus.Publish(new GameWinEvent());
-
         yield return new WaitForSecondsRealtime(waitTime);
 
         //Heist scene logic
-        if (GameManager.instance.practiceMode)
-        {
-            GameManager.instance.EnterPlanScene(0);
-        }
-        else
-        {
-            GameManager.instance.EnterPlanScene(GetNextIndex());
-        }
+        var nextIndex = GameManager.instance.practiceMode ? 0 : GetNextIndex();
+        GameManager.instance.EnterPlanScene(nextIndex);
     }
 
     int GetNextIndex()
