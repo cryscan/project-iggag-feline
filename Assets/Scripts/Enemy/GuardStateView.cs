@@ -29,8 +29,8 @@ public class GuardStateView : MonoBehaviour
 
     void Update()
     {
-        var actions = agent.GetActionsSet();
-        var currentAction = actions.Find(x => x.IsActive());
+        var actions = agent?.GetActionsSet();
+        var currentAction = actions?.Find(x => x.IsActive());
         var name = currentAction?.GetName();
 
         if (name != null && actionTexts.ContainsKey(name))
