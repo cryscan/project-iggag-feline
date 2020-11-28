@@ -19,9 +19,10 @@ public class InGameMenuController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape) && !DialogueManager.instance.running)
         {
-            GameManager.instance.TogglePause();
-            container.SetActive(!active);
             active = !active;
+            container.SetActive(active);
+            if (active) GameManager.instance.PushPauseState();
+            else GameManager.instance.PopPauseState();
         }
 
         if (Input.GetKeyDown(KeyCode.R) && GameManager.instance.currentState != GameState.Paused)
@@ -34,13 +35,13 @@ public class InGameMenuController : MonoBehaviour
     public void MainMenuButton()
     {
         // UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
-        GameManager.instance.TogglePause();
+        GameManager.instance.PopPauseState();
         GameManager.instance.GameOverReturn();
     }
 
     public void RestartStage()
     {
-        GameManager.instance.TogglePause();
+        GameManager.instance.PopPauseState();
         Scene scene = SceneManager.GetActiveScene();
         GameManager.instance.EnterPlanScene(scene.name);
     }

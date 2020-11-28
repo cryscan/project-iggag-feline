@@ -53,10 +53,6 @@ public enum InteractionType
     Drop,
     Hide,
     ComeOut,
-    EnterSimulation,
-    StartHeist,
-    OpenSettings,
-    ExitGame,
 }
 
 public class PlayerInteractEvent : IEvent { public GameObject target; }

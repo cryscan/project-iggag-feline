@@ -20,6 +20,8 @@ public class DialogueController : MonoBehaviour
     Queue<string> sentences;
     string currentSentence;
 
+    Dialogue dialogue;
+
     bool typing = false;
 
     void Awake()
@@ -35,16 +37,22 @@ public class DialogueController : MonoBehaviour
 
     void LateUpdate()
     {
-        if (container.activeSelf && Input.GetMouseButtonDown(0))
+        if (running)
         {
-            if (!typing) DisplayNextSentence();
-            else DisplayCurrentSentence();
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (!typing) DisplayNextSentence();
+                else DisplayCurrentSentence();
+            }
+            if (Input.GetKeyDown(KeyCode.Escape))
+                EndDialogue();
         }
     }
 
     public void StartDialogue(Dialogue dialogue)
     {
         running = true;
+        this.dialogue = dialogue;
 
         // Pause Game here
         // GameManager.instance.TogglePause();
@@ -55,6 +63,7 @@ public class DialogueController : MonoBehaviour
         foreach (string sentence in dialogue.sentences) sentences.Enqueue(sentence);
 
         // EventBus.Publish(new DialogueEvent(true, dialogue.topic));
+        if (dialogue.pause) GameManager.instance.PushPauseState();
 
         DisplayNextSentence();
     }
@@ -101,8 +110,12 @@ public class DialogueController : MonoBehaviour
 
     public void EndDialogue()
     {
-        running = false;
+        if (dialogue.pause) GameManager.instance.PopPauseState();
+        dialogue = null;
+
         currentSentence = null;
+
+        running = false;
 
         // EventBus.Publish(new DialogueEvent(false, topic));
 

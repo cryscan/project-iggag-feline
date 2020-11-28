@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
 
         // if (Input.GetKeyDown(KeyCode.Escape)) TogglePause();
 
-        /* Continuous Pause Behavior */
+        targetTimeScale = currentState == GameState.Paused ? 0 : 1;
         Time.timeScale = Time.timeScale.FalloutUnscaled(targetTimeScale, pauseTimeScaleFallout);
     }
 
@@ -91,19 +91,34 @@ public class GameManager : MonoBehaviour
     {
         if (currentState == GameState.Paused)
         {
-            targetTimeScale = 1;
-
             var previous = states.Pop();
             EventBus.Publish(new GameStateChangeEvent(previous, currentState));
         }
         else if (currentState != GameState.Start)
         {
-            targetTimeScale = 0;
-
             var previous = currentState;
             states.Push(GameState.Paused);
             EventBus.Publish(new GameStateChangeEvent(previous, currentState));
         }
+    }
+
+    public void PushPauseState()
+    {
+        var previous = currentState;
+        states.Push(GameState.Paused);
+        EventBus.Publish(new GameStateChangeEvent(previous, currentState));
+    }
+
+    public void PopPauseState()
+    {
+        if (currentState != GameState.Paused)
+        {
+            Debug.LogError("[Game Manager] is not pausing");
+            return;
+        }
+
+        var previous = states.Pop();
+        EventBus.Publish(new GameStateChangeEvent(previous, currentState));
     }
 
     public void GameOverReturn(int index = 0)
