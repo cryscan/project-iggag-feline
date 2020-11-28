@@ -51,6 +51,8 @@ public class DialogueController : MonoBehaviour
 
     public void StartDialogue(Dialogue dialogue)
     {
+        if (running) EndDialogue();
+
         running = true;
         this.dialogue = dialogue;
 

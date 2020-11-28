@@ -70,30 +70,42 @@ public class ScheduleManager : MonoBehaviour
 
     public void SetMaxTime(float time) => maxTime = time;
 
-    public void AddSchedule(GameObject prefab, Vector3 position)
+    public void AddSchedule(float timer, GameObject prefab, Vector3 position, bool planning)
     {
         var @event = new ScheduleTimerEvent(timer, prefab, position);
         schedules.Add(@event);
-        EventBus.Publish(new ScheduleAddEvent() { @event = @event });
+        if (planning) EventBus.Publish(new ScheduleAddEvent() { @event = @event });
+    }
+
+    public void AddSchedule(GameObject prefab, Vector3 position) => AddSchedule(timer, prefab, position, true);
+
+    public void ResetTimer() => timer = 0;
+
+    public void DeploySchedule()
+    {
+        schedules.Sort((x, y) => (int)(x.timer - y.timer));
+
+        // Instantiate all traps.
+        foreach (var schedule in schedules)
+        {
+            var _object = Instantiate(schedule.prefab, schedule.position, Quaternion.identity);
+            schedule.prefab = _object;
+        }
+    }
+
+    public void ExecuteSchedule()
+    {
+        StopAllCoroutines();
+        StartCoroutine(ScheduleExecuteCoroutine());
     }
 
     void OnGameStateChanged(GameStateChangeEvent @event)
     {
         if (@event.previous == GameState.Plan && @event.current == GameState.Play)
         {
-            timer = 0;
-
-            schedules.Sort((x, y) => (int)(x.timer - y.timer));
-
-            // Instantiate all traps.
-            foreach (var schedule in schedules)
-            {
-                var _object = Instantiate(schedule.prefab, schedule.position, Quaternion.identity);
-                schedule.prefab = _object;
-            }
-
-            StopAllCoroutines();
-            StartCoroutine(ScheduleExecuteCoroutine());
+            ResetTimer();
+            DeploySchedule();
+            ExecuteSchedule();
         }
 
         if (@event.previous != GameState.Paused && @event.current == GameState.Plan)
