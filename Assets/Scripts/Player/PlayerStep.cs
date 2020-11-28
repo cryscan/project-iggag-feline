@@ -17,6 +17,7 @@ public class PlayerStepEvent : IEvent
 public class PlayerStep : MonoBehaviour
 {
     [Header("Visual")]
+    [SerializeField] Transform pivot;
     [SerializeField] Transform head;
     [SerializeField] float amplitude = 0.2f;
     [SerializeField] float period = 0.5f;
@@ -29,9 +30,7 @@ public class PlayerStep : MonoBehaviour
     PlayerMovement movement;
     AudioSource[] audios;
 
-    float height;
     float blend = 0;
-
     bool stepped = false;
 
     void Awake()
@@ -39,8 +38,6 @@ public class PlayerStep : MonoBehaviour
         controller = GetComponent<CharacterController>();
         movement = GetComponent<PlayerMovement>();
         audios = stepAudio.GetComponents<AudioSource>();
-
-        height = head.position.y;
     }
 
     void Update()
@@ -53,7 +50,7 @@ public class PlayerStep : MonoBehaviour
         blend = blend.Fallout(target, fallout);
 
         var position = head.position;
-        position.y = height + Oscillation();
+        position.y = pivot.position.y + Oscillation();
         head.position = position;
     }
 
