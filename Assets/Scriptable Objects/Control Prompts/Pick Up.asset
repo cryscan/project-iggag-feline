@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   action: 0
   displayName: Pick Up
-  sprite: {fileID: 21300000, guid: 221fa4e84b2f8114bb1ed00589d56463, type: 3}
+  sprite: {fileID: 21300000, guid: 4cd452c0f6e835d4f992ecdaa178ef15, type: 3}
