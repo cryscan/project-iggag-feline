@@ -8721,6 +8721,11 @@ PrefabInstance:
       propertyPath: play
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6972490742999378518, guid: 19400f7c7021481f78badcc4b9588e4d,
+        type: 3}
+      propertyPath: startState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7848045730766794760, guid: 19400f7c7021481f78badcc4b9588e4d,
         type: 3}
       propertyPath: m_IsActive
@@ -10041,7 +10046,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1968879923}
-  m_LocalRotation: {x: 0.012603933, y: -0.27231988, z: 0.0035674367, w: 0.9621177}
+  m_LocalRotation: {x: 0.012603914, y: -0.27231988, z: 0.0035674316, w: 0.9621177}
   m_LocalPosition: {x: 2, y: 0.25, z: -3.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

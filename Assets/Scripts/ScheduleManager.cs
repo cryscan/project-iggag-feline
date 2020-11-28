@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class ScheduleAddEvent : IEvent { public ScheduleTimerEvent @event; }
 
+public class ScheduleDeployEvent : IEvent { }
+
 [System.Serializable]
 public class ScheduleTimerEvent : IEvent
 {
@@ -75,6 +77,8 @@ public class ScheduleManager : MonoBehaviour
         var @event = new ScheduleTimerEvent(timer, prefab, position);
         schedules.Add(@event);
         if (planning) EventBus.Publish(new ScheduleAddEvent() { @event = @event });
+
+        Debug.Log($"[Schedule Manager] schedule {@event} added");
     }
 
     public void AddSchedule(GameObject prefab, Vector3 position) => AddSchedule(timer, prefab, position, true);
@@ -90,7 +94,11 @@ public class ScheduleManager : MonoBehaviour
         {
             var _object = Instantiate(schedule.prefab, schedule.position, Quaternion.identity);
             schedule.prefab = _object;
+
+            Debug.Log($"[Schedule Manager] schedule {schedule} deployed");
         }
+
+        EventBus.Publish(new ScheduleDeployEvent());
     }
 
     public void ExecuteSchedule()
