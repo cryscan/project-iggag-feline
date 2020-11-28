@@ -8,6 +8,13 @@ public class GameStarter : MonoBehaviour
 
     void Start()
     {
+        StartCoroutine(StarterCoroutine());
+    }
+
+    IEnumerator StarterCoroutine()
+    {
+        yield return null;
+
         if (GameManager.instance.currentState == GameState.Start)
         {
             if (!play) GameManager.instance.StartPlan();

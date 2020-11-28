@@ -32,11 +32,11 @@ public class InGameMenuController : MonoBehaviour
         }
     }
 
-    public void MainMenuButton()
+    public void MainMenuButton(int index = 0)
     {
         // UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
         GameManager.instance.PopPauseState();
-        GameManager.instance.GameOverReturn();
+        GameManager.instance.GameOverReturn(index);
     }
 
     public void RestartStage()
@@ -44,5 +44,10 @@ public class InGameMenuController : MonoBehaviour
         GameManager.instance.PopPauseState();
         Scene scene = SceneManager.GetActiveScene();
         GameManager.instance.EnterPlanScene(scene.name);
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }
