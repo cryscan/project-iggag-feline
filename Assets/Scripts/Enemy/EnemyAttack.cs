@@ -7,8 +7,6 @@ public class EnemyAttack : MonoBehaviour
 {
     [SerializeField] GameObject prefab;
     [SerializeField] GameObject view;
-    [SerializeField] bool plan = true;
-
     GameObject player;
 
     void Awake()
@@ -32,6 +30,16 @@ public class EnemyAttack : MonoBehaviour
             Destroy(view);
             Destroy(gameObject);
         }
+    }
+
+    public void FadeOut()
+    {
+        EventBus.Publish(new FadeOutEvent());
+    }
+
+    public void GameOver()
+    {
+        GameManager.instance.RestartCurrentScene();
     }
 
     /*

@@ -25,10 +25,9 @@ public class InGameMenuController : MonoBehaviour
             else GameManager.instance.PopPauseState();
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && GameManager.instance.currentState == GameState.Plan)
+        if (Input.GetKeyDown(KeyCode.R) && GameManager.instance.currentState != GameState.Paused)
         {
-            Scene scene = SceneManager.GetActiveScene();
-            GameManager.instance.EnterPlanScene(scene.name);
+            GameManager.instance.RestartCurrentScene();
         }
     }
 

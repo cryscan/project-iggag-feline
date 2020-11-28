@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameStarter : MonoBehaviour
 {
-    [SerializeField] bool play = false;
+    [SerializeField] GameState startState = GameState.Plan;
 
     void Start()
     {
@@ -17,8 +17,11 @@ public class GameStarter : MonoBehaviour
 
         if (GameManager.instance.currentState == GameState.Start)
         {
-            if (!play) GameManager.instance.StartPlan();
-            else GameManager.instance.StartPlay();
+            if (startState == GameState.Plan) GameManager.instance.StartPlan();
+            else if (startState == GameState.Play) GameManager.instance.StartPlay();
+            else Debug.LogError($"[Game Starter] unsupported start state {startState}");
         }
+
+        GameManager.instance.startState = startState;
     }
 }

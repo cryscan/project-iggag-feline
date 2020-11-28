@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance { get; private set; }
     public bool practiceMode = false;
 
+    public GameState startState;
+
     Stack<GameState> states = new Stack<GameState>();
     public GameState currentState { get => states.Peek(); }
 
@@ -137,6 +139,13 @@ public class GameManager : MonoBehaviour
 
     public void EnterPlayScene(int index) => StartCoroutine(LoadSceneCoroutine(index, () => StartPlay()));
     public void EnterPlayScene(string name) => StartCoroutine(LoadSceneCoroutine(name, () => StartPlay()));
+
+    public void RestartCurrentScene()
+    {
+        var index = SceneManager.GetActiveScene().buildIndex;
+        if (startState == GameState.Plan) EnterPlanScene(index);
+        else if (startState == GameState.Play) EnterPlayScene(index);
+    }
 
     public void EnterPlanSceneRelocate(string name)
     {
