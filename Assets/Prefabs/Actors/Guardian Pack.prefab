@@ -1197,7 +1197,7 @@ MonoBehaviour:
   external: {fileID: 11400000, guid: ec352ff2589359a5ebc6ac122cbf4781, type: 2}
   holder: {fileID: 7661652030170185033}
   range: 2
-  duration: 2
+  duration: 1
 --- !u!114 &877664620087056122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1213,7 +1213,7 @@ MonoBehaviour:
   Name: Drop
   Cost: 1
   external: {fileID: 11400000, guid: ec352ff2589359a5ebc6ac122cbf4781, type: 2}
-  duration: 2
+  duration: 1
 --- !u!1 &5574307304691518401
 GameObject:
   m_ObjectHideFlags: 0

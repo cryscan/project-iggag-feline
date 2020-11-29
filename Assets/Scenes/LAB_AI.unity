@@ -8477,7 +8477,7 @@ PrefabInstance:
     - target: {fileID: 4189527821453021211, guid: bfec6df4e4d189856bca050261634da2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 4189527821453021211, guid: bfec6df4e4d189856bca050261634da2,
         type: 3}
@@ -8487,7 +8487,7 @@ PrefabInstance:
     - target: {fileID: 4189527821453021211, guid: bfec6df4e4d189856bca050261634da2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 4189527821453021211, guid: bfec6df4e4d189856bca050261634da2,
         type: 3}
@@ -8573,15 +8573,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Guardian Pack
       objectReference: {fileID: 0}
-    - target: {fileID: 2088457699688421717, guid: 39488a604fa3f13f384e42061659516c,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2244289826925010576, guid: 39488a604fa3f13f384e42061659516c,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3560750352621422029, guid: 39488a604fa3f13f384e42061659516c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 4841080986625499573, guid: 39488a604fa3f13f384e42061659516c,
         type: 3}
