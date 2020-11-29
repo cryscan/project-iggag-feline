@@ -4,7 +4,8 @@ using UnityEngine;
 
 public abstract class Breakable : MonoBehaviour
 {
-    [SerializeField] Role[] roles;
+    [SerializeField] protected Role[] roles;
+    [SerializeField] protected Breakable[] breakables;
 
     [SerializeField] GameObject effect;
     public bool broken { get; private set; } = false;
@@ -24,11 +25,13 @@ public abstract class Breakable : MonoBehaviour
     {
         broken = true;
         foreach (var role in roles) role.enabled = true;
+        foreach (var breakable in breakables) breakable.Break();
     }
 
     public virtual void Repair()
     {
         broken = false;
         foreach (var role in roles) role.enabled = false;
+        foreach (var breakable in breakables) breakable.Repair();
     }
 }

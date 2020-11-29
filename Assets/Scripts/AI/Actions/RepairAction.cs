@@ -15,7 +15,7 @@ namespace Feline.AI.Actions
         [SerializeField] ExternalBehavior external;
         [SerializeField] Light _light;
 
-        string type = "RepairPoint";
+        string type = "RepairRole";
 
         BehaviorTree behavior;
 
@@ -30,16 +30,16 @@ namespace Feline.AI.Actions
 
         public override ReGoapState<string, object> GetPreconditions(GoapActionStackData<string, object> stackData)
         {
-            var repairPoint = agent.GetMemory().GetWorldState().Get($"Nearest {type}") as RepairPoint;
-            if (repairPoint) preconditions.Set("At Position", repairPoint.transform.position);
+            var role = agent.GetMemory().GetWorldState().Get($"Nearest {type}") as RepairRole;
+            if (role) preconditions.Set("At Position", role.transform.position);
 
             return base.GetPreconditions(stackData);
         }
 
         public override List<ReGoapState<string, object>> GetSettings(GoapActionStackData<string, object> stackData)
         {
-            var repairPoint = agent.GetMemory().GetWorldState().Get($"Nearest {type}") as RepairPoint;
-            settings.Set($"Objective {type}", repairPoint);
+            var role = agent.GetMemory().GetWorldState().Get($"Nearest {type}") as RepairRole;
+            settings.Set($"Objective {type}", role);
 
             return base.GetSettings(stackData);
         }
@@ -50,15 +50,15 @@ namespace Feline.AI.Actions
 
             if (settings.HasKey($"Objective {type}"))
             {
-                var repairPoint = settings.Get($"Objective {type}") as RepairPoint;
-                if (repairPoint)
+                var role = settings.Get($"Objective {type}") as RepairRole;
+                if (role)
                 {
                     _light.enabled = false;
 
                     behavior.ExternalBehavior = external;
-                    behavior.SetVariableValue("Target", repairPoint.breakable.gameObject);
+                    behavior.SetVariableValue("Target", role.breakable.gameObject);
 
-                    StartCoroutine(ActionCheckCoroutine(repairPoint));
+                    StartCoroutine(ActionCheckCoroutine(role));
                 }
                 else fail(this);
             }
@@ -73,22 +73,22 @@ namespace Feline.AI.Actions
             base.Exit(next);
         }
 
-        IEnumerator RepairCoroutine(RepairPoint repairPoint)
+        IEnumerator RepairCoroutine(RepairRole role)
         {
             while (true)
             {
-                repairPoint.breakable.Repair();
+                role.breakable.Repair();
                 yield return new WaitForSeconds(0.1f);
             }
         }
 
-        IEnumerator ActionCheckCoroutine(RepairPoint repairPoint)
+        IEnumerator ActionCheckCoroutine(RepairRole role)
         {
             while (true)
             {
-                if (!repairPoint.breakable.broken) doneCallback(this);
-                else if (!repairPoint.enabled) doneCallback(this);
-                else if (!repairPoint.IsReserved(gameObject)) failCallback(this);
+                if (!role.breakable.broken) doneCallback(this);
+                else if (!role.enabled) doneCallback(this);
+                else if (!role.IsReserved(gameObject)) failCallback(this);
 
                 yield return null;
             }

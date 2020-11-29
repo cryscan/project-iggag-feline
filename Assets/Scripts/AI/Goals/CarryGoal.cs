@@ -7,11 +7,11 @@ using ReGoap.Unity;
 
 namespace Feline.AI.Goals
 {
-    public class RepairGoal : ReGoapGoalAdvanced<string, object>
+    public class CarryGoal : ReGoapGoalAdvanced<string, object>
     {
         IReGoapAgent<string, object> agent;
 
-        string type = "RepairRole";
+        string type = "CarryPoint";
 
         protected override void Awake()
         {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RepairPoint : Role
+public class RepairRole : Role
 {
     [SerializeField] Breakable _breakable;
     public Breakable breakable { get => _breakable; }

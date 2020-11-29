@@ -9,7 +9,7 @@ using ReGoap.Unity;
 
 namespace Feline.AI.Sensors
 {
-    public class GuardRoleSensor<T> : ReGoapSensor<string, object> where T : Role
+    public class RoleSensor<T> : ReGoapSensor<string, object> where T : Role
     {
         [SerializeField] float range = 5;
 
@@ -28,10 +28,10 @@ namespace Feline.AI.Sensors
         public override void UpdateSensor()
         {
             var state = memory.GetWorldState();
-            var name = typeof(T).ToString();
+            var type = typeof(T).ToString();
 
             bool hasAvailable = ts.Any(Criteria);
-            state.Set($"Has Role {name}", hasAvailable);
+            state.Set($"Has Role {type}", hasAvailable);
 
             if (hasAvailable)
             {
@@ -41,7 +41,7 @@ namespace Feline.AI.Sensors
 
                 int index;
                 var nearest = FindNearest.FindNearestGameObject(query.ToList(), transform.position, out index);
-                state.Set($"Nearest {name}", nearest.GetComponent<T>());
+                state.Set($"Nearest {type}", nearest.GetComponent<T>());
             }
         }
 

@@ -4,5 +4,5 @@ using UnityEngine;
 
 namespace Feline.AI.Sensors
 {
-    public class GuardRepairPointSensor : GuardRoleSensor<RepairPoint> { }
+    public class StandRoleSensor : RoleSensor<StandRole> { }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class StandPoint : Role
+public class StandRole : Role
 {
     public List<GameObject> points { get; private set; }
 
