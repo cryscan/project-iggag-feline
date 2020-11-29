@@ -14,13 +14,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float _moveSpeed = 4;
     public float moveSpeed { get => _moveSpeed; }
 
+    [SerializeField] float _sprintSpeed = 6;
+    public float sprintSpeed { get => _sprintSpeed; }
+
+    public float speed { get; private set; }
+
     [SerializeField] float fallout = 10;
 
     [SerializeField] PlayerState _state;
     public PlayerState state { get => _state; }
 
     CharacterController controller;
-    float speed;
     Vector3 _move;
 
     void Awake()
@@ -34,8 +38,8 @@ public class PlayerMovement : MonoBehaviour
         var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
 
-        // if (Input.GetKey(KeyCode.LeftShift)) speed = sprintSpeed;
-        // else speed = moveSpeed;
+        if (Input.GetKey(KeyCode.LeftShift)) speed = sprintSpeed;
+        else speed = moveSpeed;
 
         var move = transform.forward * vertical + transform.right * horizontal;
         move = move.normalized;
