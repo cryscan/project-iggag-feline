@@ -77,6 +77,6 @@ public class PlayerStep : MonoBehaviour
         }
         if (oscillation > -0.8f) stepped = false;
 
-        return blend * amplitude * oscillation;
+        return blend * amplitude * oscillation / (1 + blend1);
     }
 }

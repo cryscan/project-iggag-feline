@@ -11,6 +11,7 @@ public class HeistBoard : MonoBehaviour
 
     public void StartHeist()
     {
-
+        if (!GameManager.instance.transiting)
+            GameManager.instance.EnterPlanScene(sceneName, true);
     }
 }
