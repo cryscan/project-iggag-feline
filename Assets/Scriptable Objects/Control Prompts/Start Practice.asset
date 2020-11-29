@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Start Practice
   m_EditorClassIdentifier: 
   action: 5
-  displayName: Start Practice
+  displayName: Start
   sprite: {fileID: 21300000, guid: 4cd452c0f6e835d4f992ecdaa178ef15, type: 3}

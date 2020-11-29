@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+using BehaviorDesigner.Runtime;
+
 public enum GameState
 {
     Start,
@@ -145,6 +147,8 @@ public class GameManager : MonoBehaviour
         var index = SceneManager.GetActiveScene().buildIndex;
         if (startState == GameState.Plan) EnterPlanScene(index);
         else if (startState == GameState.Play) EnterPlayScene(index);
+
+        GlobalVariables.Instance.GetVariable("Restarted").SetValue(true);
     }
 
     public void EnterPlanSceneRelocate(string name)
