@@ -58701,11 +58701,6 @@ PrefabInstance:
       propertyPath: startState
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 9187672155693788781, guid: 19400f7c7021481f78badcc4b9588e4d,
-        type: 3}
-      propertyPath: m_Priority
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 9187672155926545452, guid: 19400f7c7021481f78badcc4b9588e4d,
         type: 3}
       propertyPath: m_IsActive

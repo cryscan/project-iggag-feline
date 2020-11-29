@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
     Stack<GameState> states = new Stack<GameState>();
     public GameState currentState { get => states.Peek(); }
 
+    public bool transiting { get; private set; } = false;
+
     [SerializeField] float pauseTimeScaleFallout = 10;
     float targetTimeScale = 1;
 
@@ -136,11 +138,11 @@ public class GameManager : MonoBehaviour
         }));
     }
 
-    public void EnterPlanScene(int index) => StartCoroutine(LoadSceneCoroutine(index, () => StartPlan()));
-    public void EnterPlanScene(string name) => StartCoroutine(LoadSceneCoroutine(name, () => StartPlan()));
+    public void EnterPlanScene(int index, bool fade = false) => StartCoroutine(LoadSceneCoroutine(index, () => StartPlan(), fade));
+    public void EnterPlanScene(string name, bool fade = false) => StartCoroutine(LoadSceneCoroutine(name, () => StartPlan(), fade));
 
-    public void EnterPlayScene(int index) => StartCoroutine(LoadSceneCoroutine(index, () => StartPlay()));
-    public void EnterPlayScene(string name) => StartCoroutine(LoadSceneCoroutine(name, () => StartPlay()));
+    public void EnterPlayScene(int index, bool fade = false) => StartCoroutine(LoadSceneCoroutine(index, () => StartPlay(), fade));
+    public void EnterPlayScene(string name, bool fade = false) => StartCoroutine(LoadSceneCoroutine(name, () => StartPlay(), fade));
 
     public void RestartCurrentScene()
     {
@@ -170,7 +172,7 @@ public class GameManager : MonoBehaviour
         }));
     }
 
-    public void EnterPlaySceneRelocate(string name)
+    public void EnterPlaySceneRelocate(string name, bool fade = false)
     {
         var player = GameObject.FindWithTag("Player");
         var position = player.transform.position;
@@ -186,7 +188,8 @@ public class GameManager : MonoBehaviour
             controller.enabled = false;
             player.transform.SetPositionAndRotation(position, rotation);
             controller.enabled = _enabled;
-        }));
+        },
+        fade));
     }
 
     public void StartPlan()
@@ -215,17 +218,38 @@ public class GameManager : MonoBehaviour
         EventBus.Publish(new GameStateChangeEvent(previous, currentState));
     }
 
-    IEnumerator LoadSceneCoroutine(int index, System.Action callback = null)
+    IEnumerator LoadSceneCoroutine(int index, System.Action callback = null, bool fade = false)
     {
+        transiting = true;
+
+        if (fade)
+        {
+            EventBus.Publish(new FadeOutEvent());
+            yield return new WaitForSeconds(2);
+        }
+
         SceneManager.LoadScene(index);
+
         yield return null;
         callback?.Invoke();
+
+        transiting = false;
     }
 
-    IEnumerator LoadSceneCoroutine(string name, System.Action callback = null)
+    IEnumerator LoadSceneCoroutine(string name, System.Action callback = null, bool fade = false)
     {
+        transiting = true;
+
+        if (fade)
+        {
+            EventBus.Publish(new FadeOutEvent());
+            yield return new WaitForSeconds(2);
+        }
+
         SceneManager.LoadScene(name);
         yield return null;
         callback?.Invoke();
+
+        transiting = false;
     }
 }

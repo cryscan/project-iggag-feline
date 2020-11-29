@@ -46,7 +46,6 @@ public class PlayerBoardSelect : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E) && interacting)
-        {
-        }
+            interacting.StartHeist();
     }
 }

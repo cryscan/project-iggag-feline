@@ -8,4 +8,9 @@ public class HeistBoard : MonoBehaviour
     public bool practice { get => _practice; }
 
     [SerializeField] string sceneName;
+
+    public void StartHeist()
+    {
+
+    }
 }
