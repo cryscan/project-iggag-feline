@@ -11,7 +11,7 @@ namespace Feline.AI.Goals
     {
         IReGoapAgent<string, object> agent;
 
-        string type = "CarryPoint";
+        string type = "CarryRole";
 
         protected override void Awake()
         {

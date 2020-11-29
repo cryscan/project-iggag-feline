@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Carryable : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Carryable : MonoBehaviour
 
     Rigidbody rb;
     Collider _collider;
+    NavMeshObstacle obstacle;
 
     Transform holder = null;
 
@@ -16,6 +18,7 @@ public class Carryable : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         _collider = GetComponent<Collider>();
+        obstacle = GetComponent<NavMeshObstacle>();
     }
 
     void Update()
@@ -38,6 +41,7 @@ public class Carryable : MonoBehaviour
 
         rb.isKinematic = true;
         _collider.enabled = false;
+        if (obstacle) obstacle.enabled = false;
 
         carrying = true;
         return true;
@@ -51,6 +55,7 @@ public class Carryable : MonoBehaviour
 
         rb.isKinematic = false;
         _collider.enabled = true;
+        if (obstacle) obstacle.enabled = true;
 
         carrying = false;
     }

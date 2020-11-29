@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using BehaviorDesigner.Runtime;
+
 using ReGoap.Unity;
 using ReGoap.Core;
 using System;
@@ -10,10 +12,17 @@ namespace Feline.AI.Actions
 {
     public class DropAction : ReGoapAction<string, object>
     {
+        [SerializeField] ExternalBehaviorTree external;
+
+        [SerializeField] float duration = 2;
+
+        BehaviorTree behavior;
+
         string type = "CarryRole";
 
         protected override void Awake()
         {
+            behavior = GetComponent<BehaviorTree>();
             base.Awake();
 
             preconditions.Set($"Reserved Role Type", type);
@@ -26,7 +35,7 @@ namespace Feline.AI.Actions
             if (role)
             {
                 preconditions.Set("Carrying", role.carryable);
-                preconditions.Set("At Position", role.destination);
+                preconditions.Set("At Position", role.destination.position);
             }
 
             return base.GetPreconditions(stackData);
@@ -44,14 +53,25 @@ namespace Feline.AI.Actions
         {
             base.Run(previous, next, settings, goalState, done, fail);
 
+            behavior.ExternalBehavior = external;
+
             var role = settings.Get($"Objective {type}") as CarryRole;
-            if (role != null)
-            {
-                role.carryable.Drop();
-                role.enabled = false;
-                done(this);
-            }
+            if (role != null) StartCoroutine(ActionCheckCoroutine(role));
             else fail(this);
+        }
+
+        public override void Exit(IReGoapAction<string, object> next)
+        {
+            StopAllCoroutines();
+            base.Exit(next);
+        }
+
+        IEnumerator ActionCheckCoroutine(CarryRole role)
+        {
+            yield return new WaitForSeconds(duration);
+            role.carryable.Drop();
+            role.enabled = false;
+            doneCallback(this);
         }
     }
 }

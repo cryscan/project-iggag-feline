@@ -31,6 +31,36 @@ Transform:
   m_Father: {fileID: 4841080986625499573}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1422443118256472116
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7661652030170185033}
+  m_Layer: 11
+  m_Name: Hold
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7661652030170185033
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1422443118256472116}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3560750352621422029}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1704895812040491864
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,8 +570,10 @@ GameObject:
   - component: {fileID: 1034199816588944579}
   - component: {fileID: 1580491443432474284}
   - component: {fileID: 895092746486669333}
+  - component: {fileID: 3070485412194733261}
   - component: {fileID: 1609914989272660047}
   - component: {fileID: 6859943974828251064}
+  - component: {fileID: 8408945074163359556}
   - component: {fileID: 9087781932409618958}
   - component: {fileID: 7210535546943786924}
   - component: {fileID: 4286069259433053339}
@@ -550,6 +582,8 @@ GameObject:
   - component: {fileID: 1194088606516131546}
   - component: {fileID: 2749596907246032498}
   - component: {fileID: 3193382812130103443}
+  - component: {fileID: 7485448552772611998}
+  - component: {fileID: 877664620087056122}
   m_Layer: 11
   m_Name: Guardian
   m_TagString: Enemy
@@ -574,6 +608,7 @@ Transform:
   - {fileID: 482524777132992866}
   - {fileID: 4955418979627476711}
   - {fileID: 8799760816584428273}
+  - {fileID: 7661652030170185033}
   m_Father: {fileID: 4841080986625499573}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -826,7 +861,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 7753225922015090125, guid: 8afa232c00648b9e3a8a8dac64c91f3f, type: 3}
   view: {fileID: 1221697482607422787}
-  plan: 1
 --- !u!114 &8926445771917627250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -953,6 +987,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 10
+--- !u!114 &3070485412194733261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839249185068438682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc83a8cdb71b99385933085abb096131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 10
 --- !u!114 &1609914989272660047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -984,6 +1031,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Repair
   Priority: 20
+  ErrorDelay: 0.5
+  WarnPossibleGoal: 1
+  WarnDelay: 2
+--- !u!114 &8408945074163359556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839249185068438682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6aaab3e63d6084810a97811ddca7946e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Carry
+  Priority: 30
   ErrorDelay: 0.5
   WarnPossibleGoal: 1
   WarnDelay: 2
@@ -1019,6 +1083,7 @@ MonoBehaviour:
   external: {fileID: 11400000, guid: 11a7f80721e28010cb26deb298afd47a, type: 2}
   interruptSpotted: 1
   speed: 4
+  timeOut: 10
 --- !u!114 &4286069259433053339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1115,6 +1180,40 @@ MonoBehaviour:
   Cost: 1
   external: {fileID: 11400000, guid: c956b41e83f69459f8753e786d71e2e7, type: 2}
   _light: {fileID: 5104854461967296586}
+--- !u!114 &7485448552772611998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839249185068438682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a905a5f4313115c39bd728f710f64a8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Carry
+  Cost: 1
+  external: {fileID: 11400000, guid: ec352ff2589359a5ebc6ac122cbf4781, type: 2}
+  holder: {fileID: 7661652030170185033}
+  range: 2
+  duration: 2
+--- !u!114 &877664620087056122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839249185068438682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c0fd0fbe060d16e98ee90a5cf6362bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Drop
+  Cost: 1
+  external: {fileID: 11400000, guid: ec352ff2589359a5ebc6ac122cbf4781, type: 2}
+  duration: 2
 --- !u!1 &5574307304691518401
 GameObject:
   m_ObjectHideFlags: 0
