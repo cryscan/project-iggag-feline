@@ -955,6 +955,7 @@ GameObject:
   - component: {fileID: 316027116207497519}
   - component: {fileID: 6891387446900774453}
   - component: {fileID: 8570980483277433698}
+  - component: {fileID: 8335522713562552585}
   - component: {fileID: 4287198742920856355}
   m_Layer: 10
   m_Name: Player
@@ -1115,6 +1116,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   comeOutDistance: 1.5
+--- !u!114 &8335522713562552585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8912101026526787494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 910dfe2fbd713246ebbf42f346f8c2ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4287198742920856355
 MonoBehaviour:
   m_ObjectHideFlags: 0
