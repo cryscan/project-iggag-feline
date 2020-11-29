@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Heist 102/1-0.unity
+    path: Assets/Scenes/Heist 102/102.unity
     guid: a719ae555fdcc7a939efeb2ee03ab2ea
   - enabled: 1
     path: Assets/Scenes/LAB_PR.unity

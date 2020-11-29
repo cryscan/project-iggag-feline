@@ -37,19 +37,17 @@ public class PlaceTrap : MonoBehaviour
             var valid = CheckPosition(out center);
             if (valid && counter.count > 0)
             {
-                // Debug.Log(prefab);
-                // ball.SetActive(true);
                 Cursor.SetCursor(sprite.texture, new Vector2(16, 16), CursorMode.ForceSoftware);
 
                 indicator.center = center.Value;
                 indicator.radius = trap.GetRange();
+
+                counter.selected = true;
             }
             else
             {
-                // ball.SetActive(false);
-                // Cursor.SetCursor(null, Vector2.zero, CursorMode.ForceSoftware);
-                // Cursor.visible = true;
                 indicator.radius = 0;
+                counter.selected = false;
             }
 
             if (valid && Input.GetMouseButtonDown(0) && !DialogueManager.instance.running)
@@ -58,7 +56,6 @@ public class PlaceTrap : MonoBehaviour
         else
         {
             Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
-            // ball.SetActive(false);
             indicator.radius = 0;
         }
     }

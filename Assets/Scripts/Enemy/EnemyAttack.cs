@@ -32,15 +32,11 @@ public class EnemyAttack : MonoBehaviour
         }
     }
 
-    public void FadeOut()
-    {
-        EventBus.Publish(new FadeOutEvent());
-    }
+    public void FadeOut() => EventBus.Publish(new FadeOutEvent());
 
-    public void GameOver()
-    {
-        GameManager.instance.RestartCurrentScene();
-    }
+    public void GameOver() => GameManager.instance.RestartCurrentScene();
+    public void EnterPlanScene(string name) => GameManager.instance.EnterPlanScene(name);
+    public void EnterPlayScene(string name) => GameManager.instance.EnterPlayScene(name);
 
     /*
     IEnumerator LoseCoroutine()

@@ -17,7 +17,7 @@ namespace Feline.AI.Actions
 
         BehaviorTree behavior;
 
-        string type = "StandPoint";
+        string type = "StandRole";
 
         protected override void Awake()
         {
@@ -33,16 +33,16 @@ namespace Feline.AI.Actions
 
         public override ReGoapState<string, object> GetPreconditions(GoapActionStackData<string, object> stackData)
         {
-            var standPoint = agent.GetMemory().GetWorldState().Get($"Nearest {type}") as StandPoint;
-            if (standPoint) preconditions.Set("At Position", standPoint.transform.position);
+            var role = agent.GetMemory().GetWorldState().Get($"Nearest {type}") as StandRole;
+            if (role) preconditions.Set("At Position", role.transform.position);
 
             return base.GetPreconditions(stackData);
         }
 
         public override List<ReGoapState<string, object>> GetSettings(GoapActionStackData<string, object> stackData)
         {
-            var standPoint = agent.GetMemory().GetWorldState().Get($"Nearest {type}") as StandPoint;
-            settings.Set($"Objective {type}", standPoint);
+            var role = agent.GetMemory().GetWorldState().Get($"Nearest {type}") as StandRole;
+            settings.Set($"Objective {type}", role);
 
             return base.GetSettings(stackData);
         }
@@ -53,13 +53,13 @@ namespace Feline.AI.Actions
 
             if (settings.HasKey($"Objective {type}"))
             {
-                var standPoint = settings.Get($"Objective {type}") as StandPoint;
-                if (standPoint)
+                var role = settings.Get($"Objective {type}") as StandRole;
+                if (role)
                 {
                     behavior.ExternalBehavior = external;
-                    behavior.SetVariableValue("Points", standPoint.points);
+                    behavior.SetVariableValue("Points", role.points);
 
-                    StartCoroutine(ActionCheckCoroutine(standPoint));
+                    StartCoroutine(ActionCheckCoroutine(role));
                 }
                 else fail(this);
             }
@@ -77,12 +77,12 @@ namespace Feline.AI.Actions
             return false;
         }
 
-        IEnumerator ActionCheckCoroutine(StandPoint standPoint)
+        IEnumerator ActionCheckCoroutine(StandRole role)
         {
             var state = agent.GetMemory().GetWorldState();
             while (true)
             {
-                if (!standPoint.enabled || !standPoint.IsReserved(gameObject)) failCallback(this);
+                if (!role.enabled || !role.IsReserved(gameObject)) failCallback(this);
 
                 bool canSeePlayer = (bool)state.Get("Can See Player");
                 bool alerted = (bool)state.Get("Alerted");

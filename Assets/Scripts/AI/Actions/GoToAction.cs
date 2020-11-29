@@ -17,6 +17,7 @@ namespace Feline.AI.Actions
         [SerializeField] ExternalBehaviorTree external;
         [SerializeField] bool interruptSpotted = true;
         [SerializeField] float speed = 4;
+        [SerializeField] float timeOut = 10;
 
         BehaviorTree behavior;
         Vector3? destination;
@@ -72,10 +73,18 @@ namespace Feline.AI.Actions
 
                     behavior.SetVariableValue("Destination", destination.Value);
                     behavior.SetVariableValue("Speed", speed);
+
+                    StartCoroutine(TimeOutCoroutine());
                 }
                 else fail(this);
             }
             else fail(this);
+        }
+
+        public override void Exit(IReGoapAction<string, object> next)
+        {
+            StopAllCoroutines();
+            base.Exit(next);
         }
 
         Vector3? GetGoalPosition(ReGoapState<string, object> state)
@@ -100,6 +109,12 @@ namespace Feline.AI.Actions
                 Debug.Log("[Go To] failed on spotted");
                 failCallback(this);
             }
+        }
+
+        IEnumerator TimeOutCoroutine()
+        {
+            yield return new WaitForSeconds(timeOut);
+            failCallback(this);
         }
     }
 }
