@@ -53,6 +53,8 @@ public enum InteractionType
     Drop,
     Hide,
     ComeOut,
+    StartHeist,
+    StartPractice,
 }
 
 public class PlayerInteractEvent : IEvent { public GameObject target; }

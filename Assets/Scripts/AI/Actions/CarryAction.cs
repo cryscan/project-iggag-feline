@@ -67,7 +67,11 @@ namespace Feline.AI.Actions
                 if (distance > range) fail(this);
                 else
                 {
-                    if (carryable.Carry(holder)) StartCoroutine(ActionCheckCoroutine());
+                    if (carryable.Carry(holder))
+                    {
+                        agent.GetMemory().GetWorldState().Set("Carrying", carryable);
+                        StartCoroutine(ActionCheckCoroutine());
+                    }
                     else fail(this);
                 }
             }

@@ -69,6 +69,8 @@ namespace Feline.AI.Actions
         IEnumerator ActionCheckCoroutine(CarryRole role)
         {
             yield return new WaitForSeconds(duration);
+
+            agent.GetMemory().GetWorldState().Set("Carrying", null);
             role.carryable.Drop();
             role.enabled = false;
             doneCallback(this);

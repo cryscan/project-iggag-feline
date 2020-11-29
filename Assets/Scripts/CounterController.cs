@@ -7,19 +7,20 @@ public class CounterController : MonoBehaviour
 {
     [SerializeField] CounterObject counter;
 
-    Image image;
-    Text text;
+    [SerializeField] Image image;
+    [SerializeField] Text text;
+
+    Animator animator;
 
     void Awake()
     {
-        image = GetComponentInChildren<Image>();
-        text = GetComponentInChildren<Text>();
-
+        animator = GetComponent<Animator>();
         image.sprite = counter.sprite;
     }
 
     void Update()
     {
         text.text = counter.count.ToString("00");
+        animator.SetBool("Selected", counter.selected);
     }
 }
