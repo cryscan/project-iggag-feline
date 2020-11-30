@@ -851,6 +851,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 16
   fallout: 10
+  virtualCamera: {fileID: 9187672155693788781}
 --- !u!1 &9187672155926545452
 GameObject:
   m_ObjectHideFlags: 0
