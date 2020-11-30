@@ -10,7 +10,9 @@ public class RangeIndicator : MonoBehaviour
     [SerializeField] int segments = 32;
     [SerializeField] float fallout = 10;
 
-    Camera _camera, UICamera;
+    Camera mainCamera, planCamera, UICamera;
+    Camera _camera;
+
     float _radius = 0;
     Vector3[] points;
 
@@ -18,7 +20,8 @@ public class RangeIndicator : MonoBehaviour
 
     void Awake()
     {
-        _camera = Camera.main;
+        _camera = mainCamera = Camera.main;
+        planCamera = GameObject.FindWithTag("Plan Camera").GetComponent<Camera>();
         UICamera = GameObject.FindWithTag("UI Camera").GetComponent<Camera>();
 
         points = new Vector3[segments + 1];
@@ -35,6 +38,9 @@ public class RangeIndicator : MonoBehaviour
 
     void UpdatePoints()
     {
+        if (GameManager.instance.currentState == GameState.Play) _camera = mainCamera;
+        else if (GameManager.instance.currentState == GameState.Plan) _camera = planCamera;
+
         for (int i = 0; i < points.Length; ++i)
         {
             var angle = 2 * Mathf.PI * i / segments;
