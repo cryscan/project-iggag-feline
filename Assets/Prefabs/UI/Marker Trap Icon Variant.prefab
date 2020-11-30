@@ -10,13 +10,13 @@ PrefabInstance:
     - target: {fileID: 2058145704278778804, guid: bceed176afffb83a592cfa8f93c251cb,
         type: 3}
       propertyPath: m_Name
-      value: Marker Trap Icon
+      value: Marker Trap Icon Variant
       objectReference: {fileID: 0}
     - target: {fileID: 2058145704278778806, guid: bceed176afffb83a592cfa8f93c251cb,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: ce918df3321a29c41a39a217d768d582,
+      objectReference: {fileID: 21300000, guid: d6f5c7422846551af80bc276cc243e01,
         type: 3}
     - target: {fileID: 2058145704278778807, guid: bceed176afffb83a592cfa8f93c251cb,
         type: 3}
