@@ -34,7 +34,8 @@ public class MemoController : MonoBehaviour
     [SerializeField] Material material;
     [SerializeField] LinearProgressBar progress;
 
-    Camera mainCamera, UICamera;
+    Camera mainCamera, planCamera, UICamera;
+    Camera _camera;
 
     Dictionary<ScheduleTimerEvent, Icon> icons = new Dictionary<ScheduleTimerEvent, Icon>();
 
@@ -45,6 +46,7 @@ public class MemoController : MonoBehaviour
     void Awake()
     {
         mainCamera = Camera.main;
+        planCamera = GameObject.FindWithTag("Plan Camera").GetComponent<Camera>();
         UICamera = GameObject.FindWithTag("UI Camera").GetComponent<Camera>();
     }
 
@@ -64,16 +66,17 @@ public class MemoController : MonoBehaviour
 
     void Update()
     {
-        // if (GameManager.instance.currentState != GameState.Play) return;
+        if (GameManager.instance.currentState == GameState.Play) _camera = mainCamera;
+        else if (GameManager.instance.currentState == GameState.Plan) _camera = planCamera;
 
         foreach (var pair in icons)
         {
-            var position = mainCamera.WorldToScreenPoint(pair.Key.position);
+            var position = _camera.WorldToScreenPoint(pair.Key.position);
             position.z = 0;
             pair.Value.inGame.transform.position = position;
 
-            var direction = pair.Key.position - mainCamera.transform.position;
-            if (Vector3.Dot(mainCamera.transform.forward, direction) > 0)
+            var direction = pair.Key.position - _camera.transform.position;
+            if (Vector3.Dot(_camera.transform.forward, direction) > 0)
             {
                 pair.Value.inGame.SetActive(true);
 
