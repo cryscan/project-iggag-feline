@@ -8,6 +8,7 @@ public class PlaceTrap : MonoBehaviour
 {
     [SerializeField] GameObject prefab;
     [SerializeField] Sprite sprite;
+    [SerializeField] int button = 0;
 
     [Header("Layers")]
     [SerializeField] LayerMask layers;
@@ -37,7 +38,7 @@ public class PlaceTrap : MonoBehaviour
             var valid = CheckPosition(out center);
             if (valid && counter.count > 0)
             {
-                Cursor.SetCursor(sprite.texture, new Vector2(16, 16), CursorMode.ForceSoftware);
+                if (sprite) Cursor.SetCursor(sprite.texture, new Vector2(16, 16), CursorMode.ForceSoftware);
 
                 indicator.center = center.Value;
                 indicator.radius = trap.GetRange();
@@ -50,7 +51,8 @@ public class PlaceTrap : MonoBehaviour
                 counter.selected = false;
             }
 
-            if (valid && Input.GetMouseButtonDown(0) && !DialogueManager.instance.running)
+            var clicked = Input.GetMouseButtonDown(button);
+            if (valid && clicked && !DialogueManager.instance.running)
                 InstantiateTrap();
         }
         else
