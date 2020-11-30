@@ -20,7 +20,7 @@ public class RangeIndicator : MonoBehaviour
 
     void Awake()
     {
-        mainCamera = Camera.main;
+        _camera = mainCamera = Camera.main;
         planCamera = GameObject.FindWithTag("Plan Camera").GetComponent<Camera>();
         UICamera = GameObject.FindWithTag("UI Camera").GetComponent<Camera>();
 
