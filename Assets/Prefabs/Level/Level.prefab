@@ -447,7 +447,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   practiceMode: 0
-  startState: 0
+  startState: 1
   pauseTimeScaleFallout: 10
 --- !u!114 &4564816866489517556
 MonoBehaviour:
