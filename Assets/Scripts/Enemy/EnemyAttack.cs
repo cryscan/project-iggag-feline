@@ -35,6 +35,7 @@ public class EnemyAttack : MonoBehaviour
     public void FadeOut() => EventBus.Publish(new FadeOutEvent());
 
     public void GameOver() => GameManager.instance.RestartCurrentScene();
+    public void GameOverReturn(int index) => GameManager.instance.GameOverReturn(index);
     public void EnterPlanScene(string name) => GameManager.instance.EnterPlanScene(name);
     public void EnterPlayScene(string name) => GameManager.instance.EnterPlayScene(name);
 
