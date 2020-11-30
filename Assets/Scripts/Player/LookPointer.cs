@@ -9,7 +9,7 @@ public class LookPointer : MonoBehaviour
 
     void Awake()
     {
-        _camera = Camera.main;
+        _camera = GameObject.FindWithTag("Plan Camera").GetComponent<Camera>();
     }
 
     void Update()
