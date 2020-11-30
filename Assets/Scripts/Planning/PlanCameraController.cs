@@ -20,7 +20,7 @@ public class PlanCameraController : MonoBehaviour
         var vertical = Input.GetAxis("Vertical");
 
         var move = new Vector3(horizontal, 0f, vertical);
-        _move = _move.Fallout(move, fallout);
+        _move = _move.FalloutUnscaled(move, fallout);
 
         transform.position = transform.position + _move * speed * Time.unscaledDeltaTime;
     }

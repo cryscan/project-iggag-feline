@@ -944,7 +944,7 @@ MonoBehaviour:
   alertDuration: 10
   sightAlertSpeed: 10
   hearAlertSpeed: 3
-  hearRange: 4
+  hearRange: 3
   hearNominalSpeed: 4
   _light: {fileID: 5104854461967296586}
 --- !u!114 &1034199816588944579
@@ -973,7 +973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2fbd01277b980226a3a7fff24a16e69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 10
+  range: 5
 --- !u!114 &895092746486669333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -986,7 +986,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dadf6dcaa18c6b6d8c6428b7ae84eee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 10
+  range: 5
 --- !u!114 &3070485412194733261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -999,7 +999,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc83a8cdb71b99385933085abb096131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 10
+  range: 5
 --- !u!114 &1609914989272660047
 MonoBehaviour:
   m_ObjectHideFlags: 0

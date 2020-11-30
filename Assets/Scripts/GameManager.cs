@@ -153,7 +153,7 @@ public class GameManager : MonoBehaviour
         GlobalVariables.Instance.GetVariable("Restarted").SetValue(true);
     }
 
-    public void EnterPlanSceneRelocate(string name)
+    public void EnterPlanSceneRelocate(string name, bool fade = false)
     {
         var player = GameObject.FindWithTag("Player");
         var position = player.transform.position;
@@ -169,7 +169,8 @@ public class GameManager : MonoBehaviour
             controller.enabled = false;
             player.transform.SetPositionAndRotation(position, rotation);
             controller.enabled = _enabled;
-        }));
+        },
+        fade));
     }
 
     public void EnterPlaySceneRelocate(string name, bool fade = false)

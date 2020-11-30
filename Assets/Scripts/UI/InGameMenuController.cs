@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class InGameMenuController : MonoBehaviour
 {
     [SerializeField] GameObject container;
+    [SerializeField] bool restartable = true;
 
     bool active = false;
 
@@ -25,7 +26,7 @@ public class InGameMenuController : MonoBehaviour
             else GameManager.instance.PopPauseState();
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && GameManager.instance.currentState != GameState.Paused)
+        if (Input.GetKeyDown(KeyCode.R) && restartable && GameManager.instance.currentState != GameState.Paused)
         {
             GameManager.instance.RestartCurrentScene();
         }
