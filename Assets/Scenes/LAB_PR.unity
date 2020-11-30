@@ -8747,7 +8747,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1888164888, guid: e618669c5fe99fce7b5cd92f2d3611cf, type: 3}
       propertyPath: sceneName
-      value: Heist 200
+      value: Heist 102
+      objectReference: {fileID: 0}
+    - target: {fileID: 1888164888, guid: e618669c5fe99fce7b5cd92f2d3611cf, type: 3}
+      propertyPath: plan
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5773382476082906786, guid: e618669c5fe99fce7b5cd92f2d3611cf,
         type: 3}
@@ -10802,7 +10806,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1968879923}
-  m_LocalRotation: {x: 0.012603933, y: -0.27231988, z: 0.0035674367, w: 0.9621177}
+  m_LocalRotation: {x: 0.012603914, y: -0.27231988, z: 0.0035674316, w: 0.9621177}
   m_LocalPosition: {x: 2, y: 0.25, z: -3.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
