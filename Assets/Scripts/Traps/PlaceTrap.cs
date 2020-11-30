@@ -24,7 +24,7 @@ public class PlaceTrap : MonoBehaviour
 
     private void Awake()
     {
-        _camera = Camera.main;
+        _camera = GameObject.FindWithTag("Plan Camera").GetComponent<Camera>();
         trap = prefab.GetComponent<TrapBase>();
         indicator = GetComponent<RangeIndicator>();
         counter.count = initialCount;
