@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using ReGoap.Core;
-
 public abstract class Role : MonoBehaviour
 {
     [SerializeField] GameObject _reservation;

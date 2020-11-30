@@ -32,6 +32,7 @@ public class PlayerStep : MonoBehaviour
 
     float blend = 0;
     bool stepped = false;
+    float speed;
 
     void Awake()
     {
@@ -44,7 +45,7 @@ public class PlayerStep : MonoBehaviour
     {
         var velocity = controller.velocity;
         velocity.y = 0;
-        var speed = velocity.magnitude;
+        speed = velocity.magnitude;
 
         float target = Mathf.Clamp01(speed / movement.moveSpeed);
         blend = blend.Fallout(target, fallout);
@@ -57,7 +58,10 @@ public class PlayerStep : MonoBehaviour
     float Oscillation()
     {
         var frequency = 2 * Mathf.PI / period;
-        var oscillation = Mathf.Sin(frequency * Time.time);
+        var blend1 = Mathf.Clamp01((speed - movement.moveSpeed) / (movement.sprintSpeed - movement.moveSpeed));
+        var slow = Mathf.Sin(frequency * Time.time);
+        var fast = Mathf.Sin(frequency * (movement.sprintSpeed / movement.moveSpeed) * Time.time);
+        var oscillation = Mathf.Lerp(slow, fast, blend1);
 
         if (oscillation < -0.8f && !stepped)
         {
@@ -73,6 +77,6 @@ public class PlayerStep : MonoBehaviour
         }
         if (oscillation > -0.8f) stepped = false;
 
-        return blend * amplitude * oscillation;
+        return blend * amplitude * oscillation / (1 + blend1);
     }
 }

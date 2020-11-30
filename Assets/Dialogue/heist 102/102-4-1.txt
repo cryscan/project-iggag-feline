@@ -2,5 +2,7 @@ We have just scheduled 2 attacks which will overload the transformers inside bot
 At most 2 guards will be distracted each time.
 This attack will also break the transformers,
 so one of the nearby guards will stay there to repair it.
-Use the time to get through,
+Fact: their software is single-threaded,
+they cannot chase or attack you when doing repairing or something else.
+Take the chance to get through,
 and this time you won't be given a second chance.

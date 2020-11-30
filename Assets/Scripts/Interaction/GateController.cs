@@ -64,6 +64,12 @@ public class GateController : Breakable
         open = true;
     }
 
+    public override void Repair()
+    {
+        base.Repair();
+        Close();
+    }
+
     void OnTrapActivated(TrapActivateEvent @event)
     {
         /*

@@ -22,7 +22,7 @@ public class PlanCameraController : MonoBehaviour
         var move = new Vector3(horizontal, 0f, vertical);
         _move = _move.Fallout(move, fallout);
 
-        transform.position = transform.position + _move * speed * Time.deltaTime;
+        transform.position = transform.position + _move * speed * Time.unscaledDeltaTime;
     }
 
     IEnumerator ResetCoroutine()

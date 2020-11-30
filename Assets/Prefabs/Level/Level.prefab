@@ -211,6 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73652cd1c8ebf473f8cd425811ad8463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startState: 1
 --- !u!1 &1246845366097339765
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,6 +447,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   practiceMode: 0
+  startState: 0
   pauseTimeScaleFallout: 10
 --- !u!114 &4564816866489517556
 MonoBehaviour:
@@ -661,7 +663,7 @@ MonoBehaviour:
     m_Bits: 1048576
   blockLayers:
     serializedVersion: 2
-    m_Bits: 1572864
+    m_Bits: 1572865
   initialCount: 10
   counter: {fileID: 11400000, guid: fbb927768263f2833bb802401ecdff07, type: 2}
 --- !u!1 &7848045730766794760
