@@ -1013,6 +1013,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 4
+  _sprintSpeed: 6
   fallout: 10
   _state: 0
 --- !u!114 &3409671049605587411
@@ -1098,10 +1099,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rayCastLayers:
     serializedVersion: 2
-    m_Bits: 1080321
+    m_Bits: 1063937
   interactLayers:
     serializedVersion: 2
-    m_Bits: 24576
+    m_Bits: 8192
   distance: 2
 --- !u!114 &8570980483277433698
 MonoBehaviour:

@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Heist 200/Heist 202.unity
     guid: c22dd70821e2af35fb83229b65beaaf2
+  - enabled: 1
+    path: Assets/Scenes/Heist 200/Heist 203.unity
+    guid: 39caa9783a9191c47b52e7cb1715a33f
   m_configObjects: {}
