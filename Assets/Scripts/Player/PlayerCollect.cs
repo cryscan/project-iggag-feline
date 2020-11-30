@@ -47,7 +47,7 @@ public class PlayerCollect : MonoBehaviour
             if (document)
             {
                 document.SetActive(false);
-                door.GetComponent<GameDoor>().condition = true;
+                door.SetActive(true);
             }
         }
     }
