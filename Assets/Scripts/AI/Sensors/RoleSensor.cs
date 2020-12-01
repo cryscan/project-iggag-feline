@@ -38,9 +38,10 @@ namespace Feline.AI.Sensors
                 var query = from x in ts
                             where Criteria(x)
                             select x.gameObject;
+                var list = query.ToList();
 
                 int index;
-                var nearest = FindNearest.FindNearestGameObject(query.ToList(), transform.position, out index);
+                var nearest = FindNearest.FindNearestGameObject(list, transform.position, out index);
                 state.Set($"Nearest {type}", nearest.GetComponent<T>());
             }
         }

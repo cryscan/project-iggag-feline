@@ -17,7 +17,7 @@ public class FindNearest : MonoBehaviour
             if (distance < min)
             {
                 result = point;
-                distance = min;
+                min = distance;
                 index = i;
             }
         }
