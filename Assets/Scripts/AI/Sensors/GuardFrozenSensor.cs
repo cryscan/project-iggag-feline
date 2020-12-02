@@ -74,7 +74,7 @@ namespace Feline.AI.Sensors
         IEnumerator FrozenCoroutine(float duration)
         {
             _light.enabled = false;
-            _collider.enabled = false;
+            _collider.isTrigger = true;
             detection.enabled = false;
             sensor.enabled = false;
 
@@ -90,7 +90,7 @@ namespace Feline.AI.Sensors
             frozen = false;
 
             _light.enabled = true;
-            _collider.enabled = true;
+            _collider.isTrigger = false;
             detection.enabled = true;
             sensor.enabled = true;
 

@@ -161,8 +161,9 @@ namespace Feline.AI.Sensors
             var distance = Vector3.Distance(@event.position, transform.position);
             if (distance < hearRange)
             {
-                var normalizedSpeed = @event.velocity.magnitude / hearNominalSpeed;
-                alertLevel += normalizedSpeed * hearAlertSpeed;
+                var velocity = @event.velocity;
+                velocity.y = 0;
+                alertLevel += velocity.magnitude / hearNominalSpeed * hearAlertSpeed;
             }
         }
 
