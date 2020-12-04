@@ -36,9 +36,11 @@ public class ConeDetection : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.instance.currentState != GameState.Play) return;
-        foreach (var target in targets) Detect(target);
-        Follow();
+        if (GameManager.instance.currentState == GameState.Play)
+        {
+            foreach (var target in targets) Detect(target);
+            Follow();
+        }
     }
 
     void OnDrawGizmos()
