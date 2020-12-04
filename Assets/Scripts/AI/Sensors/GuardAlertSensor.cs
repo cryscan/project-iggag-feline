@@ -130,6 +130,12 @@ namespace Feline.AI.Sensors
             alerted = false;
         }
 
+        public void Distract(Vector3 position)
+        {
+            Alert(alertDuration);
+            spottedPosition = position;
+        }
+
         void OnDrawGizmos()
         {
             if (player)
@@ -175,14 +181,8 @@ namespace Feline.AI.Sensors
             {
                 var distraction = @event.trap as DistractionTrap;
                 var distance = Vector3.Distance(transform.position, distraction.transform.position);
-
-                if (distance < distraction.range && !distraction.ReachedMaxCount() && !alerted)
-                // if (!distraction.ReachedMaxCount() && !frozen && !searching)
-                {
-                    Alert(alertDuration);
-                    spottedPosition = position;
-                    distraction.IncreaseCount();
-                }
+                if (distance < distraction.range && !alerted)
+                    distraction.RegisterSensor(this);
             }
         }
 

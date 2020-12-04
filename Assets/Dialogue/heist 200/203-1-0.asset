@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: 203-1-0
   m_EditorClassIdentifier: 
   text: {fileID: 4900000, guid: ae8107803daf502a0ae5cc0b56fec198, type: 3}
-  pause: 0
+  pause: 1
   once: 1

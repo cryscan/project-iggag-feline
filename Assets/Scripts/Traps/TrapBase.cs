@@ -30,7 +30,7 @@ public abstract class TrapBase : MonoBehaviour
         EventBus.Unsubscribe(handler);
     }
 
-    public void Activate()
+    public virtual void Activate()
     {
         // EventBus.Publish(new TrapActivateEvent() { trap = this });
         var activated = Instantiate(activatedPrefab, transform.position, transform.rotation);
