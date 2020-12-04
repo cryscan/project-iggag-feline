@@ -3,23 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[CreateAssetMenu(menuName = "Dialogue", fileName = "New Dialogue")]
-public class Dialogue : ScriptableObject
-{
-    public TextAsset text;
-    public bool pause = false;
-    public bool once = true;
-
-    public bool triggered { get; set; } = false;
-    public string[] sentences { get; private set; }
-
-    void OnEnable()
-    {
-        triggered = false;
-        sentences = text.text.Split('\n');
-    }
-}
-
 public class DialogueController : MonoBehaviour
 {
     [SerializeField] GameObject container;
