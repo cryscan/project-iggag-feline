@@ -2,13 +2,11 @@ using UnityEngine;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 
-public class StartSchedule : Action
+public class ClearSchedule : Action
 {
     public override TaskStatus OnUpdate()
     {
-        ScheduleManager.instance.ResetTimer();
-        ScheduleManager.instance.DeploySchedule();
-
+        ScheduleManager.instance.ClearSchedule();
         return TaskStatus.Success;
     }
 }

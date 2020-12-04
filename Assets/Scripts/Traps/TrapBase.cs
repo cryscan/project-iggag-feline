@@ -42,6 +42,6 @@ public abstract class TrapBase : MonoBehaviour
 
     void OnScheduleTimer(ScheduleTimerEvent @event)
     {
-        if (@event.prefab == gameObject) Activate();
+        if (@event._object == gameObject) Activate();
     }
 }

@@ -3,11 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[System.Serializable]
-public class Dialogue
+[CreateAssetMenu(menuName = "Dialogue", fileName = "New Dialogue")]
+public class Dialogue : ScriptableObject
 {
+    public TextAsset text;
     public bool pause = false;
-    public string[] sentences;
+    public bool once = true;
+
+    public bool triggered { get; set; } = false;
+    public string[] sentences { get; private set; }
+
+    void OnEnable()
+    {
+        triggered = false;
+        sentences = text.text.Split('\n');
+    }
 }
 
 public class DialogueController : MonoBehaviour
@@ -51,10 +61,14 @@ public class DialogueController : MonoBehaviour
 
     public void StartDialogue(Dialogue dialogue)
     {
+        if (dialogue.triggered && dialogue.once) return;
+
         if (running) EndDialogue();
 
         running = true;
         this.dialogue = dialogue;
+
+        dialogue.triggered = true;
 
         // Pause Game here
         // GameManager.instance.TogglePause();
@@ -65,7 +79,7 @@ public class DialogueController : MonoBehaviour
         foreach (string sentence in dialogue.sentences) sentences.Enqueue(sentence);
 
         // EventBus.Publish(new DialogueEvent(true, dialogue.topic));
-        if (dialogue.pause) GameManager.instance.PushPauseState();
+        if (dialogue.pause) GameManager.instance.PushState(GameState.Paused);
 
         DisplayNextSentence();
     }
