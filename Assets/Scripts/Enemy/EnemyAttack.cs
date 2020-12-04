@@ -7,15 +7,11 @@ public class EnemyAttack : MonoBehaviour
 {
     [SerializeField] GameObject prefab;
     [SerializeField] GameObject view;
-    GameObject player;
-
-    void Awake()
-    {
-        player = GameObject.FindGameObjectWithTag("Player");
-    }
 
     void OnCollisionEnter(Collision collision)
     {
+        if (GameManager.instance.currentState != GameState.Play) return;
+
         if (collision.gameObject.CompareTag("Player"))
         {
             // GameManager.instance.GameOverReturn();

@@ -55,21 +55,6 @@ public class ScheduleManager : MonoBehaviour
         if (state == GameState.Plan || state == GameState.Play) timer += Time.deltaTime;
     }
 
-    IEnumerator ScheduleExecuteCoroutine()
-    {
-        while (schedules.Count > 0)
-        {
-            // Important, or the first one will be missing on the timeline.
-            yield return null;
-
-            var schedule = schedules[0];
-            schedules.RemoveAt(0);
-
-            yield return new WaitForSeconds(schedule.timer - timer);
-            EventBus.Publish(schedule);
-        }
-    }
-
     public void SetMaxTime(float time) => maxTime = time;
 
     public void SetSceneName(string name) => sceneName = name;

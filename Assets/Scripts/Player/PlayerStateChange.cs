@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerStateChange : MonoBehaviour
 {
-    Subscription<GameStateChangeEvent> handler;
-
     PlayerLook playerLook;
     PlayerMovement playerMovement;
     CharacterController controller;
@@ -16,30 +14,21 @@ public class PlayerStateChange : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         controller = GetComponent<CharacterController>();
     }
-    private void OnEnable()
-    {
-        handler = EventBus.Subscribe<GameStateChangeEvent>(OnGameStateChanged);
-    }
 
-    private void OnDisable()
+    void Update()
     {
-        EventBus.Unsubscribe(handler);
-    }
-
-    void OnGameStateChanged(GameStateChangeEvent @event)
-    {
-        if (@event.current == GameState.Plan)
+        var state = GameManager.instance.currentState;
+        if (state == GameState.Plan)
         {
             playerLook.enabled = false;
             playerMovement.enabled = false;
-            controller.enabled = false;
+            // controller.enabled = false;
         }
-
-        if (@event.current == GameState.Play && @event.previous == GameState.Plan)
+        else if (state == GameState.Play)
         {
             playerLook.enabled = true;
             playerMovement.enabled = true;
-            controller.enabled = true;
+            // controller.enabled = true;
         }
     }
 }
