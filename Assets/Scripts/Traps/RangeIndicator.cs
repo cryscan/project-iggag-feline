@@ -41,6 +41,8 @@ public class RangeIndicator : MonoBehaviour
         if (GameManager.instance.currentState == GameState.Play) _camera = mainCamera;
         else if (GameManager.instance.currentState == GameState.Plan) _camera = planCamera;
 
+        if (!_camera || !UICamera) return;
+
         for (int i = 0; i < points.Length; ++i)
         {
             var angle = 2 * Mathf.PI * i / segments;

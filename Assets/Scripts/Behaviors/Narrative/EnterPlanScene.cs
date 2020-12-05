@@ -9,7 +9,7 @@ public class EnterPlanScene : Action
 
     public override TaskStatus OnUpdate()
     {
-        GameManager.instance.EnterPlanSceneRelocate(name, fade);
+        GameManager.instance.EnterSceneRelocate(name, GameState.Plan, fade);
         return TaskStatus.Success;
     }
 }

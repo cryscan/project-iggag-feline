@@ -99,20 +99,26 @@ public class GameManager : MonoBehaviour
 
     public void RestartCurrentScene()
     {
+        if (transiting) return;
+
         var index = SceneManager.GetActiveScene().buildIndex;
-        if (startState == GameState.Plan) EnterPlanScene(index);
-        else if (startState == GameState.Play) EnterPlayScene(index);
+
+        states = new Stack<GameState>();
+        states.Push(GameState.Start);
+        StartCoroutine(LoadSceneCoroutine(index, null, null, true));
 
         GlobalVariables.Instance.GetVariable("Restarted").SetValue(true);
     }
 
-    public void EnterPlanSceneRelocate(string name, bool fade = false)
+    public void EnterSceneRelocate(string name, GameState? state = null, bool fade = false)
     {
+        if (transiting) return;
+
         var player = GameObject.FindWithTag("Player");
         var position = player.transform.position;
         var rotation = player.transform.rotation;
 
-        StartCoroutine(LoadSceneCoroutine(name, GameState.Plan, () =>
+        System.Action callback = () =>
         {
             player = GameObject.FindWithTag("Player");
             var controller = player.GetComponent<CharacterController>();
@@ -121,25 +127,9 @@ public class GameManager : MonoBehaviour
             controller.enabled = false;
             player.transform.SetPositionAndRotation(position, rotation);
             controller.enabled = _enabled;
-        }, fade));
-    }
+        };
 
-    public void EnterPlaySceneRelocate(string name, bool fade = false)
-    {
-        var player = GameObject.FindWithTag("Player");
-        var position = player.transform.position;
-        var rotation = player.transform.rotation;
-
-        StartCoroutine(LoadSceneCoroutine(name, GameState.Play, () =>
-        {
-            player = GameObject.FindWithTag("Player");
-            var controller = player.GetComponent<CharacterController>();
-            var _enabled = controller.enabled;
-
-            controller.enabled = false;
-            player.transform.SetPositionAndRotation(position, rotation);
-            controller.enabled = _enabled;
-        }, fade));
+        StartCoroutine(LoadSceneCoroutine(name, state, callback, fade));
     }
 
     IEnumerator LoadSceneCoroutine(int index, GameState? state = null, System.Action callback = null, bool fade = false)
