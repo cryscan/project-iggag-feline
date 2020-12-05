@@ -5,6 +5,7 @@ using UnityEngine;
 public class TransformerController : Breakable
 {
     [SerializeField] LinearProgressBar progressBar;
+    [SerializeField] float fallout = 10;
 
     [SerializeField] int maxHitPoint = 10;
     [SerializeField] int repairHitPoint = 1;
@@ -35,7 +36,7 @@ public class TransformerController : Breakable
     {
         base.Update();
 
-        progressBar.current = hitPoint;
+        progressBar.current = progressBar.current.Fallout(hitPoint, fallout);
         timer += Time.deltaTime;
     }
 
