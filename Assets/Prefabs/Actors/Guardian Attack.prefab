@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 8307220364549445158}
   - component: {fileID: 957651159144006296}
   - component: {fileID: 9012082103955577870}
+  - component: {fileID: 1694261327390244480}
   m_Layer: 5
   m_Name: Replan Hint
   m_TagString: Untagged
@@ -203,6 +204,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: You can choose to replan from game menu
+--- !u!114 &1694261327390244480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2304772670960944194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfa97503d0c0291dbab97c59f75d1c90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3020360266663926381
 GameObject:
   m_ObjectHideFlags: 0
