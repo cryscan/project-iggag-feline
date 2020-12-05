@@ -203,7 +203,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: You can choose to replan from game menu
+  m_Text: You can choose to replan from the menu
 --- !u!114 &1694261327390244480
 MonoBehaviour:
   m_ObjectHideFlags: 0
