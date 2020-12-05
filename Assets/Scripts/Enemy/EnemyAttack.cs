@@ -7,15 +7,11 @@ public class EnemyAttack : MonoBehaviour
 {
     [SerializeField] GameObject prefab;
     [SerializeField] GameObject view;
-    GameObject player;
-
-    void Awake()
-    {
-        player = GameObject.FindGameObjectWithTag("Player");
-    }
 
     void OnCollisionEnter(Collision collision)
     {
+        if (GameManager.instance.currentState != GameState.Play) return;
+
         if (collision.gameObject.CompareTag("Player"))
         {
             // GameManager.instance.GameOverReturn();
@@ -34,7 +30,7 @@ public class EnemyAttack : MonoBehaviour
 
     public void FadeOut() => EventBus.Publish(new FadeOutEvent());
 
-    public void GameOver() => GameManager.instance.RestartCurrentScene();
+    public void GameOver() => GameManager.instance.RestartCurrentScene(GameState.Play);
     public void GameOverReturn(int index) => GameManager.instance.GameOverReturn(index);
     public void EnterPlanScene(string name) => GameManager.instance.EnterPlanScene(name);
     public void EnterPlayScene(string name) => GameManager.instance.EnterPlayScene(name);

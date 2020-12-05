@@ -3,13 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[System.Serializable]
-public class Dialogue
-{
-    public bool pause = false;
-    public string[] sentences;
-}
-
 public class DialogueController : MonoBehaviour
 {
     [SerializeField] GameObject container;
@@ -51,10 +44,14 @@ public class DialogueController : MonoBehaviour
 
     public void StartDialogue(Dialogue dialogue)
     {
+        if (dialogue.triggered && dialogue.once) return;
+
         if (running) EndDialogue();
 
         running = true;
         this.dialogue = dialogue;
+
+        dialogue.triggered = true;
 
         // Pause Game here
         // GameManager.instance.TogglePause();
@@ -65,7 +62,7 @@ public class DialogueController : MonoBehaviour
         foreach (string sentence in dialogue.sentences) sentences.Enqueue(sentence);
 
         // EventBus.Publish(new DialogueEvent(true, dialogue.topic));
-        if (dialogue.pause) GameManager.instance.PushPauseState();
+        if (dialogue.pause) GameManager.instance.PushState(GameState.Paused);
 
         DisplayNextSentence();
     }

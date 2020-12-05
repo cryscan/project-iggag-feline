@@ -22,14 +22,12 @@ public class InGameMenuController : MonoBehaviour
         {
             active = !active;
             container.SetActive(active);
-            if (active) GameManager.instance.PushPauseState();
+            if (active) GameManager.instance.PushState(GameState.Paused);
             else GameManager.instance.PopPauseState();
         }
 
         if (Input.GetKeyDown(KeyCode.R) && restartable && GameManager.instance.currentState != GameState.Paused)
-        {
             GameManager.instance.RestartCurrentScene();
-        }
     }
 
     public void MainMenuButton(int index = 0)
@@ -42,8 +40,7 @@ public class InGameMenuController : MonoBehaviour
     public void RestartStage()
     {
         GameManager.instance.PopPauseState();
-        Scene scene = SceneManager.GetActiveScene();
-        GameManager.instance.EnterPlanScene(scene.name);
+        GameManager.instance.RestartCurrentScene();
     }
 
     public void ExitGame()

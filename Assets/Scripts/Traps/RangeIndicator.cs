@@ -21,8 +21,8 @@ public class RangeIndicator : MonoBehaviour
     void Awake()
     {
         _camera = mainCamera = Camera.main;
-        planCamera = GameObject.FindWithTag("Plan Camera").GetComponent<Camera>();
-        UICamera = GameObject.FindWithTag("UI Camera").GetComponent<Camera>();
+        planCamera = GameObject.FindWithTag("Plan Camera")?.GetComponent<Camera>();
+        UICamera = GameObject.FindWithTag("UI Camera")?.GetComponent<Camera>();
 
         points = new Vector3[segments + 1];
 
@@ -40,6 +40,8 @@ public class RangeIndicator : MonoBehaviour
     {
         if (GameManager.instance.currentState == GameState.Play) _camera = mainCamera;
         else if (GameManager.instance.currentState == GameState.Plan) _camera = planCamera;
+
+        if (!_camera || !UICamera) return;
 
         for (int i = 0; i < points.Length; ++i)
         {

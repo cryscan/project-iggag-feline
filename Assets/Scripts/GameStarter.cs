@@ -8,20 +8,8 @@ public class GameStarter : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(StarterCoroutine());
-    }
-
-    IEnumerator StarterCoroutine()
-    {
-        yield return null;
-
-        if (GameManager.instance.currentState == GameState.Start)
-        {
-            if (startState == GameState.Plan) GameManager.instance.StartPlan();
-            else if (startState == GameState.Play) GameManager.instance.StartPlay();
-            else Debug.LogError($"[Game Starter] unsupported start state {startState}");
-        }
-
-        GameManager.instance.startState = startState;
+        var game = GameManager.instance;
+        game.startState = startState;
+        if (game.currentState == GameState.Start) game.PushState(startState);
     }
 }

@@ -180,6 +180,7 @@ public class GuardReaction : MonoBehaviour
             DistractionTrap distraction = (DistractionTrap)@event.trap;
             distance = Vector3.Distance(transform.position, distraction.transform.position);
 
+            /*
             if (distance < distraction.range && !distraction.ReachedMaxCount() && !frozen && !searching)
             // if (!distraction.ReachedMaxCount() && !frozen && !searching)
             {
@@ -188,6 +189,7 @@ public class GuardReaction : MonoBehaviour
                 searching = true;
                 distraction.IncreaseCount();
             }
+            */
         }
     }
 

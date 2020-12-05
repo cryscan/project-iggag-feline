@@ -19,7 +19,7 @@ public class GameDoor : MonoBehaviour
             {
                 if (!GameManager.instance.practiceMode)
                 {
-                    MainMenuController.UnlockLevel(nextLevelNum);
+                    // MainMenuController.UnlockLevel(nextLevelNum);
                 }
 
                 StartCoroutine(WinCoroutine());

@@ -8,7 +8,6 @@ public class StartSchedule : Action
     {
         ScheduleManager.instance.ResetTimer();
         ScheduleManager.instance.DeploySchedule();
-        ScheduleManager.instance.ExecuteSchedule();
 
         return TaskStatus.Success;
     }

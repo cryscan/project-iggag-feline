@@ -119,7 +119,7 @@ public class MemoController : MonoBehaviour
         var icon = @event.prefab.GetComponent<TrapIcon>();
         if (icon)
         {
-            var amount = @event.timer / progress.max;
+            var amount = @event.timer / ScheduleManager.instance.maxTime;
             var position = progress.GetMiddlePoint(amount);
             Debug.Log($"{Screen.width}, {Screen.height}, {progress.start}, {progress.end}, {position.x}");
 
