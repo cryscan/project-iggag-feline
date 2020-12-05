@@ -97,15 +97,20 @@ public class GameManager : MonoBehaviour
     public void EnterPlayScene(int index, bool fade = false) => StartCoroutine(LoadSceneCoroutine(index, GameState.Play, null, fade));
     public void EnterPlayScene(string name, bool fade = false) => StartCoroutine(LoadSceneCoroutine(name, GameState.Play, null, fade));
 
-    public void RestartCurrentScene()
+    public void RestartCurrentScene(GameState? state = null)
     {
         if (transiting) return;
 
         var index = SceneManager.GetActiveScene().buildIndex;
 
-        states = new Stack<GameState>();
-        states.Push(GameState.Start);
-        StartCoroutine(LoadSceneCoroutine(index, null, null, true));
+        if (state.HasValue)
+            StartCoroutine(LoadSceneCoroutine(index, state.Value, null, false));
+        else
+        {
+            states = new Stack<GameState>();
+            states.Push(GameState.Start);
+            StartCoroutine(LoadSceneCoroutine(index, null, null, true));
+        }
 
         GlobalVariables.Instance.GetVariable("Restarted").SetValue(true);
     }
