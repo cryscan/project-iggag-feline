@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] float maxSprintTime = 5;
     [SerializeField] LinearProgressBar staminaProgress, recoveryProgress;
+    [SerializeField] AudioSource breathAudio;
 
     bool canSprint = true;
     float stamina, recovery;
@@ -71,6 +72,13 @@ public class PlayerMovement : MonoBehaviour
 
         staminaProgress.current = staminaProgress.current.Fallout(stamina, fallout);
         recoveryProgress.current = recoveryProgress.current.Fallout(recovery, fallout);
+
+        if (!canSprint)
+        {
+            var volume = (maxSprintTime - recovery) / maxSprintTime;
+            breathAudio.volume = breathAudio.volume.Fallout(volume, fallout);
+        }
+        else breathAudio.volume = 0;
     }
 
     void UpdateVelocity()
