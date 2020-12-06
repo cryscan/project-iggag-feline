@@ -59211,6 +59211,11 @@ PrefabInstance:
       propertyPath: count
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3123486146084867198, guid: 19400f7c7021481f78badcc4b9588e4d,
+        type: 3}
+      propertyPath: hasTimeLimit
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3589704658324581205, guid: 19400f7c7021481f78badcc4b9588e4d,
         type: 3}
       propertyPath: m_LocalPosition.x
