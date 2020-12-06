@@ -38,8 +38,10 @@ public class GameManager : MonoBehaviour
 
     public bool transiting { get; private set; } = false;
 
-    [SerializeField] float pauseTimeScaleFallout = 10;
-    float targetTimeScale = 1;
+    [SerializeField] float timeScaleFallout = 10;
+    [SerializeField] float fastTimeScale = 4;
+    float timeScale = 1;
+    bool fast = false;
 
     void Awake()
     {
@@ -60,12 +62,11 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        // UpdatePlanState();
+        if (currentState == GameState.Paused) timeScale = 0;
+        else if (currentState == GameState.Plan) timeScale = fast ? fastTimeScale : 1;
+        else timeScale = 1;
 
-        // if (Input.GetKeyDown(KeyCode.Escape)) TogglePause();
-
-        targetTimeScale = currentState == GameState.Paused ? 0 : 1;
-        Time.timeScale = Time.timeScale.FalloutUnscaled(targetTimeScale, pauseTimeScaleFallout);
+        Time.timeScale = Time.timeScale.FalloutUnscaled(timeScale, timeScaleFallout);
     }
 
     public void PushState(GameState state)
@@ -88,6 +89,8 @@ public class GameManager : MonoBehaviour
         EventBus.Publish(new GameStateChangeEvent(previous, currentState));
         Debug.Log($"[Game Manager] popped state {previous}, now {currentState}");
     }
+
+    public void SetFast(bool fast) => this.fast = fast;
 
     public void GameOverReturn(int index = 0, bool fade = false) => StartCoroutine(LoadSceneCoroutine(index, GameState.Start, null, fade));
 

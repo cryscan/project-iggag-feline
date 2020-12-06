@@ -17,10 +17,14 @@ public class DialogueController : MonoBehaviour
 
     bool typing = false;
 
+    AudioSource audioSource;
+
     void Awake()
     {
         sentences = new Queue<string>();
         container.SetActive(false);
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Start()
@@ -52,19 +56,28 @@ public class DialogueController : MonoBehaviour
         this.dialogue = dialogue;
 
         dialogue.triggered = true;
-
-        // Pause Game here
-        // GameManager.instance.TogglePause();
-
-        container.SetActive(true);
-
-        sentences.Clear();
-        foreach (string sentence in dialogue.sentences) sentences.Enqueue(sentence);
-
-        // EventBus.Publish(new DialogueEvent(true, dialogue.topic));
         if (dialogue.pause) GameManager.instance.PushState(GameState.Paused);
 
-        DisplayNextSentence();
+        if (dialogue.audio)
+        {
+            audioSource.clip = dialogue.audio;
+            audioSource.Play();
+        }
+
+        if (dialogue.voice)
+        {
+            StopAllCoroutines();
+            StartCoroutine(PlayVoiceCoroutine());
+        }
+        else
+        {
+            container.SetActive(true);
+
+            sentences.Clear();
+            foreach (string sentence in dialogue.sentences) sentences.Enqueue(sentence);
+
+            DisplayNextSentence();
+        }
     }
 
     public void DisplayNextSentence()
@@ -77,7 +90,7 @@ public class DialogueController : MonoBehaviour
 
         currentSentence = sentences.Dequeue();
         StopAllCoroutines();
-        StartCoroutine(TypeSentence(currentSentence));
+        StartCoroutine(TypeSentenceCoroutine(currentSentence));
 
         Debug.Log("[Dialogue] sentence displayed");
     }
@@ -95,7 +108,7 @@ public class DialogueController : MonoBehaviour
         text.text = currentSentence;
     }
 
-    IEnumerator TypeSentence(string sentence)
+    IEnumerator TypeSentenceCoroutine(string sentence)
     {
         typing = true;
         text.text = "";
@@ -107,20 +120,24 @@ public class DialogueController : MonoBehaviour
         typing = false;
     }
 
+    IEnumerator PlayVoiceCoroutine()
+    {
+        var duration = dialogue.audio.length;
+        yield return new WaitForSeconds(duration);
+
+        EndDialogue();
+    }
+
     public void EndDialogue()
     {
-        if (dialogue.pause) GameManager.instance.PopPauseState();
+        if (!dialogue) return;
+
+        if (dialogue.pause)
+            GameManager.instance.PopPauseState();
+
         dialogue = null;
-
         currentSentence = null;
-
         running = false;
-
-        // EventBus.Publish(new DialogueEvent(false, topic));
-
-        // Resume Game here
-        // GameManager.instance.TogglePause();
-        // canvas.GetComponent<GraphicRaycaster>().enabled = false;
 
         Debug.Log("[Dialogue] end of conversation");
 
