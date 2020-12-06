@@ -73,12 +73,8 @@ public class PlayerMovement : MonoBehaviour
         staminaProgress.current = staminaProgress.current.Fallout(stamina, fallout);
         recoveryProgress.current = recoveryProgress.current.Fallout(recovery, fallout);
 
-        if (!canSprint)
-        {
-            var volume = (maxSprintTime - recovery) / maxSprintTime;
-            breathAudio.volume = breathAudio.volume.Fallout(volume, fallout);
-        }
-        else breathAudio.volume = 0;
+        var volume = (maxSprintTime - stamina) / maxSprintTime;
+        breathAudio.volume = breathAudio.volume.Fallout(volume, fallout);
     }
 
     void UpdateVelocity()
