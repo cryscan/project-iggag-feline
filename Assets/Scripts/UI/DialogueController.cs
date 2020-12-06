@@ -130,6 +130,8 @@ public class DialogueController : MonoBehaviour
 
     public void EndDialogue()
     {
+        if (!dialogue) return;
+
         if (dialogue.pause)
             GameManager.instance.PopPauseState();
 

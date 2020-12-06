@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Dialogue
   text: {fileID: 4900000, guid: 78400b632440b266d9765cbf15b05a0c, type: 3}
   pause: 0
-  once: 1
+  once: 0
+  audio: {fileID: 8300000, guid: c3b558726ebc822bf89081e59f2fbd97, type: 3}
+  voice: 1
