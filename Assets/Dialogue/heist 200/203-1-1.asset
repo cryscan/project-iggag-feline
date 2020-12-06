@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31e1026b3c1eabd1b9025f90f09a6807, type: 3}
   m_Name: 203-1-1
   m_EditorClassIdentifier: 
-  text: {fileID: 4900000, guid: 1e9d9e4b8eb9948c1821057e2de56a1b, type: 3}
-  pause: 0
-  once: 0
+  text: {fileID: 4900000, guid: ae8107803daf502a0ae5cc0b56fec198, type: 3}
+  pause: 1
+  once: 1
