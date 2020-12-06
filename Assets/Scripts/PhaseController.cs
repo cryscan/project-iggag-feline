@@ -13,6 +13,8 @@ public class PhaseController : MonoBehaviour
 
     [SerializeField] bool hasTimeLimit = true;
 
+    bool fast = false;
+
     void Awake()
     {
         if (sameScene) playSceneName = SceneManager.GetActiveScene().name;
@@ -21,6 +23,7 @@ public class PhaseController : MonoBehaviour
     void Start()
     {
         ScheduleManager.instance.SetMaxTime(_maxPlanTime);
+        GameManager.instance.SetFast(false);
     }
 
     void Update()
@@ -40,5 +43,11 @@ public class PhaseController : MonoBehaviour
 
         if (hasTimeLimit && ScheduleManager.instance.timer > maxPlanTime)
             game.EnterSceneRelocate(playSceneName, GameState.Play, true);
+
+        if (GameManager.instance.currentState == GameState.Plan && Input.GetKeyDown(KeyCode.E))
+        {
+            fast = !fast;
+            GameManager.instance.SetFast(fast);
+        }
     }
 }
