@@ -26,15 +26,16 @@ public class InGameMenuController : MonoBehaviour
             else GameManager.instance.PopPauseState();
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && restartable && GameManager.instance.currentState != GameState.Paused)
-            GameManager.instance.RestartCurrentScene();
+        var state = GameManager.instance.currentState;
+        if (Input.GetKeyDown(KeyCode.R) && restartable && state != GameState.Paused)
+            GameManager.instance.RestartCurrentScene(state);
     }
 
     public void MainMenuButton(int index = 0)
     {
         // UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
         GameManager.instance.PopPauseState();
-        GameManager.instance.GameOverReturn(index);
+        GameManager.instance.GameOverReturn(index, true);
     }
 
     public void RestartStage()

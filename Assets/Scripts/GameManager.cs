@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
         var index = SceneManager.GetActiveScene().buildIndex;
 
         if (state.HasValue)
-            StartCoroutine(LoadSceneCoroutine(index, state.Value, null, false));
+            StartCoroutine(LoadSceneCoroutine(index, state.Value, null, true));
         else
         {
             states = new Stack<GameState>();
