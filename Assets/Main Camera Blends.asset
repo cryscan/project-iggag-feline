@@ -49,7 +49,7 @@ MonoBehaviour:
   - m_From: CM vcam10
     m_To: '**ANY CAMERA**'
     m_Blend:
-      m_Style: 1
+      m_Style: 0
       m_Time: 2
       m_CustomCurve:
         serializedVersion: 2
