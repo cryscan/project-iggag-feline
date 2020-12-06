@@ -9,6 +9,9 @@ public class Dialogue : ScriptableObject
     public bool pause = false;
     public bool once = true;
 
+    public AudioClip audio;
+    public bool voice = false;
+
     public bool triggered { get; set; } = false;
     public string[] sentences { get; private set; }
 
