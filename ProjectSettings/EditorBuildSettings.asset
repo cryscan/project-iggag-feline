@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Heist 100/Heist 102.unity
     guid: a719ae555fdcc7a939efeb2ee03ab2ea
   - enabled: 1
-    path: Assets/Scenes/LAB_PR.unity
+    path: Assets/Scenes/Planning Room/LAB_PR.unity
     guid: c32e54914b63b14428aecd4b778fc4d5
   - enabled: 1
     path: Assets/Scenes/Heist 200/Heist 200.unity
