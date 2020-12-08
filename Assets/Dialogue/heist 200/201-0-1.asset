@@ -15,3 +15,7 @@ MonoBehaviour:
   text: {fileID: 4900000, guid: b9bdb3a459cea654cb017b80d086c9af, type: 3}
   pause: 0
   once: 0
+  audio: {fileID: 8300000, guid: f7f5222d55a16084d885fee26d0dcc7d, type: 3}
+  volume: 0.5
+  pitch: 1
+  voice: 0

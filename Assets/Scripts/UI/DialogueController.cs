@@ -61,6 +61,8 @@ public class DialogueController : MonoBehaviour
         if (dialogue.audio)
         {
             audioSource.clip = dialogue.audio;
+            audioSource.volume = dialogue.volume;
+            audioSource.pitch = dialogue.pitch;
             audioSource.Play();
         }
 
