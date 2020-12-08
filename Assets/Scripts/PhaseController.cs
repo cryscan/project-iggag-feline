@@ -5,20 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class PhaseController : MonoBehaviour
 {
-    [SerializeField] string playSceneName;
-    [SerializeField] bool sameScene = true;
-
     [SerializeField] int _maxPlanTime = 60;
     public int maxPlanTime { get => _maxPlanTime; }
 
     [SerializeField] bool hasTimeLimit = true;
 
     bool fast = false;
-
-    void Awake()
-    {
-        if (sameScene) playSceneName = SceneManager.GetActiveScene().name;
-    }
 
     void Start()
     {
@@ -38,11 +30,11 @@ public class PhaseController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (game.currentState == GameState.Plan && !game.transiting)
-                game.EnterSceneRelocate(playSceneName, GameState.Play, true);
+                game.RestartCurrentScene(GameState.Play);
         }
 
         if (hasTimeLimit && ScheduleManager.instance.timer > maxPlanTime)
-            game.EnterSceneRelocate(playSceneName, GameState.Play, true);
+            game.RestartCurrentScene(GameState.Play);
 
         if (GameManager.instance.currentState == GameState.Plan && Input.GetKeyDown(KeyCode.E))
         {

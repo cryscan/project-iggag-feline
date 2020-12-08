@@ -159,6 +159,46 @@ PrefabInstance:
       propertyPath: m_LightmapTilingOffset.w
       value: .954879761
       objectReference: {fileID: 0}
+    - target: {fileID: 5761771422113167633, guid: 5692ea7adcac2734186a38415b80ea09,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 5761771422113167633, guid: 5692ea7adcac2734186a38415b80ea09,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5761771422113167633, guid: 5692ea7adcac2734186a38415b80ea09,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5761771422113167633, guid: 5692ea7adcac2734186a38415b80ea09,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5761771422113167633, guid: 5692ea7adcac2734186a38415b80ea09,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5761771422113167633, guid: 5692ea7adcac2734186a38415b80ea09,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5761771422113167633, guid: 5692ea7adcac2734186a38415b80ea09,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5761771422113167633, guid: 5692ea7adcac2734186a38415b80ea09,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.02
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5692ea7adcac2734186a38415b80ea09, type: 3}
 --- !u!1 &5773382476083010178 stripped
