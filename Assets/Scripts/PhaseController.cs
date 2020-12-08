@@ -12,6 +12,9 @@ public class PhaseController : MonoBehaviour
 
     bool fast = false;
 
+    [SerializeField] AudioSource fastStartAudio, fastEndAudio;
+    [SerializeField] GameObject fastAudio;
+
     void Start()
     {
         ScheduleManager.instance.SetMaxTime(_maxPlanTime);
@@ -40,6 +43,11 @@ public class PhaseController : MonoBehaviour
         {
             fast = !fast;
             GameManager.instance.SetFast(fast);
+
+            if (fast) fastStartAudio.Play();
+            else fastEndAudio.Play();
         }
+
+        fastAudio.SetActive(fast);
     }
 }
