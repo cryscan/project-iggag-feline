@@ -45243,15 +45243,65 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 316027116207497519, guid: 5558801267702db7b889dc3d8ce7e816,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 875355966850928249, guid: 5558801267702db7b889dc3d8ce7e816,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2540924861527122322, guid: 5558801267702db7b889dc3d8ce7e816,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3260810325156689463, guid: 5558801267702db7b889dc3d8ce7e816,
         type: 3}
       propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3409671049605587411, guid: 5558801267702db7b889dc3d8ce7e816,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3656661255012556736, guid: 5558801267702db7b889dc3d8ce7e816,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6891387446900774453, guid: 5558801267702db7b889dc3d8ce7e816,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7724230529301846408, guid: 5558801267702db7b889dc3d8ce7e816,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8335522713562552585, guid: 5558801267702db7b889dc3d8ce7e816,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8570980483277433698, guid: 5558801267702db7b889dc3d8ce7e816,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8912101025927603443, guid: 5558801267702db7b889dc3d8ce7e816,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8912101026526787492, guid: 5558801267702db7b889dc3d8ce7e816,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8912101026526787493, guid: 5558801267702db7b889dc3d8ce7e816,
         type: 3}
@@ -45267,6 +45317,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 8912101026526787514, guid: 5558801267702db7b889dc3d8ce7e816,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8912101026954118147, guid: 5558801267702db7b889dc3d8ce7e816,
         type: 3}
@@ -45327,11 +45382,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player Pack
-      objectReference: {fileID: 0}
-    - target: {fileID: 8912101026954118156, guid: 5558801267702db7b889dc3d8ce7e816,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5558801267702db7b889dc3d8ce7e816, type: 3}
@@ -71981,25 +72031,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2095400925}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2095460380 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8912101026526787494, guid: 5558801267702db7b889dc3d8ce7e816,
-    type: 3}
-  m_PrefabInstance: {fileID: 1200261910}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2095460381
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2095460380}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ed2e7817874bcc4793cf398c4b3c36a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  door: {fileID: 0}
 --- !u!1 &2118753377
 GameObject:
   m_ObjectHideFlags: 0
